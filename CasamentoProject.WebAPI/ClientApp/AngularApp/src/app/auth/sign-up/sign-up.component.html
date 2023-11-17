@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <app-alert
+      [message]="error"
+      *ngIf="error"
+      (close)="onHandleError()"
+    ></app-alert>
+
+    <div *ngIf="isLoading" style="text-align: center">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+      <div class="form-group">
+        <label for="personName">Nome</label>
+        <input type="personName" id="personName" formControlName="personName" />
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('personName').touched || submitted) &&
+            signupForm.get('personName').errors?.['required']
+          "
+          >Nome não pode ser nulo</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" />
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('email').touched || submitted) &&
+            signupForm.get('email').errors?.['required']
+          "
+          >Email não pode ser nulo</span
+        >
+
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('email').touched || submitted) &&
+            signupForm.get('email')?.errors?.['email']
+          "
+          >Email deve estar no formato de email</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefone</label>
+        <input type="phone" id="phone" formControlName="phone" />
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('phone').touched || submitted) &&
+            signupForm.get('phone')?.errors?.['required']
+          "
+          >Telefone não pode ser nulo</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" formControlName="password" />
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('password').touched || submitted) &&
+            signupForm.get('password')?.errors?.['required']
+          "
+          >Senha não pode ser nulo</span
+        >
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('password').touched || submitted) &&
+            signupForm.get('password')?.errors
+          "
+          >Senha tem que conter mais de 8 caracteres</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+        />
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('confirmPassword').touched || submitted) &&
+            signupForm.get('confirmPassword')?.errors?.['required']
+          "
+          >Confrimar senha não pode ser nulo</span
+        >
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('confirmPassword').touched || submitted) &&
+            signupForm.get('confirmPassword')?.errors?.['minLength']
+          "
+          >Confirmar senha tem que conter mais de 8 caracteres</span
+        >
+        <span
+          class="text-red"
+          *ngIf="
+            (signupForm.get('confirmPassword').touched || submitted) &&
+            signupForm.value.password !== signupForm.value.confirmPassword
+          "
+          >Confirmar senha e senha tem que serem iguais</span
+        >
+      </div>
+
+      <a [routerLink]="['/Auth/Login']">Ja possui registro?</a>
+
+      <div class="form-group">
+        <!-- <button class="btn btn-primary" type="submit" [disabled]="!form.valid"> -->
+        <button class="btn btn-primary" type="submit">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>

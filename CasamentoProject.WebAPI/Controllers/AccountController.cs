@@ -1,4 +1,4 @@
-﻿using CasamentoProject.Core.DTO;
+﻿using CasamentoProject.Core.DTO.AccountDTOs;
 using CasamentoProject.Core.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CasamentoProject.WebAPI.Controllers
 {
     [AllowAnonymous]
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,8 +24,8 @@ namespace CasamentoProject.WebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<ApplicationUser>> PostRegister(RegisterDTO registerDTO)
+        [HttpPost("Register")]
+        public async Task<ActionResult<ResponseUser>> PostRegister([FromBody]RegisterDTO registerDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +50,7 @@ namespace CasamentoProject.WebAPI.Controllers
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                return Ok(result);
+                return Ok(registerDTO.ToResponseUser());
             }
 
             string errorMessage = string.Join(" , ", result.Errors.Select(e => e.Description));
@@ -59,8 +60,8 @@ namespace CasamentoProject.WebAPI.Controllers
 
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> PostLogin(LoginDTO login)
+        [HttpPost("Login")]
+        public async Task<ActionResult<ResponseUser>> PostLogin([FromBody]LoginDTO login)
         {
             if (!ModelState.IsValid)
             {
@@ -75,16 +76,16 @@ namespace CasamentoProject.WebAPI.Controllers
 
             if (result.Succeeded)
             {
-                ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
+                //ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
 
-                if (user == null)
-                {
-                    return NoContent();
-                }
+                //if (user == null)
+                //{
+                //    return NoContent();
+                //}
 
-                await _userManager.UpdateAsync(user);
+                //await _userManager.UpdateAsync(user);
 
-                return Ok(user);
+                return Ok(login.ToResponseUser());
             }
             else
             {

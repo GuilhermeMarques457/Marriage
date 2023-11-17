@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CasamentoProject.Core.DTO
+namespace CasamentoProject.Core.DTO.AccountDTOs
 {
     public class RegisterDTO
     {
@@ -28,5 +28,13 @@ namespace CasamentoProject.Core.DTO
         [Required(ErrorMessage = "Confirmar senha é obrigatório")]
         [Compare("Password", ErrorMessage = "Senha e comparar senha devem ser iguais")]
         public string? ConfirmPassword { get; set; }
+
+        public ResponseUser ToResponseUser()
+        {
+            return new ResponseUser
+            {
+                Email = Email,
+            };
+        }
     }
 }

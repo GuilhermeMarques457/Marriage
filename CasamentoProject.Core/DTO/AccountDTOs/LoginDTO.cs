@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CasamentoProject.Core.DTO
+namespace CasamentoProject.Core.DTO.AccountDTOs
 {
     public class LoginDTO
     {
@@ -15,5 +15,12 @@ namespace CasamentoProject.Core.DTO
 
         [Required(ErrorMessage = "Senha é obrigatória")]
         public string? Password { get; set; } = string.Empty;
+
+        public ResponseUser ToResponseUser()
+        {
+            return new ResponseUser { 
+                Email = Email,
+            };
+        }
     }
 }
