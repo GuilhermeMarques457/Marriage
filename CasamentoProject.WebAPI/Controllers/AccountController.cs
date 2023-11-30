@@ -1,8 +1,10 @@
 ﻿using CasamentoProject.Core.DTO.AccountDTOs;
 using CasamentoProject.Core.Identity;
+using CasamentoProject.Core.ServiceContracts.AccountContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CasamentoProject.WebAPI.Controllers
 {
@@ -13,15 +15,18 @@ namespace CasamentoProject.WebAPI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IJwtService _jwtService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager,
            RoleManager<ApplicationRole> roleManager,
-           UserManager<ApplicationUser> userManager
-           )
+           UserManager<ApplicationUser> userManager,
+           IJwtService jwtService
+        )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtService = jwtService;
         }
 
         [HttpPost("Register")]
@@ -48,16 +53,19 @@ namespace CasamentoProject.WebAPI.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                var authenticationResponse = _jwtService.CreateJwtToken(user);
+                user.RefreshToken = authenticationResponse.RefreshToken;
 
-                return Ok(registerDTO.ToResponseUser());
+                user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
+
+                await _userManager.UpdateAsync(user);
+
+                return Ok(authenticationResponse);
             }
 
             string errorMessage = string.Join(" , ", result.Errors.Select(e => e.Description));
 
             return Problem(errorMessage);
-
-
         }
 
         [HttpPost("Login")]
@@ -76,16 +84,24 @@ namespace CasamentoProject.WebAPI.Controllers
 
             if (result.Succeeded)
             {
-                //ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
+                ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
 
-                //if (user == null)
-                //{
-                //    return NoContent();
-                //}
+                if (user == null)
+                {
+                    return NoContent();
+                }
 
-                //await _userManager.UpdateAsync(user);
+                await _signInManager.SignInAsync(user, isPersistent: false);
 
-                return Ok(login.ToResponseUser());
+                var authenticationResponse = _jwtService.CreateJwtToken(user);
+
+                user.RefreshToken = authenticationResponse.RefreshToken;
+
+                user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
+
+                await _userManager.UpdateAsync(user);
+
+                return Ok(authenticationResponse);
             }
             else
             {
@@ -93,7 +109,7 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
-        [HttpGet("logout")]
+        [HttpGet("Logout")]
         public async Task<ActionResult> GetLogout()
         {
             await _signInManager.SignOutAsync();
@@ -112,5 +128,39 @@ namespace CasamentoProject.WebAPI.Controllers
 
             return Ok(false);
         }
+
+        [HttpPost("generate-new-jwt-token")]
+        public async Task<IActionResult> GenerateNewAccessToken(TokenModel tokenModel)
+        {
+            if (tokenModel == null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            ClaimsPrincipal? principal = _jwtService.GetPrincipalFromJwtToken(tokenModel.Token);
+            if (principal == null)
+            {
+                return BadRequest("Invalid jwt access token");
+            }
+
+            string? email = principal.FindFirstValue(ClaimTypes.Email);
+
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email!);
+
+            if (user == null || user.RefreshToken != tokenModel.RefreshToken || user.RefreshTokenExpirationDateTime <= DateTime.Now)
+            {
+                return BadRequest("Invalid refresh token");
+            }
+
+            ResponseUser authenticationResponse = _jwtService.CreateJwtToken(user);
+
+            user.RefreshToken = authenticationResponse.RefreshToken;
+            user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok(authenticationResponse);
+        }
     }
+
 }

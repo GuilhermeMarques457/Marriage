@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CasamentoProject.Core.DTO.AccountDTOs
 {
-    internal class TokenModel
+    public class TokenModel
     {
+        public string? Token { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }

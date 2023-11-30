@@ -6,49 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using CasamentoProject.Core.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using CasamentoProject.Core.ServiceContracts.AccountContracts;
+using CasamentoProject.Core.Services.AccountServices;
+using CasamentoProject.WebAPI.StartupExtensions;
+using CasamentoProject.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(new ProducesAttribute("application/json"));
-
-    options.Filters.Add(new ConsumesAttribute("application/json"));
-
-    // Adding the [Authorize] attribute as a global filter, to make authentication work
-    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    //options.Filters.Add(new AuthorizeFilter(policy));
-
-});
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(config =>
-    {
-        config.WithOrigins(builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()!)
-            .WithHeaders("Authorization", "origin", "accept", "content-type")
-            .WithMethods("GET", "POST", "PUT", "DELETE");
-    });
-});
-
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-{
-    options.Password.RequiredLength = 5;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireDigit = true;
-})
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders()
-    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
-    .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>()
-    ;
+builder.Services.ConfigureServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -63,6 +30,8 @@ app.UseRouting();
 app.UseCors();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 

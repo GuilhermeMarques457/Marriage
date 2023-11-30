@@ -4,6 +4,7 @@ using CasamentoProject.Infrastucture.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasamentoProject.Infrastucture.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231122122739_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,148 +24,6 @@ namespace CasamentoProject.Infrastucture.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.FamilyMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GuestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
-
-                    b.ToTable("FamilyMembers");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Fiance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Idade")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MarriageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhotoPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarriageId");
-
-                    b.ToTable("Fiances");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Gift", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GiftUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("MarriageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhotoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("Recieved")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarriageId");
-
-                    b.ToTable("Gifts");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Confirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("GiftGiven")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("GiftType")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MarriageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarriageId");
-
-                    b.ToTable("Guests");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Marriage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DateOfMarriage")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan?>("HourOfMarriage")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Local")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("MoneyExpected")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("MoneyRaised")
-                        .HasColumnType("float");
-
-                    b.Property<string>("PhotoOfCouplePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Marriages");
-                });
 
             modelBuilder.Entity("CasamentoProject.Core.Identity.ApplicationRole", b =>
                 {
@@ -370,50 +231,6 @@ namespace CasamentoProject.Infrastucture.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.FamilyMember", b =>
-                {
-                    b.HasOne("CasamentoProject.Core.Domain.Entities.Guest", "Guest")
-                        .WithMany("FamilyMembers")
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guest");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Fiance", b =>
-                {
-                    b.HasOne("CasamentoProject.Core.Domain.Entities.Marriage", "Marriage")
-                        .WithMany("Fiances")
-                        .HasForeignKey("MarriageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Marriage");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Gift", b =>
-                {
-                    b.HasOne("CasamentoProject.Core.Domain.Entities.Marriage", "Marriage")
-                        .WithMany("Gifts")
-                        .HasForeignKey("MarriageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Marriage");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
-                {
-                    b.HasOne("CasamentoProject.Core.Domain.Entities.Marriage", "Marriage")
-                        .WithMany("GuestsPlusFamily")
-                        .HasForeignKey("MarriageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Marriage");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CasamentoProject.Core.Identity.ApplicationRole", null)
@@ -463,20 +280,6 @@ namespace CasamentoProject.Infrastucture.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
-                {
-                    b.Navigation("FamilyMembers");
-                });
-
-            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Marriage", b =>
-                {
-                    b.Navigation("Fiances");
-
-                    b.Navigation("Gifts");
-
-                    b.Navigation("GuestsPlusFamily");
                 });
 #pragma warning restore 612, 618
         }

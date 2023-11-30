@@ -1,0 +1,20 @@
+.double-form {
+  position: relative;
+  border-radius: 20px;
+  margin: 5rem 0rem 8rem 0;
+  overflow: hidden;
+  border: 1px solid var(--primary-color);
+  box-shadow: var(--large-shadow);
+  height: 80rem;
+}
+
+.form-effect {
+  content: "";
+  width: 50%;
+  height: 100%;
+  display: block;
+  top: 0;
+  left: 50%;
+  position: absolute;
+  background: var(--primary-dark-gradient);
+}
