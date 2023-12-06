@@ -10,7 +10,7 @@ namespace CasamentoProject.Core.Domain.Entities
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
-        public int? Idade { get; set; } = null!;
+        public int? Age { get; set; } = null!;
         public string? PhotoPath { get; set; }
         public Guid MarriageId { get; set; }
         public Marriage? Marriage { get; set; }

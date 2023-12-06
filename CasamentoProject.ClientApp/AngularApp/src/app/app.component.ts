@@ -1,32 +1,14 @@
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AppState } from './store/app.reducer';
-import { Store } from '@ngrx/store';
-import { autoLogin } from './auth/store/auth.actions';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
-import { LoginComponent } from './auth/login/login.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule,
-    SignUpComponent,
-    LoginComponent,
-  ],
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'AngularApp';
-
-  constructor(private store: Store<AppState>) {}
-
-  ngOnInit(): void {
-    this.store.dispatch(autoLogin());
-  }
 }

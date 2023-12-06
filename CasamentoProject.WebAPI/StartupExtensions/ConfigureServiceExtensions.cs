@@ -1,6 +1,16 @@
 ﻿using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.AccountContracts;
+using CasamentoProject.Core.ServiceContracts.FamilyMemberContracts;
+using CasamentoProject.Core.ServiceContracts.FamilyMemberServices;
+using CasamentoProject.Core.ServiceContracts.FianceContracts;
+using CasamentoProject.Core.ServiceContracts.FianceServices;
+using CasamentoProject.Core.ServiceContracts.GiftContracts;
+using CasamentoProject.Core.ServiceContracts.GiftMoneyContracts;
+using CasamentoProject.Core.ServiceContracts.GiftMoneyServices;
+using CasamentoProject.Core.ServiceContracts.GiftServices;
+using CasamentoProject.Core.ServiceContracts.GuestContracts;
+using CasamentoProject.Core.ServiceContracts.GuestServices;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
 using CasamentoProject.Core.ServiceContracts.MarriageServices;
 using CasamentoProject.Core.Services.AccountServices;
@@ -36,8 +46,37 @@ namespace CasamentoProject.WebAPI.StartupExtensions
             services.AddScoped<IMarriageDeleterService, MarriageDeleterService>();
             services.AddScoped<IMarriageGetterService, MarriageGetterService>();
 
-            services.AddScoped<IMarriageRepository, MarriageRepository>();
+            services.AddScoped<IFianceAdderService, FianceAdderService>();
+            services.AddScoped<IFianceUpdaterService, FianceUpdaterService>();
+            services.AddScoped<IFianceDeleterService, FianceDeleterService>();
+            services.AddScoped<IFianceGetterService, FianceGetterService>();
 
+            services.AddScoped<IGiftAdderService, GiftAdderService>();
+            services.AddScoped<IGiftUpdaterService, GiftUpdaterService>();
+            services.AddScoped<IGiftDeleterService, GiftDeleterService>();
+            services.AddScoped<IGiftGetterService, GiftGetterService>();
+
+            services.AddScoped<IGiftMoneyAdderService, GiftMoneyAdderService>();
+            services.AddScoped<IGiftMoneyUpdaterService, GiftMoneyUpdaterService>();
+            services.AddScoped<IGiftMoneyDeleterService, GiftMoneyDeleterService>();
+            services.AddScoped<IGiftMoneyGetterService, GiftMoneyGetterService>();
+
+            services.AddScoped<IGuestAdderService, GuestAdderService>();
+            services.AddScoped<IGuestUpdaterService, GuestUpdaterService>();
+            services.AddScoped<IGuestDeleterService, GuestDeleterService>();
+            services.AddScoped<IGuestGetterService, GuestGetterService>();
+
+            services.AddScoped<IFamilyMemberAdderService, FamilyMemberAdderService>();
+            services.AddScoped<IFamilyMemberUpdaterService, FamilyMemberUpdaterService>();
+            services.AddScoped<IFamilyMemberDeleterService, FamilyMemberDeleterService>();
+            services.AddScoped<IFamilyMemberGetterService, FamilyMemberGetterService>();
+
+            services.AddScoped<IMarriageRepository, MarriageRepository>();
+            services.AddScoped<IGuestRepository, GuestRepository>();
+            services.AddScoped<IFamilyMemberRepository, FamilyMemberRepository>();
+            services.AddScoped<IGiftMoneyRepository, GiftMoneyRepository>();
+            services.AddScoped<IGiftRepository, GiftRepository>();
+            services.AddScoped<IFianceRepository, FianceRepository>();
 
             services.AddTransient<IJwtService, JwtService>();
 

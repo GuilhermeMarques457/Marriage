@@ -48,7 +48,7 @@ namespace CasamentoProject.Infrastucture.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Idade")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<Guid>("MarriageId")
@@ -81,7 +81,7 @@ namespace CasamentoProject.Infrastucture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("MarriageId")
+                    b.Property<Guid?>("GuestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -100,9 +100,37 @@ namespace CasamentoProject.Infrastucture.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MarriageId");
+                    b.HasIndex("GuestId")
+                        .IsUnique()
+                        .HasFilter("[GuestId] IS NOT NULL");
 
                     b.ToTable("Gifts");
+                });
+
+            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.GiftMoney", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Confirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("MoneyReceivedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuestId")
+                        .IsUnique();
+
+                    b.ToTable("GiftMoney");
                 });
 
             modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
@@ -116,9 +144,6 @@ namespace CasamentoProject.Infrastucture.Migrations
 
                     b.Property<bool>("GiftGiven")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("GiftType")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("MarriageId")
                         .HasColumnType("uniqueidentifier");
@@ -394,13 +419,23 @@ namespace CasamentoProject.Infrastucture.Migrations
 
             modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Gift", b =>
                 {
-                    b.HasOne("CasamentoProject.Core.Domain.Entities.Marriage", "Marriage")
-                        .WithMany("Gifts")
-                        .HasForeignKey("MarriageId")
+                    b.HasOne("CasamentoProject.Core.Domain.Entities.Guest", "Guest")
+                        .WithOne("Gift")
+                        .HasForeignKey("CasamentoProject.Core.Domain.Entities.Gift", "GuestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Guest");
+                });
+
+            modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.GiftMoney", b =>
+                {
+                    b.HasOne("CasamentoProject.Core.Domain.Entities.Guest", "Guest")
+                        .WithOne("GiftMoney")
+                        .HasForeignKey("CasamentoProject.Core.Domain.Entities.GiftMoney", "GuestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Marriage");
+                    b.Navigation("Guest");
                 });
 
             modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
@@ -468,13 +503,15 @@ namespace CasamentoProject.Infrastucture.Migrations
             modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Guest", b =>
                 {
                     b.Navigation("FamilyMembers");
+
+                    b.Navigation("Gift");
+
+                    b.Navigation("GiftMoney");
                 });
 
             modelBuilder.Entity("CasamentoProject.Core.Domain.Entities.Marriage", b =>
                 {
                     b.Navigation("Fiances");
-
-                    b.Navigation("Gifts");
 
                     b.Navigation("GuestsPlusFamily");
                 });

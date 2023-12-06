@@ -27,12 +27,53 @@ namespace CasamentoProject.Infrastucture.DbContext
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<GiftMoney>().ToTable("GiftsMoney");
+
+            #region Marriage Relations
+
+            builder.Entity<Marriage>().Ignore(marriage => marriage.Gifts);
+
             builder.Entity<Marriage>()
-                .HasMany(marr => marr.Fiances)
-                .WithOne(marr => marr.Marriage)
-                .HasForeignKey(f => f.MarriageId)
+                .HasMany(marriage => marriage.Fiances)
+                .WithOne(fiance => fiance.Marriage)
+                .HasForeignKey(fiance => fiance.MarriageId)
                 .OnDelete(DeleteBehavior.Cascade);
-           
+
+            builder.Entity<Marriage>()
+                .HasMany(marriage => marriage.GuestsPlusFamily)
+                .WithOne(guest => guest.Marriage)
+                .HasForeignKey(guest => guest.MarriageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            //builder.Entity<Marriage>()
+            //    .HasMany(marriage => marriage.Gifts)
+            //    .WithOne(gift => gift.)
+
+            #endregion
+
+            #region Guest Relations
+
+            builder.Entity<Guest>()
+                .HasMany(guest => guest.FamilyMembers)
+                .WithOne(family => family.Guest)
+                .HasForeignKey(family => family.GuestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Guest>()
+                .HasOne(guest => guest.Gift)
+                .WithOne(gift => gift.Guest)
+                .HasForeignKey<Gift>(gift => gift.GuestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Guest>()
+                .HasOne(guest => guest.GiftMoney)
+                .WithOne(money => money.Guest)
+                .HasForeignKey<GiftMoney>(money => money.GuestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
         }
 
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
@@ -40,6 +81,7 @@ namespace CasamentoProject.Infrastucture.DbContext
         public virtual DbSet<Gift> Gifts { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Marriage> Marriages { get; set; }
+        public virtual DbSet<GiftMoney> GiftsMoney { get; set; }
 
 
     }
