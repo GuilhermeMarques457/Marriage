@@ -12,12 +12,12 @@ import {
 import { Marriage } from '../marriage.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppState } from 'src/app/store/app.reducer';
+import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
-import { API_URL_MARRIAGE } from 'src/app/shared/utils/API_URLS';
+import { API_URL_MARRIAGE } from '../../../shared/utils/api_urls';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
-import { ErrorResponse } from 'src/app/shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 const handleError = (response: ErrorResponse) => {
   let errorMessage = 'Um erro desconhecido ocorreu';

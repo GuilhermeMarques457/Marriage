@@ -8,22 +8,23 @@ import { UserAuthenticated } from '../user.authenticated.model';
 import { UserLogin } from '../user.login.model';
 import { Router } from '@angular/router';
 import { AuthTimeoutService } from '../auth-timeout.service';
-import { API_URL_AUTH } from 'src/app/shared/utils/API_URLS';
+import { API_URL_AUTH } from '../../../shared/utils/api_urls';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
-const handleAuthentication = (resData) => {
+const handleAuthentication = (resData: UserAuthenticated) => {
   localStorage.setItem('userData', JSON.stringify(resData));
 
   return AuthActions.authenticateSucess({ user: resData, redirect: true });
 };
 
-const handleError = (err, signUpError = false) => {
+const handleError = (err: ErrorResponse, signUpError = false) => {
   console.log(err);
   let errorMessage = 'An unknown error occurred';
 
   if (!err.error)
     return of(AuthActions.authenticateFail({ error: errorMessage }));
 
-  switch (err.error.detail) {
+  switch (err.error.Details) {
     case 'Invalid email or password':
       errorMessage = 'Email ou senha errados. Tente novamente!';
       break;
@@ -67,14 +68,18 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.autoLogin),
       map(() => {
+        const userDataFromLocalStorage: string | null =
+          localStorage.getItem('userData');
+
+        if (!userDataFromLocalStorage) AuthActions.logout();
+
         const userData: {
           email: string;
           personName: string;
           expiration: Date;
           refreshToken: string;
           refreshTokenExpirationDateTime: Date;
-        } = JSON.parse(localStorage.getItem('userData'));
-        if (!userData) return;
+        } = JSON.parse(userDataFromLocalStorage);
 
         if (
           new Date(userData.refreshTokenExpirationDateTime).getTime() <
@@ -92,13 +97,15 @@ export class AuthEffects {
           new Date(userData.refreshTokenExpirationDateTime)
         );
 
-        if (!loadedUser.refreshToken) return;
+        if (!loadedUser.refreshToken) return AuthActions.logout();
 
         const expirationDuration =
           new Date(userData.refreshTokenExpirationDateTime).getTime() -
           new Date().getTime();
 
         this.authTimeoutService.setLogoutTimer(expirationDuration);
+
+        console.log('entrou');
 
         return AuthActions.authenticateSucess({
           user: loadedUser,

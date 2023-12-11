@@ -1,6 +1,7 @@
 ﻿using CasamentoProject.Core.DTO.AccountDTOs;
 using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.AccountContracts;
+using CasamentoProject.Core.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -82,31 +83,27 @@ namespace CasamentoProject.WebAPI.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, isPersistent: false, lockoutOnFailure: false);
 
-            if (result.Succeeded)
+            if (!result.Succeeded) throw new NotFoundException(nameof(result), "Email ou senha incorretos");
+
+            ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
+
+            if (user == null)
             {
-                ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
-
-                if (user == null)
-                {
-                    return NoContent();
-                }
-
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                var authenticationResponse = _jwtService.CreateJwtToken(user);
-
-                user.RefreshToken = authenticationResponse.RefreshToken;
-
-                user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
-
-                await _userManager.UpdateAsync(user);
-
-                return Ok(authenticationResponse);
+                return NoContent();
             }
-            else
-            {
-                return Problem("Invalid email or password");
-            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            var authenticationResponse = _jwtService.CreateJwtToken(user);
+
+            user.RefreshToken = authenticationResponse.RefreshToken;
+
+            user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok(authenticationResponse);
+           
         }
 
         [HttpGet("Logout")]
