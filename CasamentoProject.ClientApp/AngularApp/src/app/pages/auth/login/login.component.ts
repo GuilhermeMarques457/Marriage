@@ -15,6 +15,11 @@ import { clearError, login, setSignUpActive } from '../store/auth.actions';
 import { AlertComponent } from '../../../shared/components/alert/alert.component';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { AppState } from '../../../store/app.reducer';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   standalone: true,
@@ -27,6 +32,17 @@ import { AppState } from '../../../store/app.reducer';
     RouterModule,
     LoadingSpinnerComponent,
     AlertComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
+  providers: [
+    // To priovide this form style globally
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline', floatLabel: 'never' },
+    },
   ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -40,7 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string = null;
   currentForm: boolean = true;
-
+  // Angular material property
+  hide = true;
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),

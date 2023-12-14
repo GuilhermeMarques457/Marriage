@@ -21,6 +21,12 @@ import { AppState } from '../../../store/app.reducer';
 import { AlertComponent } from '../../../shared/components/alert/alert.component';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { PasswordValidator } from '../../../shared/validators/password-validator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   standalone: true,
@@ -33,6 +39,18 @@ import { PasswordValidator } from '../../../shared/validators/password-validator
     RouterModule,
     LoadingSpinnerComponent,
     AlertComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+  ],
+  providers: [
+    // To priovide this form style globally
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline', floatLabel: 'never' },
+    },
   ],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
@@ -46,23 +64,29 @@ export class SignUpComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string = null;
   currentForm: boolean = false;
+  // Angular material property
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   ngOnInit(): void {
-    this.signupForm = new FormGroup({
-      personName: new FormControl(null, [Validators.required]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      phone: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(15),
-      ]),
-      password: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(8),
-        // PasswordValidator.validate,
-      ]),
-      confirmPassword: new FormControl(null, [Validators.required]),
-    });
+    this.signupForm = new FormGroup(
+      {
+        personName: new FormControl(null, [Validators.required]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        phone: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(15),
+        ]),
+        password: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          PasswordValidator.validate,
+        ]),
+        confirmPassword: new FormControl(null, [Validators.required]),
+      },
+      { validators: [PasswordValidator.comparePasswords] }
+    );
 
     this.storeSubs$ = this.store
       .select(selectAuthState)
@@ -91,6 +115,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
+
+    console.log(this.signupForm);
 
     if (!this.signupForm.valid) return;
 

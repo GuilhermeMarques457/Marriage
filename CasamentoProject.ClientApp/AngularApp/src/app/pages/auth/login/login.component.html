@@ -12,60 +12,64 @@
     <h2 class="form-heading">Entrar</h2>
     <div class="form-inputs-box">
       <div class="input-box">
-        <input
-          class="input-control"
-          type="email"
-          id="email"
-          placeholder="Email"
-          formControlName="email"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="Placeholder"
+            formControlName="email"
+            type="email"
+            id="email"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error
             *ngIf="
               (loginForm.get('email').touched || submitted) &&
-              loginForm.get('email').errors?.['required']
-            "
-            >Email não pode ser nulo</span
+              loginForm.get('email').errors?.['required']"
+            >Email não pode ser nulo</mat-error
           >
-
-          <span
-            class="input-validation-message"
+          <mat-error
             *ngIf="
               (loginForm.get('email').touched || submitted) &&
-              loginForm.get('email')?.errors?.['email']
-            "
-            >Email deve estar no formato de email</span
+              loginForm.get('email')?.errors?.['email']"
+            >Email deve estar no formato de email</mat-error
           >
-        </div>
+        </mat-form-field>
       </div>
 
       <div class="input-box">
-        <input
-          class="input-control"
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="Senha"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
+        <mat-form-field>
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            id="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error
             *ngIf="
               (loginForm.get('password').touched || submitted) &&
-              loginForm.get('password')?.errors?.['required']
-            "
-            >Senha não pode ser nulo</span
+              loginForm.get('password')?.errors?.['required']"
+            >Senha não pode ser nula</mat-error
           >
-          <span
-            class="input-validation-message"
+          <mat-error
             *ngIf="
               (loginForm.get('password').touched || submitted) &&
               loginForm.get('password')?.errors
             "
-            >Senha tem que conter mais de 8 caracteres</span
+            >Senha tem que conter mais de 8 caracteres</mat-error
           >
-        </div>
+        </mat-form-field>
       </div>
 
       <div class="btn-form-box">
@@ -78,9 +82,9 @@
         </button>
       </div>
       <p class="form-action">
-        Ja possui registro?
+        Não possui conta?
         <span class="change-form-link" (click)="onChangeForm()"
-          >Entre agora</span
+          >Registre agora</span
         >
       </p>
     </div>

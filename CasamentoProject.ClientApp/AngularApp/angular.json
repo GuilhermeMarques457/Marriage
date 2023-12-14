@@ -45,8 +45,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/css/styles.css",
-              "src/css/form.css",
+              "src/custom-theme.scss",
+              "src/css/styles.scss",
               "src/css/components.css",
               "src/css/helpers.css",
               "src/css/media-query.css"

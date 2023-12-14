@@ -1,11 +1,11 @@
 .double-form {
   position: relative;
   border-radius: 20px;
-  margin: 5rem 0rem 8rem 0;
+  margin: 5rem auto;
   overflow: hidden;
   border: 1px solid var(--primary-color);
-  box-shadow: var(--large-shadow);
   height: 80rem;
+  width: 70%;
 }
 
 .form-effect {

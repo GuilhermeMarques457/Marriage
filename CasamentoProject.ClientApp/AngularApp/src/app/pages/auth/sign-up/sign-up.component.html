@@ -12,149 +12,160 @@
     <h2 class="form-heading">Registre-se</h2>
     <div class="form-inputs-box">
       <div class="input-box required-field">
-        <input
-          class="input-control"
-          type="personName"
-          id="personName"
-          placeholder="Nome"
-          formControlName="personName"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('personName').touched || submitted) &&
-              signupForm.get('personName').errors?.['required']
-            "
-            >Nome não pode ser nulo</span
-          >
+        <mat-form-field>
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            type="personName"
+            id="personName"
+            placeholder="Guilherme Marques dos Santos"
+            formControlName="personName"
+          />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        <div class="erorrs-box" *ngIf="signupForm.get('personName').touched">
+          <mat-error *ngIf="signupForm.get('personName').errors?.['required']">
+            Nome não pode ser nulo
+          </mat-error>
         </div>
       </div>
       <div class="input-box required-field">
-        <input
-          class="input-control"
-          type="email"
-          id="email"
-          placeholder="Email"
-          formControlName="email"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('email').touched || submitted) &&
-              signupForm.get('email').errors?.['required']
-            "
-            >Email não pode ser nulo</span
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="example@gmail.com"
+            formControlName="email"
+            type="email"
+            id="email"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+        <div class="erorrs-box" *ngIf="signupForm.get('email').touched">
+          <mat-error *ngIf="signupForm.get('email').errors?.['required']">
+            Email não pode ser nulo
+          </mat-error>
+          <mat-error *ngIf="signupForm.get('email')?.errors?.['email']">
+            Email deve estar no formato de email
+          </mat-error>
+        </div>
+      </div>
+      <div class="input-box required-field">
+        <mat-form-field>
+          <mat-label>Telefone</mat-label>
+          <input
+            matInput
+            type="phone"
+            id="phone"
+            formControlName="phone"
+            placeholder="+5501899999999"
+          />
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+        <div class="erorrs-box" *ngIf="signupForm.get('phone').touched">
+          <mat-error *ngIf="signupForm.get('phone')?.errors?.['required']">
+            Telefone não pode ser nulo
+          </mat-error>
+        </div>
+      </div>
+      <div class="input-box required-field">
+        <mat-form-field>
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            id="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword"
           >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <div class="erorrs-box" *ngIf="signupForm.get('password').touched">
+          <mat-error *ngIf="signupForm.get('password')?.errors?.['required']">
+            Senha não pode ser nula
+          </mat-error>
+          <div *ngIf="!signupForm.get('password')?.errors?.['required']">
+            <mat-error
+              *ngIf="
+                signupForm.get('password').hasError('invalidFormat') &&
+                !signupForm.get('password')?.hasError('minlength')
+              "
+            >
+              A senha deve conter pelo menos uma letra e numero.</mat-error
+            >
 
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('email').touched || submitted) &&
-              signupForm.get('email')?.errors?.['email']
-            "
-            >Email deve estar no formato de email</span
-          >
+            <mat-error
+              *ngIf="signupForm.get('password')?.hasError('minlength')"
+            >
+              Senha tem que conter mais de 8 caracteres
+            </mat-error>
+          </div>
         </div>
       </div>
       <div class="input-box required-field">
-        <input
-          class="input-control"
-          type="phone"
-          id="phone"
-          formControlName="phone"
-          placeholder="Telefone"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('phone').touched || submitted) &&
-              signupForm.get('phone')?.errors?.['required']
-            "
-            >Telefone não pode ser nulo</span
+        <mat-form-field>
+          <mat-label>Confirmar Senha</mat-label>
+          <input
+            matInput
+            [type]="hideConfirmPassword ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            id="confirmPassword"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hideConfirmPassword = !hideConfirmPassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideConfirmPassword"
           >
+            <mat-icon>{{
+              hideConfirmPassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <div
+          class="erorrs-box"
+          *ngIf="signupForm.get('confirmPassword').touched"
+        >
+          <mat-error
+            *ngIf="signupForm.get('confirmPassword')?.errors?.['required']"
+          >
+            Confirmar senha não pode ser nulo
+          </mat-error>
+
+          <mat-error
+            *ngIf="signupForm.get('confirmPassword')?.hasError('notMatch') &&
+                           !signupForm.get('confirmPassword')?.errors?.['required']"
+          >
+            Confirmar senha e senha devem ser iguais
+          </mat-error>
         </div>
       </div>
-      <div class="input-box required-field">
-        <input
-          class="input-control"
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="Senha"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('password').touched || submitted) &&
-              signupForm.get('password')?.errors?.['required']
-            "
-            >Senha não pode ser nulo</span
-          >
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('password').touched || submitted) &&
-              signupForm.get('password')?.hasError('minlength')
-            "
-          >
-            A senha deve ter pelo menos 8 caracteres.
-          </span>
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('password').touched || submitted) &&
-              signupForm.get('password').hasError('invalidFormat')
-            "
-          >
-            A senha deve conter pelo menos uma letra.</span
-          >
-        </div>
-      </div>
-      <div class="input-box required-field">
-        <input
-          class="input-control"
-          type="password"
-          id="confirmPassword"
-          formControlName="confirmPassword"
-          placeholder="Confirmar Senha"
-        />
-        <div class="error-messages-box">
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('confirmPassword').touched || submitted) &&
-              signupForm.get('confirmPassword')?.errors?.['required']
-            "
-            >Confrimar senha não pode ser nulo</span
-          >
-          <span
-            class="input-validation-message"
-            *ngIf="
-              (signupForm.get('confirmPassword').touched || submitted) &&
-              signupForm.value.password !== signupForm.value.confirmPassword
-            "
-            >Confirmar senha e senha tem que serem iguais</span
-          >
-        </div>
-        <div class="input-checkbox-box">
-          <input type="checkbox" />
-          <label>Eu aceito os termos de serviço</label>
-        </div>
-      </div>
+
+      <mat-checkbox color="primary"
+        >Eu aceito os termos de serviço</mat-checkbox
+      >
 
       <div class="btn-form-box">
-        <!-- <button class="btn btn-primary" type="submit" [disabled]="!signupForm.valid"> -->
-        <button
+        <button class="btn btn-primary" type="submit">Enviar</button>
+        <!-- <button
           class="btn-form btn-crazy-gradient"
           type="submit"
           [disabled]="!signupForm.valid"
         >
           Cadastrar Conta
-        </button>
+        </button> -->
       </div>
       <p class="form-action">
         Ja possui registro?

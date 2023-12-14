@@ -10,7 +10,7 @@ import { AuthGuard } from './pages/auth/auth.guard';
 import { AuthEffects } from './pages/auth/store/auth.effects';
 import { MarriageEffects } from './pages/marriage/store/marriage.effects';
 import { provideEffects } from '@ngrx/effects';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
@@ -19,12 +19,13 @@ export const appConfig: ApplicationConfig = {
     AuthTimeoutService,
     AuthGuard,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptorService,
+        multi: true,
     },
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
     provideStore(fromAppState.appReducer),
     provideEffects([AuthEffects, MarriageEffects]),
-  ],
+    provideAnimations()
+],
 };

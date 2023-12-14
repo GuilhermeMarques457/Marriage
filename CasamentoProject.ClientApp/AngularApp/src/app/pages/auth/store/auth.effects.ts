@@ -71,7 +71,7 @@ export class AuthEffects {
         const userDataFromLocalStorage: string | null =
           localStorage.getItem('userData');
 
-        if (!userDataFromLocalStorage) AuthActions.logout();
+        if (!userDataFromLocalStorage) return AuthActions.logout();
 
         const userData: {
           email: string;
@@ -150,7 +150,7 @@ export class AuthEffects {
         ofType(AuthActions.logout),
         tap((authSuccessAction) => {
           localStorage.removeItem('userData');
-          this.router.navigate(['/Auth/Login']);
+          this.router.navigate(['/Auth']);
         })
       ),
     { dispatch: false }
