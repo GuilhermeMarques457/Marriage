@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, take, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
-import { UserSignUp } from '../user.signUp.model';
+import { UserSignUp } from '../models/user.signUp.model';
 import { HttpClient } from '@angular/common/http';
-import { UserAuthenticated } from '../user.authenticated.model';
-import { UserLogin } from '../user.login.model';
+import { UserAuthenticated } from '../models/user.authenticated.model';
+import { UserLogin } from '../models/user.login.model';
 import { Router } from '@angular/router';
 import { AuthTimeoutService } from '../auth-timeout.service';
 import { API_URL_AUTH } from '../../../shared/utils/api_urls';
@@ -18,22 +18,34 @@ const handleAuthentication = (resData: UserAuthenticated) => {
 };
 
 const handleError = (err: ErrorResponse, signUpError = false) => {
+  let error = new ErrorResponse(
+    'Um erro inesperado ocorreu',
+    'Contate a central de ajuda para mais informações',
+    '400'
+  );
+
   console.log(err);
-  let errorMessage = 'An unknown error occurred';
+  console.log(error);
 
-  if (!err.error)
-    return of(AuthActions.authenticateFail({ error: errorMessage }));
+  if (!err.error) return of(AuthActions.authenticateFail({ error: error }));
 
-  switch (err.error.Details) {
-    case 'Invalid email or password':
-      errorMessage = 'Email ou senha errados. Tente novamente!';
-      break;
+  if (err.error.Details) {
+    // case 'Invalid email or password':
+    //   error.error.Details = 'Email ou senha inválidos';
+    //   error.error.Message =
+    //     'Não foi possivel encontrar um usuario com email e senha especificados';
+    //   error.error.StatusCode = '404';
+    //   break;
+    error = err;
   }
 
   if (signUpError) {
-    errorMessage = 'Esse email já esta em uso. Tente novamente!';
+    error.error.Details = 'Esse email já esta em uso. Tente novamente!';
+    error.error.Message = 'Email ou senha inválidos';
+    error.error.StatusCode = '404';
   }
-  return of(AuthActions.authenticateFail({ error: errorMessage }));
+
+  return of(AuthActions.authenticateFail({ error: error }));
 };
 
 @Injectable()
@@ -105,8 +117,6 @@ export class AuthEffects {
 
         this.authTimeoutService.setLogoutTimer(expirationDuration);
 
-        console.log('entrou');
-
         return AuthActions.authenticateSucess({
           user: loadedUser,
           redirect: false,
@@ -123,9 +133,6 @@ export class AuthEffects {
         return this.http
           .post<UserAuthenticated>(`${this.API_BASE_URL}/Login`, authData.user)
           .pipe(
-            tap((res) => {
-              console.log(res);
-            }),
             map((resData) => handleAuthentication(resData)),
             catchError((err) => handleError(err))
           );

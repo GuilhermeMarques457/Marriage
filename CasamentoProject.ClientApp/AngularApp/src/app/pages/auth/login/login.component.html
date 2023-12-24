@@ -1,43 +1,33 @@
-<div class="form-box" *ngIf="currentForm">
-  <app-alert
-    [message]="error"
-    *ngIf="error"
-    (close)="onHandleError()"
-  ></app-alert>
-
+<div class="form-box">
   <div *ngIf="isLoading" style="text-align: center">
-    <app-loading-spinner></app-loading-spinner>
+    <mat-progress-spinner
+      class="example-margin"
+      color="primary"
+      [mode]="'indeterminate'"
+    >
+    </mat-progress-spinner>
   </div>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <h2 class="form-heading">Entrar</h2>
     <div class="form-inputs-box">
-      <div class="input-box">
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            placeholder="Placeholder"
-            formControlName="email"
-            type="email"
-            id="email"
-          />
-          <mat-icon matSuffix>email</mat-icon>
-          <mat-error
-            *ngIf="
-              (loginForm.get('email').touched || submitted) &&
-              loginForm.get('email').errors?.['required']"
-            >Email não pode ser nulo</mat-error
-          >
-          <mat-error
-            *ngIf="
-              (loginForm.get('email').touched || submitted) &&
-              loginForm.get('email')?.errors?.['email']"
-            >Email deve estar no formato de email</mat-error
-          >
-        </mat-form-field>
-      </div>
+      <app-input-field
+        [formControlName]="'email'"
+        [label]="'Email'"
+        [inputErrors]="emailErrors"
+        [form]="loginForm"
+        [placeholder]="'email@example.com'"
+      ></app-input-field>
 
-      <div class="input-box">
+      <app-input-field
+        [formControlName]="'password'"
+        [label]="'Password'"
+        [inputErrors]="passwordErrors"
+        [form]="loginForm"
+        [placeholder]=""
+      ></app-input-field>
+
+      <!-- <div class="input-box">
+         
         <mat-form-field>
           <mat-label>Senha</mat-label>
           <input
@@ -58,26 +48,32 @@
           </button>
           <mat-error
             *ngIf="
-              (loginForm.get('password').touched || submitted) &&
+              (loginForm.get('password').touched) &&
               loginForm.get('password')?.errors?.['required']"
             >Senha não pode ser nula</mat-error
           >
           <mat-error
             *ngIf="
-              (loginForm.get('password').touched || submitted) &&
+              loginForm.get('password').touched &&
               loginForm.get('password')?.errors
             "
             >Senha tem que conter mais de 8 caracteres</mat-error
           >
         </mat-form-field>
-      </div>
+      </div> -->
 
-      <div class="btn-form-box">
+      <!-- <div class="btn-form-box">
         <button
           class="btn-form btn-crazy-gradient"
           type="submit"
           [disabled]="!loginForm.valid"
         >
+          Entrar
+        </button>
+      </div>
+      <div class="btn-form-box"> -->
+      <div>
+        <button class="btn-form btn-crazy-gradient" type="submit">
           Entrar
         </button>
       </div>

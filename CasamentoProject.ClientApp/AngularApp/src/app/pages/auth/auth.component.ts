@@ -18,8 +18,10 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AlertComponent } from '../../shared/components/alert/alert.component';
+import { ErrorResponse } from '../../shared/utils/error-response.model';
 
 @Component({
   standalone: true,
@@ -28,6 +30,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HttpClientModule,
     RouterModule,
     SignUpComponent,
+    AlertComponent,
     LoginComponent,
     CommonModule,
     RouterOutlet,
@@ -40,7 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  styleUrls: ['./auth.component.scss'],
   animations: [
     trigger('formState', [
       state('login-active', style({ left: '0%' })),
@@ -55,15 +58,31 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class AuthComponent implements OnInit {
   state = 'login-active';
   stateSubs$: Subscription;
+  currentForm = 'login-active';
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    console.log(this.state);
     this.stateSubs$ = this.store
       .select(selectAuthState)
       .subscribe((authState) => {
+        setTimeout(() => {
+          this.currentForm = authState.formActive;
+        }, 250);
+
         this.state = authState.formActive;
+
+        if (authState.authError) {
+          this.dialog.open(AlertComponent, {
+            data: new ErrorResponse(
+              authState.authError.error.Message,
+              authState.authError.error.Details,
+              authState.authError.error.StatusCode
+            ),
+            exitAnimationDuration: '300ms',
+            enterAnimationDuration: '300ms',
+          });
+        }
       });
   }
 }

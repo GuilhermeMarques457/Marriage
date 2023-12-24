@@ -1,51 +1,32 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
-import {
-  catchError,
-  map,
-  of,
-  pipe,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { Marriage } from '../marriage.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppState } from '../../../store/app.reducer';
-import { Store } from '@ngrx/store';
 import { API_URL_MARRIAGE } from '../../../shared/utils/api_urls';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
 import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 const handleError = (response: ErrorResponse) => {
-  let errorMessage = 'Um erro desconhecido ocorreu';
-
-  if (!response.error.Details && !response.error.Message)
-    return of(MarriageActions.errorHandlerMarriage({ error: errorMessage }));
-
-  //   switch (response.error.details) {
-  //     case 'EMAIL_EXISTS':
-  //       errorMessage = 'This email already exists';
-  //       break;
-  //     case 'INVALID_LOGIN_CREDENTIALS':
-  //       errorMessage = 'Invalid email or password';
-  //       break;
-  //   }
-
-  return of(
-    MarriageActions.errorHandlerMarriage({ error: response.error.Details })
+  let error = new ErrorResponse(
+    'Um erro inesperado ocorreu',
+    'Contate a central de ajuda para mais informações',
+    '400'
   );
+
+  if (!response.error)
+    return of(MarriageActions.errorHandlerMarriage({ error: error }));
+
+  if (response.error.Details) error = response;
+
+  return of(MarriageActions.errorHandlerMarriage({ error: error }));
 };
 
 @Injectable()
 export class MarriageEffects {
-  constructor(
-    private actions$: Actions,
-    private http: HttpClient,
-    private store: Store<AppState>
-  ) {}
+  constructor(private actions$: Actions, private http: HttpClient) {}
 
   private API_URL_BASE = API_URL_MARRIAGE;
 

@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Marriage } from '../marriage.model';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 export const setMarriages = createAction(
   '[Marriage] Set Marriages',
@@ -35,7 +36,7 @@ export const deleteMarriage = createAction(
 
 export const errorHandlerMarriage = createAction(
   '[Marriage] Error Handler Marriage',
-  props<{ error: string | null }>()
+  props<{ error: ErrorResponse }>()
 );
 
 export const clearError = createAction('[Marriage] Clear Error');

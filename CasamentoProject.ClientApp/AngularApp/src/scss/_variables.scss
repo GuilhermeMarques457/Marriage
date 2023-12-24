@@ -1,0 +1,78 @@
+$primary-color: #beadfa;
+
+$primary-color-lighter: #d2c6fc;
+$primary-color-even-lighter: #ece6fe;
+
+$primary-color-darker: #726896;
+$primary-color-even-darker: #39344b;
+
+$primary-color-opacity: rgb(190, 173, 250, 0.5);
+
+$secondary-color: #fff8c9;
+$secondary-color-darker: #807c65;
+$secondary-color-lighter: #fffdef;
+
+$gray: #adb5bd;
+
+$dark-color: #131119;
+$dark-color-lighter: #262332;
+$dark-color-opacity: rgba(18, 19, 23, 0.5);
+
+$red-color: #fa5252;
+$green-color: #40c057;
+
+$white-color: #f9f7ff;
+$white-color-darker: #f2effe;
+$white-color-opacity: rgb(249, 247, 255, 0.5);
+
+$pure-dark-color: #000;
+$pure-white-color: #fff;
+
+/* Gradients */
+$dark-gradient: linear-gradient(
+  to right,
+  $primary-color-even-darker,
+  $dark-color
+);
+$white-gradient: linear-gradient(
+  to right bottom,
+  $primary-color-even-lighter,
+  $white-color
+);
+
+$primary-light-gradient: linear-gradient(
+  to right,
+  $primary-color,
+  $primary-color-lighter
+);
+
+$primary-even-light-gradient: linear-gradient(
+  to right,
+  $primary-color-lighter,
+  $primary-color-even-lighter
+);
+
+$primary-dark-gradient: linear-gradient(
+  to right bottom,
+  $primary-color,
+  $primary-color-darker
+);
+
+$primary-even-dark-gradient: linear-gradient(
+  to right,
+  $primary-color-darker,
+  $primary-color-even-darker
+);
+
+$crazy-gradient: linear-gradient(
+  to left top,
+  $primary-color-lighter,
+  $primary-color-darker,
+  $primary-color
+);
+
+/* Shadows */
+$large-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.1);
+
+/* Fonts */
+$main-font: "Arial", sans-serif;

@@ -15,6 +15,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  selectAuthState,
+  selectAuthUserAuthenticated,
+} from './pages/auth/store/auth.selector';
+import { Subscription } from 'rxjs';
+import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 
 @Component({
   selector: 'app-root',
@@ -41,33 +47,31 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  userAuthenticatedSubs$: Subscription = null;
+  userAuthenticated: UserAuthenticated = null;
+  formattedTimeToLogout: string = null;
   title = 'AngularApp';
 
   menuItems = [
     {
-      link: '/dashboard',
-      icon: 'fa-chart-line',
-      label: 'Dashboard',
+      link: '/index',
+      icon: 'home',
+      label: 'Geral',
     },
     {
-      link: '/courses',
-      icon: 'fa-graduation-cap',
-      label: 'Courses',
+      link: '/casamento',
+      icon: 'church',
+      label: 'Casamento',
     },
     {
-      link: '/teachers',
-      icon: 'fa-person-chalkboard',
-      label: 'Teachers',
+      link: '/presentes',
+      icon: 'redeem',
+      label: 'Presentes',
     },
     {
-      link: '/students',
-      icon: 'fa-chalkboard-user',
-      label: 'Students',
-    },
-    {
-      link: '/support',
-      icon: 'fa-headset',
-      label: 'Support',
+      link: '/convidados',
+      icon: 'groups',
+      label: 'Convidados',
     },
   ];
 
@@ -77,10 +81,46 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
+    this.userAuthenticatedSubs$ = this.store
+      .select(selectAuthUserAuthenticated)
+      .subscribe((user) => {
+        if (user) {
+          this.userAuthenticated = user;
+
+          this.timeOutToLogout(user.refreshTokenExpirationDateTime);
+        }
+      });
   }
 
   @HostBinding('class') get themeMode() {
     return this.isDark ? 'theme-dark' : 'theme-light';
+  }
+
+  timeOutToLogout(userExpirationDateTime) {
+    const expirationTimestamp: number = new Date(
+      userExpirationDateTime
+    ).getTime();
+
+    const currentTime: number = new Date().getTime();
+
+    const secondsLogout = Math.floor(
+      (expirationTimestamp - currentTime) / 1000
+    );
+
+    this.setIntervalToLogout(secondsLogout);
+  }
+
+  setIntervalToLogout(secondsLogout) {
+    let secondsLog = secondsLogout;
+    setInterval(() => {
+      secondsLog--;
+      const minutes = Math.floor(secondsLog / 60);
+      const seconds = secondsLog % 60;
+
+      this.formattedTimeToLogout = `${minutes}min ${seconds}s`;
+
+      if (secondsLog === 0) this.formattedTimeToLogout = null;
+    }, 1000);
   }
 
   changeTheme() {

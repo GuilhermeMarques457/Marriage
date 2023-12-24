@@ -13,13 +13,8 @@ export class PasswordValidator {
     const passwordControl = formGroup.get('password');
     const confirmPasswordControl = formGroup.get('confirmPassword');
 
-    if (
-      confirmPasswordControl.value &&
-      passwordControl.value !== confirmPasswordControl.value
-    ) {
+    if (passwordControl.value !== confirmPasswordControl.value) {
       confirmPasswordControl.setErrors({ notMatch: true });
-    } else {
-      confirmPasswordControl.setErrors(null);
     }
 
     return null;

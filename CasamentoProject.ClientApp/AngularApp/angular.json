@@ -46,10 +46,10 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/custom-theme.scss",
-              "src/css/styles.scss",
-              "src/css/components.css",
-              "src/css/helpers.css",
-              "src/css/media-query.css"
+              "src/scss/_variables.scss",
+              "src/scss/styles.scss",
+              "src/scss/helpers.scss",
+              "src/scss/media-query.scss"
             ],
             "scripts": []
           },

@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserSignUp } from '../user.signUp.model';
+import { UserSignUp } from '../models/user.signUp.model';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectAuthState } from '../store/auth.selector';
@@ -18,52 +18,41 @@ import {
 } from '../store/auth.actions';
 import { RouterModule } from '@angular/router';
 import { AppState } from '../../../store/app.reducer';
-import { AlertComponent } from '../../../shared/components/alert/alert.component';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { PasswordValidator } from '../../../shared/validators/password-validator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PhoneValidator } from '../../../shared/validators/phone-validator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 @Component({
   standalone: true,
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  styleUrls: ['./sign-up.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    LoadingSpinnerComponent,
-    AlertComponent,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
-  ],
-  providers: [
-    // To priovide this form style globally
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline', floatLabel: 'never' },
-    },
+    MatProgressSpinnerModule,
   ],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   private storeSubs$: Subscription;
-  private alertClose$: Subscription;
 
   signupForm: FormGroup;
-  submitted = false;
   isLoading = false;
-  error: string = null;
-  currentForm: boolean = false;
+  error: ErrorResponse = null;
   // Angular material property
   hidePassword = true;
   hideConfirmPassword = true;
@@ -75,8 +64,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
         email: new FormControl(null, [Validators.required, Validators.email]),
         phone: new FormControl(null, [
           Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(15),
+          PhoneValidator.validate,
         ]),
         password: new FormControl(null, [
           Validators.required,
@@ -92,15 +80,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .select(selectAuthState)
       .subscribe((authState) => {
         this.isLoading = authState.loading;
-        this.error = authState.authError;
-
-        if (authState.formActive === 'sign-up-active') {
-          this.currentForm = true;
-        } else {
-          setTimeout(() => {
-            this.currentForm = false;
-          }, 500);
-        }
       });
   }
 
@@ -110,14 +89,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.storeSubs$) this.storeSubs$.unsubscribe();
-    if (this.alertClose$) this.alertClose$.unsubscribe();
   }
 
   onSubmit() {
-    this.submitted = true;
-
-    console.log(this.signupForm);
-
     if (!this.signupForm.valid) return;
 
     const user: UserSignUp = new UserSignUp(
@@ -127,8 +101,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.signupForm.value.password,
       this.signupForm.value.confirmPassword
     );
-
-    this.submitted = true;
 
     this.store.dispatch(signUp({ user: user }));
   }

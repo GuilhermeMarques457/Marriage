@@ -1,120 +1,86 @@
-<button (click)="onGetMarriages()">Get Marriages</button>
-<button (click)="onGetMarriage()">Get Marriage</button>
-<button (click)="onDeleteMarriage()">Delete Marriage</button>
-<button (click)="onSwitchAdd()">Add Marriage</button>
-<button (click)="onSwitchUpdate()">Update Marriage</button>
-
-<app-alert
-  [message]="error"
-  *ngIf="error"
-  (close)="onHandleError()"
-></app-alert>
-
-<div *ngIf="isLoading" style="text-align: center">
-  <app-loading-spinner></app-loading-spinner>
-</div>
-
-<form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
-  <h2 class="form-heading">Entrar</h2>
-  <div class="form-inputs-box">
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="text"
-        id="photo"
-        placeholder="Foto do casal"
-        formControlName="photo"
-      />
-    </div>
-
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="date"
-        id="date"
-        formControlName="date"
-      />
-      <div class="error-messages-box">
-        <span
-          class="input-validation-message"
-          *ngIf="
-              (marriageForm.get('date').touched || submitted) &&
-              marriageForm.get('date')?.errors?.['required']
-            "
-          >Data não pode ser nula</span
-        >
-      </div>
-    </div>
-
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="datetime"
-        id="hour"
-        formControlName="hour"
-        placeholder="00:00"
-        mask="00:00"
-      />
-      <div class="error-messages-box">
-        <span
-          class="input-validation-message"
-          *ngIf="
-              (marriageForm.get('hour').touched || submitted) &&
-              marriageForm.get('hour')?.errors?.['required']
-            "
-          >Hora não pode ser nula</span
-        >
-        <span
-          class="input-validation-message"
-          *ngIf="
-            (marriageForm.get('hour').touched || submitted) &&
-            marriageForm.get('hour').hasError('invalidFormat')
-          "
-          >Hora tem que estar no formato 00:00</span
-        >
-      </div>
-    </div>
-
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="number"
-        id="moneyRaised"
-        formControlName="moneyRaised"
-      />
-    </div>
-
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="number"
-        id="moneyExpected"
-        formControlName="moneyExpected"
-      />
-    </div>
-
-    <div class="input-box">
-      <input
-        class="input-control"
-        type="text"
-        id="local"
-        formControlName="local"
-      />
-      <div class="error-messages-box">
-        <span
-          class="input-validation-message"
-          *ngIf="
-              (marriageForm.get('local').touched || submitted) &&
-              marriageForm.get('local')?.errors?.['required']
-            "
-          >Data não pode ser nula</span
-        >
-      </div>
-    </div>
-
-    <div class="btn-form-box">
-      <!-- <button class="btn btn-primary" type="submit" [disabled]="!marriageForm.valid"> -->
-      <button class="btn-form btn-crazy-gradient" type="submit">Entrar</button>
-    </div>
+<div class="form-box">
+  <div *ngIf="isLoading" style="text-align: center">
+    <mat-progress-spinner
+      class="example-margin"
+      color="primary"
+      [mode]="'indeterminate'"
+    >
+    </mat-progress-spinner>
   </div>
-</form>
+  <form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <h2 class="form-heading">Informações do Casamento</h2>
+    <!-- this.marriageForm = new FormGroup({
+      photo: new FormControl(null),
+      date: new FormControl(null, [Validators.required]),
+      hour: new FormControl(null, [Validators.required]),
+      moneyRaised: new FormControl(null),
+      moneyExpected: new FormControl(null),
+      local: new FormControl(null, [Validators.required]),
+    }); -->
+    <div class="form-inputs-box">
+      <div class="input-box">
+        <mat-form-field>
+          <mat-label>Foto do Casal</mat-label>
+          <input
+            matInput
+            placeholder="Placeholder"
+            formControlName="photo"
+            type="text"
+          />
+          <mat-icon matSuffix>photo</mat-icon>
+          <mat-error
+            *ngIf="
+              marriageForm.get('photo').errors?.['required']"
+            >Foto do casal não pode ser nula</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="input-box">
+        <mat-form-field>
+          <mat-label>Data </mat-label>
+          <input matInput formControlName="date" id="date" />
+          <mat-error
+            *ngIf="
+              marriageForm.get('date')?.errors?.['required']"
+            >Data não pode ser nula</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="input-box">
+        <mat-form-field>
+          <mat-label>Hora </mat-label>
+          <input matInput formControlName="hour" id="hour" />
+          <mat-error
+            *ngIf="
+              marriageForm.get('hour')?.errors?.['required']"
+            >Horário não pode ser nulo</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="input-box">
+        <mat-form-field>
+          <mat-label>Dinheiro arrecadado </mat-label>
+          <input matInput formControlName="moneyRaised" id="moneyRaised" />
+          <mat-error
+            *ngIf="
+              marriageForm.get('moneyRaised')?.errors?.['required']"
+            >Horário não pode ser nulo</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="btn-form-box">
+        <button
+          class="btn-form btn-crazy-gradient"
+          type="submit"
+          [disabled]="!marriageForm.valid"
+        >
+          Salvar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

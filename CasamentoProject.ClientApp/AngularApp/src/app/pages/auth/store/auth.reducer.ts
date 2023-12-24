@@ -10,11 +10,12 @@ import {
   setSignUpActive,
   signUp,
 } from './auth.actions';
-import { UserAuthenticated } from '../user.authenticated.model';
+import { UserAuthenticated } from '../models/user.authenticated.model';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 export interface State {
   userAuthenticated: UserAuthenticated | null;
-  authError: string | null;
+  authError: ErrorResponse | null;
   loading: boolean;
   formActive: string;
 }
@@ -38,6 +39,7 @@ export const authReducer = createReducer(
     };
   }),
   on(clearError, (state, action) => {
+    console.log(console.log(state));
     return { ...state, authError: null };
   }),
   on(login, (state, action) => {

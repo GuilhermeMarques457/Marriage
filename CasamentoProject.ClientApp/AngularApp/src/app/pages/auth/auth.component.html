@@ -1,5 +1,9 @@
-<section class="double-form flex gap-md mg-tp-bg form-section mat-elevation-z6">
-  <div class="w-50 form"><app-sign-up></app-sign-up></div>
-  <div class="w-50 form form-hidden"><app-login></app-login></div>
+<section class="double-form grid grid--2--cols form-section mat-elevation-z6">
+  <div class="form">
+    <app-sign-up *ngIf="currentForm === 'sign-up-active'"></app-sign-up>
+  </div>
+  <div class="form">
+    <app-login *ngIf="currentForm === 'login-active'"></app-login>
+  </div>
   <span [@formState]="state" class="form-effect"></span>
 </section>

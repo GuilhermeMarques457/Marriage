@@ -1,11 +1,17 @@
+@import "../../../scss/variables";
+
 .double-form {
   position: relative;
   border-radius: 20px;
   margin: 5rem auto;
   overflow: hidden;
-  border: 1px solid var(--primary-color);
+  border: 1px solid $primary-color;
   height: 80rem;
   width: 70%;
+
+  .form {
+    height: 100%;
+  }
 }
 
 .form-effect {
@@ -16,5 +22,9 @@
   top: 0;
   left: 50%;
   position: absolute;
-  background: var(--primary-dark-gradient);
+  background: $primary-dark-gradient;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
 }

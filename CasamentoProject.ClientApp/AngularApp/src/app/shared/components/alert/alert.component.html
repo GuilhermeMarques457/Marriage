@@ -1,9 +1,15 @@
-<div class="backdrop" (click)="onClose()"></div>
-<div class="alert-box">
-  <p>{{ message }}</p>
-  <div class="alert-box-actions">
-    <button class="btn-close" (click)="onClose()">
-      <i class="ph ph-x"></i>
+<div class="dialog-box">
+  <h1 class="dialog-title" mat-dialog-title>
+    {{ data.error.Message }} ({{ data.error.StatusCode }})
+  </h1>
+  <div class="dialog-content" mat-dialog-content>
+    <p>
+      {{ data.error.Details }}
+    </p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button class="dialog-button" mat-button (click)="onCloseDialog()">
+      Fechar <mat-icon>close</mat-icon>
     </button>
   </div>
 </div>

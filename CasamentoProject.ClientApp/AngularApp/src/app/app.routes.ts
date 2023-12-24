@@ -10,14 +10,14 @@ export const routes: Routes = [
       import('./pages/auth/auth.routing').then((m) => m.AuthRouting),
   },
   {
-    path: 'Marriage',
+    path: 'casamento',
     loadChildren: () =>
       import('./pages/marriage/marriage.routing').then(
         (m) => m.MarriageRouting
       ),
   },
   {
-    path: 'Home',
+    path: 'index',
     component: HomeComponent,
     canActivate: [AuthGuard],
   },

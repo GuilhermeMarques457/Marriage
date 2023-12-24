@@ -1,14 +1,18 @@
 <mat-sidenav-container [ngClass]="isDark ? 'theme-dark' : 'theme-light'">
   <mat-sidenav class="sidenav mat-elevation-z4" #sidenav mode="push">
-    <mat-toolbar>
-      <img
-        src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
-        alt="Profile Photo"
-        class="avatar mat-elevation-z6"
-      />
-      <a routerLink="/users" class="name">Guilherme Marques</a>
-      <p class="disignation">Full Stack Web Developer</p>
-    </mat-toolbar>
+    <mat-toolbar> Casamento Logo</mat-toolbar>
+    <mat-divider></mat-divider>
+    <div class="info-box">
+      <a routerLink="/users" class="name">
+        Guilherme Marques
+        <!-- {{ userAuthenticated.personName }} -->
+      </a>
+      <p class="email">
+        guimarkes457.gmail.com
+        <!-- {{ userAuthenticated.email }} -->
+      </p>
+    </div>
+
     <mat-divider></mat-divider>
     <mat-nav-list>
       <a
@@ -16,22 +20,36 @@
         mat-list-item
         routerLink="{{ menuItem.link }}"
         routerLinkActive="active"
+        class="nav-list-link"
       >
         <div class="nav-link-item-box">
-          <mat-icon fontSet="fa" [fontIcon]="menuItem.icon"></mat-icon>
+          <mat-icon>{{ menuItem.icon }}</mat-icon>
           <span>
             {{ menuItem.label }}
           </span>
         </div>
       </a>
     </mat-nav-list>
+
+    <div class="logout-box" *ngIf="userAuthenticated">
+      <p class="mg-bt-sm time-left">
+        Tempo antes de logout automatico: {{ formattedTimeToLogout }}
+      </p>
+
+      <mat-divider></mat-divider>
+      <div class="button-logout-box">
+        <button mat-button class="button-logout">
+          <mat-icon>logout</mat-icon>Sair
+        </button>
+      </div>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar class="toolbar-submenu" color="primary">
-      <mat-toolbar-row class="toolbar-submenu-top">
+      <mat-toolbar-row class="toolbar-submenu-top flex flex-spaced">
         <button
-          matTooltip="{{ sidenav.opened ? 'Close Menu' : 'Open Menu' }}"
+          matTooltip="{{ sidenav.opened ? 'Fechar Menu' : 'Abrir Menu' }}"
           [matTooltipPosition]="'right'"
           mat-icon-button
           class="example-icon"
@@ -39,12 +57,9 @@
         >
           <mat-icon>{{ sidenav.opened ? "close" : "menu" }}</mat-icon>
         </button>
-        <mat-slide-toggle class="example-margin" (click)="changeTheme()">
+        <mat-slide-toggle class="toggle-theme-button" (click)="changeTheme()">
         </mat-slide-toggle>
       </mat-toolbar-row>
-      <!-- <mat-toolbar-row class="toolbar-submenu-title">
-        <span *ngIf="!popText">{{ currentPage }}</span>
-      </mat-toolbar-row> -->
     </mat-toolbar>
     <div class="content-route">
       <router-outlet></router-outlet>

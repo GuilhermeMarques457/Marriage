@@ -1,8 +1,8 @@
 export class PhoneValidator {
   static validate(control) {
-    const senhaRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+    const telefoneRegex = /^\d{11}$/;
 
-    if (control.value && !senhaRegex.test(control.value)) {
+    if (control.value && !telefoneRegex.test(control.value)) {
       return { invalidFormat: true };
     }
 

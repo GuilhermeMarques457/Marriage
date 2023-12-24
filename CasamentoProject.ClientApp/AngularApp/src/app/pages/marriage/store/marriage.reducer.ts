@@ -11,11 +11,12 @@ import {
   updateMarriage,
 } from './marriage.actions';
 import { Marriage } from '../marriage.model';
+import { ErrorResponse } from '../../../shared/utils/error-response.model';
 
 export interface State {
   Marriages: Marriage[];
   currentMarriage: Marriage | null;
-  error: string | null;
+  error: ErrorResponse;
   loading: boolean;
 }
 

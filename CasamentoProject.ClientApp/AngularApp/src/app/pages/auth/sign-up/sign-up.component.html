@@ -1,12 +1,11 @@
-<div class="form-box" *ngIf="currentForm">
-  <app-alert
-    [message]="error"
-    *ngIf="error"
-    (close)="onHandleError()"
-  ></app-alert>
-
+<div class="form-box">
   <div *ngIf="isLoading" style="text-align: center">
-    <app-loading-spinner></app-loading-spinner>
+    <mat-progress-spinner
+      class="example-margin"
+      color="accent"
+      [mode]="'indeterminate'"
+    >
+    </mat-progress-spinner>
   </div>
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <h2 class="form-heading">Registre-se</h2>
@@ -18,7 +17,7 @@
             matInput
             type="personName"
             id="personName"
-            placeholder="Guilherme Marques dos Santos"
+            placeholder="ex: Guilherme Marques dos Santos"
             formControlName="personName"
           />
           <mat-icon matSuffix>person</mat-icon>
@@ -34,7 +33,7 @@
           <mat-label>Email</mat-label>
           <input
             matInput
-            placeholder="example@gmail.com"
+            placeholder="ex: example@gmail.com"
             formControlName="email"
             type="email"
             id="email"
@@ -58,13 +57,18 @@
             type="phone"
             id="phone"
             formControlName="phone"
-            placeholder="+5501899999999"
+            placeholder="ex: 9999999999"
           />
           <mat-icon matSuffix>phone</mat-icon>
         </mat-form-field>
         <div class="erorrs-box" *ngIf="signupForm.get('phone').touched">
           <mat-error *ngIf="signupForm.get('phone')?.errors?.['required']">
             Telefone não pode ser nulo
+          </mat-error>
+          <mat-error
+            *ngIf="signupForm.get('phone').hasError('invalidFormat') && !signupForm.get('phone')?.errors?.['required']"
+          >
+            Telefone tem que estar no formato 99999999999
           </mat-error>
         </div>
       </div>
@@ -158,14 +162,14 @@
       >
 
       <div class="btn-form-box">
-        <button class="btn btn-primary" type="submit">Enviar</button>
-        <!-- <button
+        <!-- <button class="btn btn-primary" type="submit">Enviar</button> -->
+        <button
           class="btn-form btn-crazy-gradient"
           type="submit"
           [disabled]="!signupForm.valid"
         >
           Cadastrar Conta
-        </button> -->
+        </button>
       </div>
       <p class="form-action">
         Ja possui registro?
