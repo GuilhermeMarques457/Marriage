@@ -12,7 +12,5 @@ import { InputError } from '../../../models/input-error.model';
   styleUrl: './validation-error.component.scss',
 })
 export class ValidationErrorComponent {
-  @Input() form: FormGroup;
   @Input() inputError: InputError;
-  @Input() formControlName: string;
 }

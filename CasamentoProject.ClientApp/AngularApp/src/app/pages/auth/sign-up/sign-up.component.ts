@@ -20,13 +20,18 @@ import { RouterModule } from '@angular/router';
 import { AppState } from '../../../store/app.reducer';
 import { PasswordValidator } from '../../../shared/validators/password-validator';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PhoneValidator } from '../../../shared/validators/phone-validator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
+import { InputError } from '../../../shared/models/input-error.model';
 
 @Component({
   standalone: true,
@@ -43,6 +48,13 @@ import { ErrorResponse } from '../../../shared/utils/error-response.model';
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    InputFieldComponent,
+  ],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline', floatLabel: 'never' },
+    },
   ],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
@@ -53,9 +65,27 @@ export class SignUpComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   isLoading = false;
   error: ErrorResponse = null;
-  // Angular material property
-  hidePassword = true;
-  hideConfirmPassword = true;
+
+  nameErrors = [new InputError('Nome não pode ser nulo', 'required')];
+  passwordErrors = [
+    new InputError('Senha não pode ser nula', 'required'),
+    new InputError('Senha tem que conter mais de 8 caractere', 'minLength'),
+  ];
+  emailErrors = [
+    new InputError('Email não pode ser nulo', 'required'),
+    new InputError('Email deve estar no formato de email', 'email'),
+  ];
+  phoneErrors = [
+    new InputError('Telefone não pode ser nulo', 'required'),
+    new InputError(
+      'Telefone tem que estar no formato 99999999999',
+      'invalidFormat'
+    ),
+  ];
+  confirmErrors = [
+    new InputError('Confirmar senha não pode ser nulo', 'required'),
+    new InputError('Confirmar senha e senha devem ser iguais', 'notMatch'),
+  ];
 
   ngOnInit(): void {
     this.signupForm = new FormGroup(

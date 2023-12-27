@@ -10,66 +10,22 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <h2 class="form-heading">Entrar</h2>
     <div class="form-inputs-box">
-      <div class="input-box">
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            placeholder="Placeholder"
-            formControlName="email"
-            type="email"
-            id="email"
-          />
-          <mat-icon matSuffix>email</mat-icon>
-          <mat-error
-            *ngIf="
-              (loginForm.get('email').touched) &&
-              loginForm.get('email').errors?.['required']"
-            >Email não pode ser nulo</mat-error
-          >
-          <mat-error
-            *ngIf="
-              (loginForm.get('email').touched) &&
-              loginForm.get('email')?.errors?.['email']"
-            >Email deve estar no formato de email</mat-error
-          >
-        </mat-form-field>
-      </div>
-
-      <div class="input-box">
-        <mat-form-field>
-          <mat-label>Senha</mat-label>
-          <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            formControlName="password"
-            id="password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
-          >
-            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-          </button>
-          <mat-error
-            *ngIf="
-              (loginForm.get('password').touched) &&
-              loginForm.get('password')?.errors?.['required']"
-            >Senha não pode ser nula</mat-error
-          >
-          <mat-error
-            *ngIf="
-              loginForm.get('password').touched &&
-              loginForm.get('password')?.errors
-            "
-            >Senha tem que conter mais de 8 caracteres</mat-error
-          >
-        </mat-form-field>
-      </div>
+      <app-input-field
+        [label]="'Email'"
+        [form]="loginForm"
+        [inputErrors]="emailErrors"
+        [formControlName]="'email'"
+        [placeholder]="'email@example.com'"
+        [icon]="'email'"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Senha'"
+        [form]="loginForm"
+        [inputErrors]="passwordErrors"
+        [formControlName]="'password'"
+        [icon]="'password'"
+        [isPassword]="true"
+      ></app-input-field>
 
       <div class="btn-form-box">
         <button

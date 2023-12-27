@@ -1,21 +1,35 @@
 <div class="input-box" [formGroup]="form">
   <mat-form-field>
     <mat-label>{{ label }}</mat-label>
+
     <input
       matInput
       placeholder="{{ placeholder }}"
-      formControlName="email"
-      type="email"
-      id="email"
-    />
-    <mat-icon matSuffix>email</mat-icon>
-  </mat-form-field>
-  <!-- <div class="errors-box" *ngIf="form.get('email').touched">
-    <app-validation-error
-      *ngFor="let error of inputErrors"
-      [inputError]="error"
-      [form]="form"
       [formControlName]="formControlName"
-    ></app-validation-error>
-  </div> -->
+      [id]="formControlName"
+      [type]="password ? 'password' : 'text'"
+    />
+
+    <mat-icon matSuffix *ngIf="!isPassword">{{ icon }}</mat-icon>
+
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="password = !password"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="password"
+      *ngIf="isPassword"
+    >
+      <mat-icon>{{ password ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+  </mat-form-field>
+  <div class="errors-box" *ngIf="form.get(formControlName).touched">
+    <div *ngFor="let error of inputErrors">
+      <app-validation-error
+        *ngIf="form.get(formControlName).hasError(error.Type)"
+        [inputError]="error"
+      ></app-validation-error>
+    </div>
+  </div>
 </div>

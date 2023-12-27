@@ -10,152 +10,44 @@
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <h2 class="form-heading">Registre-se</h2>
     <div class="form-inputs-box">
-      <div class="input-box required-field">
-        <mat-form-field>
-          <mat-label>Nome</mat-label>
-          <input
-            matInput
-            type="personName"
-            id="personName"
-            placeholder="ex: Guilherme Marques dos Santos"
-            formControlName="personName"
-          />
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-        <div class="erorrs-box" *ngIf="signupForm.get('personName').touched">
-          <mat-error *ngIf="signupForm.get('personName').errors?.['required']">
-            Nome não pode ser nulo
-          </mat-error>
-        </div>
-      </div>
-      <div class="input-box required-field">
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            placeholder="ex: example@gmail.com"
-            formControlName="email"
-            type="email"
-            id="email"
-          />
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-        <div class="erorrs-box" *ngIf="signupForm.get('email').touched">
-          <mat-error *ngIf="signupForm.get('email').errors?.['required']">
-            Email não pode ser nulo
-          </mat-error>
-          <mat-error *ngIf="signupForm.get('email')?.errors?.['email']">
-            Email deve estar no formato de email
-          </mat-error>
-        </div>
-      </div>
-      <div class="input-box required-field">
-        <mat-form-field>
-          <mat-label>Telefone</mat-label>
-          <input
-            matInput
-            type="phone"
-            id="phone"
-            formControlName="phone"
-            placeholder="ex: 9999999999"
-          />
-          <mat-icon matSuffix>phone</mat-icon>
-        </mat-form-field>
-        <div class="erorrs-box" *ngIf="signupForm.get('phone').touched">
-          <mat-error *ngIf="signupForm.get('phone')?.errors?.['required']">
-            Telefone não pode ser nulo
-          </mat-error>
-          <mat-error
-            *ngIf="signupForm.get('phone').hasError('invalidFormat') && !signupForm.get('phone')?.errors?.['required']"
-          >
-            Telefone tem que estar no formato 99999999999
-          </mat-error>
-        </div>
-      </div>
-      <div class="input-box required-field">
-        <mat-form-field>
-          <mat-label>Senha</mat-label>
-          <input
-            matInput
-            [type]="hidePassword ? 'password' : 'text'"
-            formControlName="password"
-            id="password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="hidePassword = !hidePassword"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidePassword"
-          >
-            <mat-icon>{{
-              hidePassword ? "visibility_off" : "visibility"
-            }}</mat-icon>
-          </button>
-        </mat-form-field>
-        <div class="erorrs-box" *ngIf="signupForm.get('password').touched">
-          <mat-error *ngIf="signupForm.get('password')?.errors?.['required']">
-            Senha não pode ser nula
-          </mat-error>
-          <div *ngIf="!signupForm.get('password')?.errors?.['required']">
-            <mat-error
-              *ngIf="
-                signupForm.get('password').hasError('invalidFormat') &&
-                !signupForm.get('password')?.hasError('minlength')
-              "
-            >
-              A senha deve conter pelo menos uma letra e numero.</mat-error
-            >
-
-            <mat-error
-              *ngIf="signupForm.get('password')?.hasError('minlength')"
-            >
-              Senha tem que conter mais de 8 caracteres
-            </mat-error>
-          </div>
-        </div>
-      </div>
-      <div class="input-box required-field">
-        <mat-form-field>
-          <mat-label>Confirmar Senha</mat-label>
-          <input
-            matInput
-            [type]="hideConfirmPassword ? 'password' : 'text'"
-            formControlName="confirmPassword"
-            id="confirmPassword"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="hideConfirmPassword = !hideConfirmPassword"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hideConfirmPassword"
-          >
-            <mat-icon>{{
-              hideConfirmPassword ? "visibility_off" : "visibility"
-            }}</mat-icon>
-          </button>
-        </mat-form-field>
-        <div
-          class="erorrs-box"
-          *ngIf="signupForm.get('confirmPassword').touched"
-        >
-          <mat-error
-            *ngIf="signupForm.get('confirmPassword')?.errors?.['required']"
-          >
-            Confirmar senha não pode ser nulo
-          </mat-error>
-
-          <mat-error
-            *ngIf="signupForm.get('confirmPassword')?.hasError('notMatch') &&
-                           !signupForm.get('confirmPassword')?.errors?.['required']"
-          >
-            Confirmar senha e senha devem ser iguais
-          </mat-error>
-        </div>
-      </div>
+      <app-input-field
+        [label]="'Nome'"
+        [form]="signupForm"
+        [formControlName]="'personName'"
+        [inputErrors]="nameErrors"
+        [placeholder]="'Guilherme Marques dos Santos'"
+        [icon]="'person'"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Email'"
+        [form]="signupForm"
+        [formControlName]="'email'"
+        [inputErrors]="emailErrors"
+        [placeholder]="'example@gmail.com'"
+        [icon]="'email'"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Telefone'"
+        [form]="signupForm"
+        [formControlName]="'phone'"
+        [inputErrors]="phoneErrors"
+        [placeholder]="'99999999999'"
+        [icon]="'phone'"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Senha'"
+        [form]="signupForm"
+        [inputErrors]="passwordErrors"
+        [formControlName]="'password'"
+        [isPassword]="true"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Confirmar Senha'"
+        [form]="signupForm"
+        [inputErrors]="confirmErrors"
+        [formControlName]="'confirmPassword'"
+        [isPassword]="true"
+      ></app-input-field>
 
       <mat-checkbox color="primary"
         >Eu aceito os termos de serviço</mat-checkbox

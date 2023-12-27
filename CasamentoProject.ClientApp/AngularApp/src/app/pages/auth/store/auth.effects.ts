@@ -24,9 +24,6 @@ const handleError = (err: ErrorResponse, signUpError = false) => {
     '400'
   );
 
-  console.log(err);
-  console.log(error);
-
   if (!err.error) return of(AuthActions.authenticateFail({ error: error }));
 
   if (err.error.Details) {
@@ -145,7 +142,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticateSucess),
         tap((authSuccessAction) => {
-          if (authSuccessAction.redirect) this.router.navigate(['/Home']);
+          if (authSuccessAction.redirect) this.router.navigate(['/casamento']);
         })
       ),
     { dispatch: false }

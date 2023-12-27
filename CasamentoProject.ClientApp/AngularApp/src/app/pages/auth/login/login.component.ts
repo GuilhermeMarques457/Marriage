@@ -40,7 +40,6 @@ import { InputError } from '../../../shared/models/input-error.model';
     InputFieldComponent,
   ],
   providers: [
-    // To priovide this form style globally
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline', floatLabel: 'never' },
@@ -65,9 +64,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     new InputError('Senha não pode ser nula', 'required'),
     new InputError('Senha tem que conter mais de 8 caractere', 'minLength'),
   ];
-
-  // Angular material property
-  hide = true;
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -101,6 +97,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginForm.value.email,
       this.loginForm.value.password
     );
+
+    console.log(user);
 
     this.store.dispatch(login({ user: user }));
 
