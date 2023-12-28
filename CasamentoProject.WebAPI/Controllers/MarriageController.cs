@@ -45,6 +45,21 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
+        [HttpGet("get-marriages2")]
+        public async Task<ActionResult<MarriageResponse>> TirarIssoDaquiDepois()
+        {
+            try
+            {
+                var allMarriages = await _marriageGetterService.GetAllMarriages();
+
+                return Ok(allMarriages);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         [HttpGet("get-marriage/{id:guid}")]
         public async Task<ActionResult<MarriageResponse>> GetMarriage([FromRoute] Guid id)
         {
