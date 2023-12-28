@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { Marriage } from './marriage.model';
-import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   addMarriage,
   clearError,
-  deleteMarriage,
-  getMarriage,
   getMarriages,
-  updateMarriage,
 } from './store/marriage.actions';
 import { CommonModule } from '@angular/common';
 import {
@@ -17,22 +13,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { selectMarriage } from './store/marriage.selectors';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
 import { TransformHourToCorrectFormat } from '../../shared/transformers/hour-transformer';
 import { AppState } from '../../store/app.reducer';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ErrorResponse } from '../../shared/utils/error-response.model';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { InputFieldComponent } from '../../shared/components/input-field/input-field.component';
+import { MarriageErrors } from '../../shared/components/input-field/marriage-validation';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
   selector: 'app-marriage',
   templateUrl: './marriage.component.html',
-  styleUrls: ['./marriage.component.css'],
+  styleUrls: ['./marriage.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -41,13 +38,12 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    InputFieldComponent,
+    MatButtonModule,
   ],
 })
 export class MarriageComponent {
   recipes: Marriage[];
-  subscription: Subscription;
-
-  private storeSubs$: Subscription;
 
   marriageForm: FormGroup;
   submitted = false;
@@ -60,31 +56,15 @@ export class MarriageComponent {
       photo: new FormControl(null),
       date: new FormControl(null, [Validators.required]),
       hour: new FormControl(null, [Validators.required]),
-      moneyRaised: new FormControl(null),
       moneyExpected: new FormControl(null),
       local: new FormControl(null, [Validators.required]),
     });
-
-    this.storeSubs$ = this.store
-      .select(selectMarriage)
-      .subscribe((marriageState) => {
-        if (marriageState.error) {
-          this.dialog.open(AlertComponent, {
-            data: new ErrorResponse(
-              marriageState.error.error.Message,
-              marriageState.error.error.Details,
-              marriageState.error.error.StatusCode
-            ),
-            exitAnimationDuration: '300ms',
-            enterAnimationDuration: '300ms',
-          });
-        }
-      });
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) this.subscription.unsubscribe();
-  }
+  photoErrors = MarriageErrors.photoErrors;
+  dateErrors = MarriageErrors.dateErrors;
+  hourErrors = MarriageErrors.hourErrors;
+  localErrors = MarriageErrors.localErrors;
 
   onGetMarriages() {
     this.store.dispatch(getMarriages());
@@ -98,7 +78,6 @@ export class MarriageComponent {
       this.marriageForm.value.photo,
       this.marriageForm.value.date,
       TransformHourToCorrectFormat.transform(this.marriageForm.value.hour),
-      this.marriageForm.value.moneyRaised,
       this.marriageForm.value.moneyExpected,
       this.marriageForm.value.local
     );

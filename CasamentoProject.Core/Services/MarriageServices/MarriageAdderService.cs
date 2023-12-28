@@ -2,6 +2,7 @@
 using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.DTO.MarriageDTOs;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageServices
         {
             if (MarriageRequest == null)
                 throw new ArgumentNullException(nameof(MarriageRequest), "Casamento não informado");
+
 
             Marriage marriage = MarriageRequest.ToMarriage();
             marriage.Id = Guid.NewGuid();

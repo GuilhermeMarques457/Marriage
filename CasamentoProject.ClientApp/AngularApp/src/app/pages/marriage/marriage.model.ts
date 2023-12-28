@@ -14,7 +14,6 @@ export class Marriage {
     photoOfCouplePath: string,
     dateOfMarriage: Date,
     hourOfMarriage: string,
-    moneyRaised: number,
     moneyExpected: number,
     local: string,
     id?: string
@@ -24,7 +23,6 @@ export class Marriage {
     this.Local = local;
     this.HourOfMarriage = hourOfMarriage;
     this.MoneyExpected = moneyExpected;
-    this.MoneyRaised = moneyRaised;
     this.PhotoOfCouplePath = photoOfCouplePath;
 
     this.Fiances = [];

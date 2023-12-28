@@ -4,6 +4,8 @@ using CasamentoProject.Core.ServiceContracts.MarriageContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace CasamentoProject.WebAPI.Controllers
 {
@@ -61,10 +63,13 @@ namespace CasamentoProject.WebAPI.Controllers
         [HttpPost("post-marriage")]
         public async Task<ActionResult<MarriageResponse>> PostMarriage([FromBody] MarriageAddRequest marriage)
         {
+            var httpContext = HttpContext;
             try
             {
+                marriage.CurrentUserId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+ 
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
-
+     
                 return Ok(addedMarriage);
             }
             catch

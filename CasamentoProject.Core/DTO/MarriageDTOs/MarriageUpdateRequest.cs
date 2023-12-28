@@ -22,6 +22,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
                 MoneyRaised = MoneyRaised,
                 MoneyExpected = MoneyExpected,
                 Local = Local,
+                CurrentUserId = CurrentUserId,
             };
         }
 

@@ -47,7 +47,7 @@
 
   <mat-sidenav-content>
     <mat-toolbar class="toolbar-submenu" color="primary">
-      <mat-toolbar-row class="toolbar-submenu-top flex flex-spaced">
+      <mat-toolbar-row class="">
         <button
           matTooltip="{{ sidenav.opened ? 'Fechar Menu' : 'Abrir Menu' }}"
           [matTooltipPosition]="'right'"
@@ -59,6 +59,11 @@
         </button>
         <mat-slide-toggle class="toggle-theme-button" (click)="changeTheme()">
         </mat-slide-toggle>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="toolbar-submenu-top">
+        <h1 class="page-title">
+          {{ pageTitle }} <mat-icon>{{ pageIcon }}</mat-icon>
+        </h1>
       </mat-toolbar-row>
     </mat-toolbar>
     <div class="content-route">

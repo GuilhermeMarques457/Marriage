@@ -21,6 +21,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/utils/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
+import { AuthErrors } from '../../../shared/components/input-field/auth-validation';
 import { InputError } from '../../../shared/models/input-error.model';
 
 @Component({
@@ -54,16 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   isLoading = false;
   error: ErrorResponse = null;
-
-  emailErrors = [
-    new InputError('Email não pode ser nulo', 'required'),
-    new InputError('Email deve estar no formato de email', 'email'),
-  ];
-
-  passwordErrors = [
-    new InputError('Senha não pode ser nula', 'required'),
-    new InputError('Senha tem que conter mais de 8 caractere', 'minLength'),
-  ];
+  emailErrors = AuthErrors.emailErrors;
+  passwordErrors = AuthErrors.passwordErrors;
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -97,8 +90,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginForm.value.email,
       this.loginForm.value.password
     );
-
-    console.log(user);
 
     this.store.dispatch(login({ user: user }));
 

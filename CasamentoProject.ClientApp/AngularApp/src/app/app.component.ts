@@ -1,6 +1,12 @@
 import { Component, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 import { AppState } from './store/app.reducer';
 import { autoLogin } from './pages/auth/store/auth.actions';
 import { Store } from '@ngrx/store';
@@ -15,11 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
-import {
-  selectAuthState,
-  selectAuthUserAuthenticated,
-} from './pages/auth/store/auth.selector';
-import { Subscription } from 'rxjs';
+import { selectAuthUserAuthenticated } from './pages/auth/store/auth.selector';
+import { Subscription, filter, map } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 
 @Component({
@@ -51,6 +54,8 @@ export class AppComponent {
   userAuthenticated: UserAuthenticated = null;
   formattedTimeToLogout: string = null;
   title = 'AngularApp';
+  pageTitle = '';
+  pageIcon = '';
 
   menuItems = [
     {
@@ -77,7 +82,11 @@ export class AppComponent {
 
   isDark = false;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
@@ -86,9 +95,24 @@ export class AppComponent {
       .subscribe((user) => {
         if (user) {
           this.userAuthenticated = user;
-
           this.timeOutToLogout(user.refreshTokenExpirationDateTime);
         }
+      });
+
+    // Take Page title
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map((event) => event as NavigationEnd)
+      )
+      .subscribe(() => {
+        const currentMenuItem = this.menuItems.find(
+          (r) =>
+            r.link.replace('/', '') ==
+            this.route.firstChild?.snapshot.routeConfig?.path
+        );
+        this.pageTitle = currentMenuItem.label;
+        this.pageIcon = currentMenuItem.icon;
       });
   }
 

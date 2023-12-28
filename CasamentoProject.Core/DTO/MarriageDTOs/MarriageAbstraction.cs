@@ -17,6 +17,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
         public double? MoneyRaised { get; set; }
         public double? MoneyExpected { get; set; }
         public string Local { get; set; } = null!;
+        public Guid? CurrentUserId { get; set; }
         public ICollection<Fiance>? Fiances { get; set; }
         public ICollection<Gift>? Gifts { get; set; }
         public ICollection<Guest>? GuestsPlusFamily { get; set; }
@@ -31,6 +32,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
                 MoneyRaised = MoneyRaised,
                 MoneyExpected = MoneyExpected,
                 Local = Local,
+                CurrentUserId = CurrentUserId,
             };
         }
     }

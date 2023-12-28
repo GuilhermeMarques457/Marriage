@@ -32,6 +32,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/utils/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { InputError } from '../../../shared/models/input-error.model';
+import { AuthErrors } from '../../../shared/components/input-field/auth-validation';
 
 @Component({
   standalone: true,
@@ -66,26 +67,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: ErrorResponse = null;
 
-  nameErrors = [new InputError('Nome não pode ser nulo', 'required')];
-  passwordErrors = [
-    new InputError('Senha não pode ser nula', 'required'),
-    new InputError('Senha tem que conter mais de 8 caractere', 'minLength'),
-  ];
-  emailErrors = [
-    new InputError('Email não pode ser nulo', 'required'),
-    new InputError('Email deve estar no formato de email', 'email'),
-  ];
-  phoneErrors = [
-    new InputError('Telefone não pode ser nulo', 'required'),
-    new InputError(
-      'Telefone tem que estar no formato 99999999999',
-      'invalidFormat'
-    ),
-  ];
-  confirmErrors = [
-    new InputError('Confirmar senha não pode ser nulo', 'required'),
-    new InputError('Confirmar senha e senha devem ser iguais', 'notMatch'),
-  ];
+  nameErrors = AuthErrors.nameErrors;
+  passwordErrors = AuthErrors.passwordErrors;
+  emailErrors = AuthErrors.emailErrors;
+  phoneErrors = AuthErrors.phoneErrors;
+  confirmErrors = AuthErrors.confirmErrors;
 
   ngOnInit(): void {
     this.signupForm = new FormGroup(

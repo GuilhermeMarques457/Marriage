@@ -1,0 +1,83 @@
+@import "../../../scss/_variables";
+
+.form-box-container {
+  margin-top: 3.4rem;
+  padding: 4.2rem 6.2rem;
+
+  .form-heading {
+    color: $primary-color;
+    font-size: 3.2rem;
+    margin-bottom: 2.8rem;
+  }
+
+  .input-file-box,
+  .input-info-box {
+    border: 1px solid $primary-color;
+    border-radius: 15px;
+  }
+
+  .input-file-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    .input-file-image {
+      width: 50%;
+      position: absolute;
+      right: 0;
+
+      top: -50%;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    input {
+      width: 100%;
+      display: block;
+      position: absolute;
+      opacity: 0;
+      height: 100%;
+      z-index: 999;
+    }
+
+    .input-file-actions {
+      position: absolute;
+      top: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateY(-50%);
+      left: 5%;
+      gap: 1rem;
+
+      mat-icon {
+        color: $primary-color;
+        opacity: 1;
+        font-size: 8rem;
+        width: 8rem;
+        height: 8rem;
+      }
+
+      .input-label {
+        font-size: 1.5rem;
+      }
+      .input-instructions {
+        font-size: 1.2rem;
+        color: $gray;
+      }
+    }
+  }
+
+  .input-info-box {
+    padding: 4rem 5rem;
+
+    .form-heading-info {
+      color: $primary-color;
+      font-size: 2.6rem;
+      margin-bottom: 2.8rem;
+    }
+  }
+}

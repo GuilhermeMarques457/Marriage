@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CasamentoProject.Core.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace CasamentoProject.Core.Domain.Entities
         public double? MoneyRaised { get; set; }
         public double? MoneyExpected { get; set; }
         public string Local { get; set; } = null!;
-
+        public Guid? CurrentUserId { get; set; }
         public ICollection<Fiance> Fiances { get; set; } = new List<Fiance>();
         public ICollection<Gift>? Gifts { get; set; }
         public ICollection<Guest>? GuestsPlusFamily { get; set; }
