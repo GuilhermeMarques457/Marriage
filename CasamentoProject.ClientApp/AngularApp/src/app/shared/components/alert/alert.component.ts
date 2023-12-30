@@ -9,7 +9,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ErrorResponse } from '../../utils/error-response.model';
+import { ErrorResponse } from '../../models/error-response.model';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';

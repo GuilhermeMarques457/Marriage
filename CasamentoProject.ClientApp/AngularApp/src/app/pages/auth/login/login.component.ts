@@ -19,10 +19,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
-import { AuthErrors } from '../../../shared/components/input-field/auth-validation';
+import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
 import { InputError } from '../../../shared/models/input-error.model';
+import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 
 @Component({
   standalone: true,
@@ -39,6 +40,7 @@ import { InputError } from '../../../shared/models/input-error.model';
     MatIconModule,
     MatProgressSpinnerModule,
     InputFieldComponent,
+    BtnCrazyGradientComponent,
   ],
   providers: [
     {

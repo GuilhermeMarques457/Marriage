@@ -29,10 +29,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PhoneValidator } from '../../../shared/validators/phone-validator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { InputError } from '../../../shared/models/input-error.model';
-import { AuthErrors } from '../../../shared/components/input-field/auth-validation';
+import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
+import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 
 @Component({
   standalone: true,
@@ -50,6 +51,7 @@ import { AuthErrors } from '../../../shared/components/input-field/auth-validati
     MatCheckboxModule,
     MatProgressSpinnerModule,
     InputFieldComponent,
+    BtnCrazyGradientComponent,
   ],
   providers: [
     {

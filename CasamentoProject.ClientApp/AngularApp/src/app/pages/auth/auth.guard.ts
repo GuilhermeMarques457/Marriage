@@ -36,3 +36,28 @@ export class AuthGuard implements CanActivate {
     );
   }
 }
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthRedirectIfLoggedGuard implements CanActivate {
+  constructor(private router: Router, private store: Store<AppState>) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    return this.store.select(selectAuthUserAuthenticated).pipe(
+      take(1),
+      map((user) => {
+        const isAuth = user ? true : false;
+
+        return isAuth ? this.router.createUrlTree(['/casamento']) : true;
+      })
+    );
+  }
+}

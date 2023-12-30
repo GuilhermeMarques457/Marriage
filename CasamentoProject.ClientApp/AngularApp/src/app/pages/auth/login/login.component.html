@@ -28,13 +28,10 @@
       ></app-input-field>
 
       <div class="btn-form-box">
-        <button
-          class="btn-form btn-crazy-gradient"
-          type="submit"
-          [disabled]="!loginForm.valid"
-        >
-          Entrar
-        </button>
+        <app-btn-crazy-gradient
+          [buttonText]="'Entrar'"
+          [form]="loginForm"
+        ></app-btn-crazy-gradient>
       </div>
       <p class="form-action">
         Não possui conta?

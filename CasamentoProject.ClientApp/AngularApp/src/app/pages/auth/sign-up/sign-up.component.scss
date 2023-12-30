@@ -79,47 +79,10 @@ mat-error {
   top: 47%;
 }
 
-/* Form Button*/
-
 .btn-form-box {
   margin-top: 1rem;
   display: flex;
   justify-content: center;
-}
-
-.btn-form {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: none;
-  border-radius: 340px;
-  padding: 1.8rem 4.8rem;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 600;
-}
-
-.btn-crazy-gradient {
-  background: $crazy-gradient;
-  color: $white-color;
-}
-
-.btn-crazy-gradient:disabled {
-  background: $primary-color-opacity !important;
-}
-
-.btn-crazy-gradient:disabled:hover {
-  background-color: $primary-color;
-  box-shadow: 0px 0px 0px rgb(0, 0, 0, 0.03);
-  transform: translateY(-0rem);
-}
-
-.btn-crazy-gradient:hover {
-  box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.03);
-  transform: translateY(-0.3rem);
 }
 
 .change-form-link {

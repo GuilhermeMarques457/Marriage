@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
-import { TransformHourToCorrectFormat } from '../../shared/transformers/hour-transformer';
+import { TransformHourToCorrectFormat } from '../../shared/utils/hour-transformer';
 import { AppState } from '../../store/app.reducer';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,8 +22,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { InputFieldComponent } from '../../shared/components/input-field/input-field.component';
-import { MarriageErrors } from '../../shared/components/input-field/marriage-validation';
+import { MarriageErrors } from '../../shared/components/input-field/input-validations/marriage-validation';
 import { MatButtonModule } from '@angular/material/button';
+import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 
 @Component({
   standalone: true,
@@ -40,11 +41,13 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     InputFieldComponent,
     MatButtonModule,
+    BtnCrazyGradientComponent,
   ],
 })
 export class MarriageComponent {
   recipes: Marriage[];
 
+  photoCoupleSrc: string | ArrayBuffer | null;
   marriageForm: FormGroup;
   submitted = false;
   isLoading = false;
@@ -85,11 +88,25 @@ export class MarriageComponent {
     console.log(marriage);
 
     this.store.dispatch(addMarriage({ Marriage: marriage }));
+  }
 
-    // this.loginForm.reset();
+  onFileChange(event: any) {
+    const files = event.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.photoCoupleSrc = e.target.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onHandleError() {
     this.store.dispatch(clearError());
+  }
+
+  openInputFile(formInput: HTMLInputElement) {
+    formInput.click();
   }
 }

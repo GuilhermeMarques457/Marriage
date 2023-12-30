@@ -4,10 +4,10 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { Marriage } from '../marriage.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL_MARRIAGE } from '../../../shared/utils/api_urls';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
+import { environment } from '../../../../environments/environment.development';
 
 const handleError = (response: ErrorResponse) => {
   let error = new ErrorResponse(
@@ -28,7 +28,7 @@ const handleError = (response: ErrorResponse) => {
 export class MarriageEffects {
   constructor(private actions$: Actions, private http: HttpClient) {}
 
-  private API_URL_BASE = API_URL_MARRIAGE;
+  private API_URL_BASE = `${environment.API_URL}/Marriage`;
 
   getMarriages = createEffect(() =>
     this.actions$.pipe(

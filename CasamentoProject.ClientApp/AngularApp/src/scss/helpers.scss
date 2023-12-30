@@ -1,3 +1,5 @@
+@import "./variables";
+
 .container {
   max-width: 120rem;
   padding: 0 3.2rem;
@@ -24,14 +26,26 @@
 
 .grid--2--cols {
   grid-template-columns: repeat(2, 1fr);
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .grid--3--cols {
   grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .grid--4--cols {
   grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .grid--5--cols {
@@ -88,7 +102,7 @@
 }
 
 .text-primary {
-  color: var(--primary-color) !important;
+  color: var(--primary-color-darker) !important;
 }
 
 .text-primary-darker {

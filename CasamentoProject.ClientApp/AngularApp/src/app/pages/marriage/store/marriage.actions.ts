@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Marriage } from '../marriage.model';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 export const setMarriages = createAction(
   '[Marriage] Set Marriages',

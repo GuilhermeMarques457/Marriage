@@ -42,10 +42,10 @@ body {
   line-height: 1;
   font-weight: 400;
   color: $dark-color;
-  font-family: "Arial", sans-serif;
   background-color: $white-color;
   margin: 0;
-  padding-right: 0 !important;
+  padding: -10px;
+  width: 100%;
 }
 
 html,

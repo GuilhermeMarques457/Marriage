@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
-import { ErrorResponse } from '../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../shared/models/error-response.model';
 
 @Component({
   standalone: true,

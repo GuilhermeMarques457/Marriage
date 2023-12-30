@@ -38,7 +38,7 @@
 
       <mat-divider></mat-divider>
       <div class="button-logout-box">
-        <button mat-button class="button-logout">
+        <button mat-button class="button-logout" (click)="onLogout()">
           <mat-icon>logout</mat-icon>Sair
         </button>
       </div>
@@ -60,9 +60,10 @@
         <mat-slide-toggle class="toggle-theme-button" (click)="changeTheme()">
         </mat-slide-toggle>
       </mat-toolbar-row>
-      <mat-toolbar-row class="toolbar-submenu-top">
+      <mat-toolbar-row class="toolbar-submenu-top" *ngIf="currentMenuItem">
         <h1 class="page-title">
-          {{ pageTitle }} <mat-icon>{{ pageIcon }}</mat-icon>
+          {{ currentMenuItem.label }}
+          <mat-icon>{{ currentMenuItem.icon }}</mat-icon>
         </h1>
       </mat-toolbar-row>
     </mat-toolbar>

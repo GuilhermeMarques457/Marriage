@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { UserSignUp } from '../models/user.signUp.model';
 import { HttpClient } from '@angular/common/http';
@@ -8,8 +8,8 @@ import { UserAuthenticated } from '../models/user.authenticated.model';
 import { UserLogin } from '../models/user.login.model';
 import { Router } from '@angular/router';
 import { AuthTimeoutService } from '../auth-timeout.service';
-import { API_URL_AUTH } from '../../../shared/utils/api_urls';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
+import { environment } from '../../../../environments/environment.development';
 
 const handleAuthentication = (resData: UserAuthenticated) => {
   localStorage.setItem('userData', JSON.stringify(resData));
@@ -54,15 +54,16 @@ export class AuthEffects {
     private authTimeoutService: AuthTimeoutService
   ) {}
 
-  private API_BASE_URL = API_URL_AUTH;
+  private API_URL_BASE = `${environment.API_URL}/Account`;
 
   authSignUp = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUp),
       switchMap((signUpActions: { user: UserSignUp }) => {
+        console.log(this.API_URL_BASE);
         return this.http
           .post<UserAuthenticated>(
-            `${this.API_BASE_URL}/Register`,
+            `${this.API_URL_BASE}/Register`,
             signUpActions.user
           )
           .pipe(
@@ -128,7 +129,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap((authData: { user: UserLogin }) => {
         return this.http
-          .post<UserAuthenticated>(`${this.API_BASE_URL}/Login`, authData.user)
+          .post<UserAuthenticated>(`${this.API_URL_BASE}/Login`, authData.user)
           .pipe(
             map((resData) => handleAuthentication(resData)),
             catchError((err) => handleError(err))

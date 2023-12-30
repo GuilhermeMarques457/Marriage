@@ -79,8 +79,31 @@ mat-error {
 }
 
 .btn-crazy-gradient {
-  background: $crazy-gradient;
+  position: relative;
+  background-color: transparent;
   color: $white-color;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+.btn-crazy-gradient::after {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  content: "";
+  width: 140%;
+  height: 120%;
+  background: $crazy-gradient;
+  transition: 0.8s all;
+}
+
+.btn-crazy-gradient:hover::after {
+  transform: translateX(-20%);
+}
+
+.btn-crazy-gradient:hover {
+  box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.03);
+  transform: translateY(-0.3rem);
 }
 
 .btn-crazy-gradient:disabled {
@@ -93,7 +116,6 @@ mat-error {
   transform: translateY(-0rem);
 }
 
-.btn-crazy-gradient:hover {
-  box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.03);
-  transform: translateY(-0.3rem);
+.btn-crazy-gradient:disabled:hover::after {
+  display: none;
 }

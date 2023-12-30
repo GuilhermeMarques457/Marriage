@@ -11,7 +11,7 @@ import {
   signUp,
 } from './auth.actions';
 import { UserAuthenticated } from '../models/user.authenticated.model';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 export interface State {
   userAuthenticated: UserAuthenticated | null;

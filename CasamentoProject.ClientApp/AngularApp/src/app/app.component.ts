@@ -8,7 +8,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { AppState } from './store/app.reducer';
-import { autoLogin } from './pages/auth/store/auth.actions';
+import { autoLogin, logout } from './pages/auth/store/auth.actions';
 import { Store } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/auth/login/login.component';
@@ -54,8 +54,7 @@ export class AppComponent {
   userAuthenticated: UserAuthenticated = null;
   formattedTimeToLogout: string = null;
   title = 'AngularApp';
-  pageTitle = '';
-  pageIcon = '';
+  currentMenuItem;
 
   menuItems = [
     {
@@ -106,13 +105,11 @@ export class AppComponent {
         map((event) => event as NavigationEnd)
       )
       .subscribe(() => {
-        const currentMenuItem = this.menuItems.find(
+        this.currentMenuItem = this.menuItems.find(
           (r) =>
             r.link.replace('/', '') ==
             this.route.firstChild?.snapshot.routeConfig?.path
         );
-        this.pageTitle = currentMenuItem.label;
-        this.pageIcon = currentMenuItem.icon;
       });
   }
 
@@ -132,6 +129,10 @@ export class AppComponent {
     );
 
     this.setIntervalToLogout(secondsLogout);
+  }
+
+  onLogout() {
+    this.store.dispatch(logout());
   }
 
   setIntervalToLogout(secondsLogout) {

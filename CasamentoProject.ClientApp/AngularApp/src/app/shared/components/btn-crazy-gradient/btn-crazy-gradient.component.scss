@@ -1,0 +1,57 @@
+@import "../../../../scss/variables";
+
+.btn-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  border-radius: 340px;
+  padding: 1.8rem 4.8rem;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.btn-crazy-gradient {
+  position: relative;
+  background-color: transparent;
+  color: $white-color;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+.btn-crazy-gradient::after {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  content: "";
+  width: 140%;
+  height: 120%;
+  background: $crazy-gradient;
+  transition: 0.8s all;
+}
+
+.btn-crazy-gradient:hover {
+  box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.03);
+  transform: translateY(-0.3rem);
+}
+
+.btn-crazy-gradient:hover::after {
+  transform: translateX(-20%);
+}
+
+.btn-crazy-gradient:disabled {
+  background-color: $primary-color;
+}
+
+.btn-crazy-gradient:disabled::after {
+  transition: 0s all !important;
+  background: $primary-color;
+}
+
+.btn-crazy-gradient:disabled:hover {
+  transform: translateY(0rem);
+}

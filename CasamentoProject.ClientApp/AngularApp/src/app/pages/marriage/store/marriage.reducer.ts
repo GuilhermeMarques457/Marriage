@@ -11,7 +11,7 @@ import {
   updateMarriage,
 } from './marriage.actions';
 import { Marriage } from '../marriage.model';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 export interface State {
   Marriages: Marriage[];

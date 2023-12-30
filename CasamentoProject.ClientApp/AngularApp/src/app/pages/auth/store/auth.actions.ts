@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { UserSignUp } from '../models/user.signUp.model';
 import { UserLogin } from '../models/user.login.model';
 import { UserAuthenticated } from '../models/user.authenticated.model';
-import { ErrorResponse } from '../../../shared/utils/error-response.model';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 export const authenticateSucess = createAction(
   '[Auth] AuthenticateSucess',
