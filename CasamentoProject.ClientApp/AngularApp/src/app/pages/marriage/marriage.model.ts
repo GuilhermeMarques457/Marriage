@@ -5,7 +5,9 @@ export class Marriage {
   public HourOfMarriage: string;
   public MoneyRaised: number;
   public MoneyExpected: number;
-  public Local: string;
+  public Street: string;
+  public Neighborhood: string;
+  public NumberAddress: number;
   public Fiances: [];
   public Gifts: [];
   public GuestsPlusFamily: [];
@@ -15,12 +17,16 @@ export class Marriage {
     dateOfMarriage: Date,
     hourOfMarriage: string,
     moneyExpected: number,
-    local: string,
+    street: string,
+    neighborhood: string,
+    numberAddress: number,
     id?: string
   ) {
     this.Id = id || null; // Set a default value if id is not provided
     this.DateOfMarriage = dateOfMarriage;
-    this.Local = local;
+    this.Street = street;
+    this.Neighborhood = neighborhood;
+    this.NumberAddress = numberAddress;
     this.HourOfMarriage = hourOfMarriage;
     this.MoneyExpected = moneyExpected;
     this.PhotoOfCouplePath = photoOfCouplePath;

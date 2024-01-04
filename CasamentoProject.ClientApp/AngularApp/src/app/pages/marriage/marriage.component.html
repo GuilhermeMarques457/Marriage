@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-inputs-box grid grid--2--cols gap-bg">
-      <div class="input-file-box grid grid--2--cols">
+      <div class="input-file-box h-100 grid grid--2--cols">
         <input
           type="file"
           formControlName="photo"
@@ -54,32 +54,38 @@
           />
         </div>
       </div>
-      <div class="input-info-box">
+      <div class="input-info-box h-100">
         <h2 class="form-heading-info">Informações para os convidados</h2>
-        <app-input-field
-          [label]="'Data do Casamento'"
-          [form]="marriageForm"
-          [inputErrors]="dateErrors"
-          [formControlName]="'date'"
-          [placeholder]="'12/03/2006'"
-          [icon]="'date'"
-        ></app-input-field>
-        <app-input-field
-          [label]="'Hora do Casamento'"
-          [form]="marriageForm"
-          [inputErrors]="hourErrors"
-          [formControlName]="'hour'"
-          [placeholder]="'18:00'"
-          [icon]="'clock'"
-        ></app-input-field>
-        <app-input-field
-          [label]="'Local do Casamento'"
-          [form]="marriageForm"
-          [inputErrors]="localErrors"
-          [formControlName]="'local'"
-          [placeholder]="'Rua Antonio Buzzeto, Vila Cicma, 457'"
-          [icon]="'local'"
-        ></app-input-field>
+        <div class="form-input-box">
+          <app-date-picker [form]="marriageForm"></app-date-picker>
+
+          <div class="flex gap-sm">
+            <app-input-field
+              [label]="'Rua'"
+              [form]="marriageForm"
+              [inputErrors]="streetErrors"
+              [formControlName]="'street'"
+              [placeholder]="'Antonio Buzzeto'"
+              [icon]="'church'"
+            ></app-input-field>
+            <app-input-field
+              [label]="'Bairro'"
+              [form]="marriageForm"
+              [inputErrors]="neighborhoodErrors"
+              [formControlName]="'neighborhood'"
+              [placeholder]="'Vila Cicma'"
+              [icon]="'pin_drop'"
+            ></app-input-field>
+            <app-input-field
+              [label]="'Numero do Endereço'"
+              [form]="marriageForm"
+              [inputErrors]="numberAddressErrors"
+              [formControlName]="'numberAddress'"
+              [placeholder]="'457'"
+              [icon]="'home'"
+            ></app-input-field>
+          </div>
+        </div>
       </div>
     </div>
   </form>

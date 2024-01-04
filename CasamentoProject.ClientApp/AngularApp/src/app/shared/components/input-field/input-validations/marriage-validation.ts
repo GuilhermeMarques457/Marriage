@@ -9,7 +9,15 @@ export class MarriageErrors {
 
   static hourErrors = [new InputError('Horário é obrigatório', 'required')];
 
-  static localErrors = [
-    new InputError('Local do casamento é obrigatório', 'required'),
+  static neighborhoodErrors = [
+    new InputError('Bairro do casamento é obrigatório', 'required'),
+  ];
+
+  static streetErrors = [
+    new InputError('Rua do casamento é obrigatório', 'required'),
+  ];
+
+  static numberAddresssErrors = [
+    new InputError('Numero de endereço do casamento é obrigatório', 'required'),
   ];
 }

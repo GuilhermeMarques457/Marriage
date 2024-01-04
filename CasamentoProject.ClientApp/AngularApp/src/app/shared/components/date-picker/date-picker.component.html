@@ -1,0 +1,23 @@
+<mat-form-field appearance="outline" [formGroup]="form">
+  <mat-label>Selecione uma data</mat-label>
+  <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" />
+  <mat-hint>DD/MM/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker
+    #picker
+    [startAt]="startDate"
+    [touchUi]="isTouchDevice"
+    color="primary"
+  ></mat-datepicker>
+  <input matInput [formControlName]="'date'" [id]="'date'" />
+</mat-form-field>
+
+<!-- <div class="input-box" [formGroup]="form">
+  <mat-form-field>
+    <input
+      matInput
+      [formControlName]="formControlName"
+      [id]="formControlName"
+    />
+  </mat-form-field>
+</div> -->

@@ -25,6 +25,7 @@ import { InputFieldComponent } from '../../shared/components/input-field/input-f
 import { MarriageErrors } from '../../shared/components/input-field/input-validations/marriage-validation';
 import { MatButtonModule } from '@angular/material/button';
 import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
+import { DatePickerComponent } from '../../shared/components/date-picker/date-picker.component';
 
 @Component({
   standalone: true,
@@ -42,6 +43,7 @@ import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gra
     InputFieldComponent,
     MatButtonModule,
     BtnCrazyGradientComponent,
+    DatePickerComponent,
   ],
 })
 export class MarriageComponent {
@@ -58,23 +60,23 @@ export class MarriageComponent {
     this.marriageForm = new FormGroup({
       photo: new FormControl(null),
       date: new FormControl(null, [Validators.required]),
-      hour: new FormControl(null, [Validators.required]),
       moneyExpected: new FormControl(null),
-      local: new FormControl(null, [Validators.required]),
+      street: new FormControl(null, [Validators.required]),
+      neighborhood: new FormControl(null, [Validators.required]),
+      numberAddress: new FormControl(null, [Validators.required]),
     });
   }
 
   photoErrors = MarriageErrors.photoErrors;
-  dateErrors = MarriageErrors.dateErrors;
-  hourErrors = MarriageErrors.hourErrors;
-  localErrors = MarriageErrors.localErrors;
+  streetErrors = MarriageErrors.streetErrors;
+  neighborhoodErrors = MarriageErrors.neighborhoodErrors;
+  numberAddressErrors = MarriageErrors.numberAddresssErrors;
 
   onGetMarriages() {
     this.store.dispatch(getMarriages());
   }
 
   onSubmit() {
-    this.submitted = true;
     if (!this.marriageForm.valid) return;
 
     const marriage = new Marriage(
@@ -82,7 +84,9 @@ export class MarriageComponent {
       this.marriageForm.value.date,
       TransformHourToCorrectFormat.transform(this.marriageForm.value.hour),
       this.marriageForm.value.moneyExpected,
-      this.marriageForm.value.local
+      this.marriageForm.value.street,
+      this.marriageForm.value.neighborhood,
+      this.marriageForm.value.numberAddress
     );
 
     console.log(marriage);

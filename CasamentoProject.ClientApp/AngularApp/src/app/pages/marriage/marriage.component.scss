@@ -4,6 +4,12 @@
   margin-top: 3.4rem;
   padding: 4.2rem 6.2rem;
 
+  .form-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
   .form-heading {
     color: $primary-color;
     font-size: 3.2rem;
@@ -18,7 +24,6 @@
 
   .input-file-box {
     position: relative;
-    height: 40rem;
     width: 100%;
     overflow: hidden;
     align-items: center;
