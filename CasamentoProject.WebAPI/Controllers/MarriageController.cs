@@ -67,28 +67,20 @@ namespace CasamentoProject.WebAPI.Controllers
                 var isAuthenticatedAfterSignIn = User.Identity!.IsAuthenticated;
 
                 ApplicationUser? currentUser = new ApplicationUser();
-                if (User.Identity.IsAuthenticated)
+
+                if (User.Identity.IsAuthenticated == false)
+                    return Unauthorized();
+
+                var userName = User.Identity.Name;
+
+                if (userName != null)
                 {
-                    string sla = "";
-                }
-
-
-                if (User.Identity != null)
-                {
-                    var userName = User.Identity.Name;
-                    var userName2 = User.FindFirst(ClaimTypes.Name)?.Value;
-                    var userName3 = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                    if (userName != null)
-                    {
-                        currentUser = await _userManager.FindByEmailAsync(userName);
-                        marriage.CurrentUserId = currentUser!.Id;
-                    }
-
+                    currentUser = await _userManager.FindByNameAsync(userName);
+                    marriage.CurrentUserId = currentUser!.Id;
                 }
 
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
-     
+
                 return Ok(addedMarriage);
             }
             catch

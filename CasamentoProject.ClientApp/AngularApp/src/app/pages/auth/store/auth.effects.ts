@@ -154,6 +154,19 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  refreshJWTToken = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.refreshJWTToken),
+        tap((refreshJWTTokenAction) => {
+          console.log(refreshJWTTokenAction);
+          localStorage['token'] = refreshJWTTokenAction.token;
+          localStorage['refreshToken'] = refreshJWTTokenAction.refreshToken;
+        })
+      ),
+    { dispatch: false }
+  );
+
   authRedirectLogin = createEffect(
     () =>
       this.actions$.pipe(

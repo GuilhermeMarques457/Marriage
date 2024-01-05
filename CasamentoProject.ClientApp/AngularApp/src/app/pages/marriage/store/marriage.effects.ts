@@ -64,17 +64,8 @@ export class MarriageEffects {
     this.actions$.pipe(
       ofType(MarriageActions.addMarriage),
       switchMap((action) => {
-        let headers = new HttpHeaders();
-        let token = localStorage['token'];
-        console.log(token);
-        headers = headers.append('Authorization', `Bearer ${token}`);
-
         return this.http
-          .post<Marriage>(
-            `${this.API_URL_BASE}/post-marriage`,
-            action.Marriage,
-            { headers: headers }
-          )
+          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, action.Marriage)
           .pipe(
             map((Marriage: Marriage) => {
               console.log(Marriage);

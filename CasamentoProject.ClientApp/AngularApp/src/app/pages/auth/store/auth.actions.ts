@@ -30,6 +30,11 @@ export const setSignUpActive = createAction('[Auth] Set SignUp To Active');
 
 export const autoLogin = createAction('[Auth] AutoLogin');
 
+export const refreshJWTToken = createAction(
+  '[Auth] RefreshJWTToken',
+  props<{ token: string; refreshToken: string }>()
+);
+
 export const clearError = createAction('[Auth] ClearError');
 
 export const logout = createAction('[Auth] Logout');

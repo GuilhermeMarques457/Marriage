@@ -6,6 +6,7 @@ import {
   clearError,
   login,
   logout,
+  refreshJWTToken,
   setLoginActive,
   setSignUpActive,
   signUp,
@@ -53,6 +54,12 @@ export const authReducer = createReducer(
       ...state,
       userAuthenticated: null,
       authError: action.error,
+      loading: false,
+    };
+  }),
+  on(refreshJWTToken, (state, action) => {
+    return {
+      ...state,
       loading: false,
     };
   }),
