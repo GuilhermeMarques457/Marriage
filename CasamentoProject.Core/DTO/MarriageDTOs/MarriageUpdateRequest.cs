@@ -17,11 +17,12 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
             {
                 Id = Id,
                 PhotoOfCouplePath = PhotoOfCouplePath,
-                DateOfMarriage = DateOfMarriage,
-                HourOfMarriage = HourOfMarriage,
+                Date = Date,
                 MoneyRaised = MoneyRaised,
                 MoneyExpected = MoneyExpected,
-                Local = Local,
+                Neighborhood = Neighborhood,
+                Street = Street,
+                NumberAddress = NumberAddress,
                 CurrentUserId = CurrentUserId,
             };
         }

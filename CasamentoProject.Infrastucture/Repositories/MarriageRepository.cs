@@ -4,6 +4,7 @@ using CasamentoProject.Infrastucture.DbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,10 +63,11 @@ namespace CasamentoProject.Infrastucture.Repositories
 
             if (matchingMarriage == null) return matchingMarriage;
 
-            matchingMarriage.HourOfMarriage = Marriage.HourOfMarriage;
-            matchingMarriage.DateOfMarriage = Marriage.DateOfMarriage;
+            matchingMarriage.Date = Marriage.Date;
             matchingMarriage.PhotoOfCouplePath = Marriage.PhotoOfCouplePath;
-            matchingMarriage.Local = Marriage.Local;
+            matchingMarriage.Neighborhood = Marriage.Neighborhood;
+            matchingMarriage.Street = Marriage.Street;
+            matchingMarriage.NumberAddress = Marriage.NumberAddress;
             matchingMarriage.MoneyExpected = Marriage.MoneyExpected;
             matchingMarriage.MoneyRaised = Marriage.MoneyRaised;
 

@@ -1,7 +1,10 @@
 ﻿
 using CasamentoProject.Core.DTO.MarriageDTOs;
+using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net.Http;
@@ -17,17 +20,15 @@ namespace CasamentoProject.WebAPI.Controllers
         private IMarriageDeleterService _marriageDeleterService;
         private IMarriageUpdaterService _marriageUpdaterService;
         private IMarriageGetterService _marriageGetterService;
-        public MarriageController(
-            IMarriageAdderService marriageAdderService,
-            IMarriageDeleterService marriageDeleterService,
-            IMarriageUpdaterService marriageUpdaterService,
-            IMarriageGetterService marriageGetterService
-        )
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public MarriageController(IMarriageAdderService marriageAdderService, IMarriageDeleterService marriageDeleterService, IMarriageUpdaterService marriageUpdaterService, IMarriageGetterService marriageGetterService, UserManager<ApplicationUser> userManager)
         {
             _marriageAdderService = marriageAdderService;
             _marriageDeleterService = marriageDeleterService;
             _marriageUpdaterService = marriageUpdaterService;
             _marriageGetterService = marriageGetterService;
+            _userManager = userManager;
         }
 
         [HttpGet("get-marriages")]
@@ -63,11 +64,31 @@ namespace CasamentoProject.WebAPI.Controllers
         [HttpPost("post-marriage")]
         public async Task<ActionResult<MarriageResponse>> PostMarriage([FromBody] MarriageAddRequest marriage)
         {
-            var httpContext = HttpContext;
             try
             {
-                marriage.CurrentUserId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
- 
+                var isAuthenticatedAfterSignIn = User.Identity!.IsAuthenticated;
+
+                ApplicationUser? currentUser = new ApplicationUser();
+                if (User.Identity.IsAuthenticated)
+                {
+                    string sla = "";
+                }
+
+
+                if (User.Identity != null)
+                {
+                    var userName = User.Identity.Name;
+                    var userName2 = User.FindFirst(ClaimTypes.Name)?.Value;
+                    var userName3 = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    if (userName != null)
+                    {
+                        currentUser = await _userManager.FindByEmailAsync(userName);
+                        marriage.CurrentUserId = currentUser!.Id;
+                    }
+
+                }
+
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
      
                 return Ok(addedMarriage);

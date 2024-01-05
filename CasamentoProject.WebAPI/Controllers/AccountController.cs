@@ -44,6 +44,7 @@ namespace CasamentoProject.WebAPI.Controllers
 
             ApplicationUser? user = new ApplicationUser()
             {
+                
                 Email = registerDTO.Email,
                 PhoneNumber = registerDTO.PhoneNumber,
                 UserName = registerDTO.Email,
@@ -83,6 +84,7 @@ namespace CasamentoProject.WebAPI.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, isPersistent: false, lockoutOnFailure: false);
 
+
             if (!result.Succeeded) throw new NotFoundException(nameof(result), "Email ou senha incorretos");
 
             ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);
@@ -92,9 +94,16 @@ namespace CasamentoProject.WebAPI.Controllers
                 return NoContent();
             }
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            var isAuthenticatedBeforeSignIn = User.Identity.IsAuthenticated;
+
+            await _signInManager.SignInAsync(user, isPersistent: false);    
+
+            
+            var isAuthenticatedAfterSignIn = User.Identity.IsAuthenticated;
 
             var authenticationResponse = _jwtService.CreateJwtToken(user);
+
+
 
             user.RefreshToken = authenticationResponse.RefreshToken;
 

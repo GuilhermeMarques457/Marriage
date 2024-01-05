@@ -82,7 +82,6 @@ export class MarriageComponent {
     const marriage = new Marriage(
       this.marriageForm.value.photo,
       this.marriageForm.value.date,
-      TransformHourToCorrectFormat.transform(this.marriageForm.value.hour),
       this.marriageForm.value.moneyExpected,
       this.marriageForm.value.street,
       this.marriageForm.value.neighborhood,

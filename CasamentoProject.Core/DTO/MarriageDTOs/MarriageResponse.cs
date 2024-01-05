@@ -1,6 +1,7 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,12 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
             {
                 Id = Id,
                 PhotoOfCouplePath = PhotoOfCouplePath,
-                DateOfMarriage = DateOfMarriage,
-                HourOfMarriage = HourOfMarriage,
+                Date = Date,
                 MoneyRaised = MoneyRaised,
                 MoneyExpected = MoneyExpected,
-                Local = Local,
+                Neighborhood = Neighborhood,
+                Street = Street,
+                NumberAddress = NumberAddress,
                 CurrentUserId = CurrentUserId,
             };
         }
@@ -33,11 +35,12 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
             {
                 Id = Id,
                 PhotoOfCouplePath = PhotoOfCouplePath,
-                DateOfMarriage = DateOfMarriage,
-                HourOfMarriage = HourOfMarriage,
+                Date = Date,
                 MoneyRaised = MoneyRaised,
                 MoneyExpected = MoneyExpected,
-                Local = Local,
+                Neighborhood = Neighborhood,
+                Street = Street,
+                NumberAddress = NumberAddress,
                 CurrentUserId = CurrentUserId,
             };
         }
@@ -52,13 +55,12 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
             {
                 Id = Marriage.Id,
                 PhotoOfCouplePath = Marriage.PhotoOfCouplePath,
-                DateOfMarriage = Marriage.DateOfMarriage,
-                HourOfMarriage = Marriage.HourOfMarriage,
+                Date = Marriage.Date,
                 MoneyRaised = Marriage.MoneyRaised,
                 MoneyExpected = Marriage.MoneyExpected,
-                Local = Marriage.Local,
-                Fiances = Marriage.Fiances,
-                Gifts = Marriage.Gifts,
+                Neighborhood = Marriage.Neighborhood,
+                Street = Marriage.Street,
+                NumberAddress = Marriage.NumberAddress,
                 GuestsPlusFamily = Marriage.GuestsPlusFamily,
             };
         }

@@ -40,6 +40,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 })
 export class DatePickerComponent implements ControlValueAccessor {
   @Input() form: FormGroup;
+  today = new Date();
 
   onChange: any = () => {};
   onTouch: any = () => {};
@@ -54,10 +55,11 @@ export class DatePickerComponent implements ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {}
 
   ngOnInit(): void {}
-
-  public startDate = moment([2023, 10, 30]);
-  public minDate = moment([2022, 10, 30]);
-  public maxDate = moment([2024, 10, 30]);
+  public minDate = moment([
+    this.today.getFullYear(),
+    this.today.getMonth(),
+    this.today.getDay(),
+  ]);
 
   constructor(private platform: Platform) {}
 

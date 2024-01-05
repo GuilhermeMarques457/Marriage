@@ -57,9 +57,8 @@
       <div class="input-info-box h-100">
         <h2 class="form-heading-info">Informações para os convidados</h2>
         <div class="form-input-box">
-          <app-date-picker [form]="marriageForm"></app-date-picker>
-
-          <div class="flex gap-sm">
+          <div class="grid grid--2--cols gap-md">
+            <app-date-picker [form]="marriageForm"></app-date-picker>
             <app-input-field
               [label]="'Rua'"
               [form]="marriageForm"
@@ -68,6 +67,8 @@
               [placeholder]="'Antonio Buzzeto'"
               [icon]="'church'"
             ></app-input-field>
+          </div>
+          <div class="grid grid--2--cols gap-md">
             <app-input-field
               [label]="'Bairro'"
               [form]="marriageForm"

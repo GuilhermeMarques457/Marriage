@@ -1,8 +1,7 @@
 export class Marriage {
   public Id: string | null;
   public PhotoOfCouplePath: string;
-  public DateOfMarriage: Date;
-  public HourOfMarriage: string;
+  public Date: Date;
   public MoneyRaised: number;
   public MoneyExpected: number;
   public Street: string;
@@ -14,8 +13,7 @@ export class Marriage {
 
   constructor(
     photoOfCouplePath: string,
-    dateOfMarriage: Date,
-    hourOfMarriage: string,
+    date: Date,
     moneyExpected: number,
     street: string,
     neighborhood: string,
@@ -23,11 +21,10 @@ export class Marriage {
     id?: string
   ) {
     this.Id = id || null; // Set a default value if id is not provided
-    this.DateOfMarriage = dateOfMarriage;
+    this.Date = date;
     this.Street = street;
     this.Neighborhood = neighborhood;
     this.NumberAddress = numberAddress;
-    this.HourOfMarriage = hourOfMarriage;
     this.MoneyExpected = moneyExpected;
     this.PhotoOfCouplePath = photoOfCouplePath;
 

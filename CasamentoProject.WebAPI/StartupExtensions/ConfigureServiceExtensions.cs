@@ -112,7 +112,6 @@ namespace CasamentoProject.WebAPI.StartupExtensions
 
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -123,11 +122,11 @@ namespace CasamentoProject.WebAPI.StartupExtensions
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
                 };
             });
 
-            services.AddAuthorization(options => {});
+            services.AddAuthorization();
 
             return services;
         }
