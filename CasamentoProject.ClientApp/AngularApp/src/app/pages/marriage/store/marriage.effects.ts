@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Marriage } from '../marriage.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
@@ -60,20 +60,29 @@ export class MarriageEffects {
     )
   );
 
-  addMarriage = createEffect(() =>
+  postMarriage = createEffect(() =>
     this.actions$.pipe(
       ofType(MarriageActions.addMarriage),
-      switchMap((action) =>
-        this.http
-          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, action.Marriage)
+      switchMap((action) => {
+        let headers = new HttpHeaders();
+        let token = localStorage['token'];
+        console.log(token);
+        headers = headers.append('Authorization', `Bearer ${token}`);
+
+        return this.http
+          .post<Marriage>(
+            `${this.API_URL_BASE}/post-marriage`,
+            action.Marriage,
+            { headers: headers }
+          )
           .pipe(
             map((Marriage: Marriage) => {
               console.log(Marriage);
               return setMarriage({ Marriage: Marriage });
             }),
             catchError((err) => handleError(err))
-          )
-      )
+          );
+      })
     )
   );
 

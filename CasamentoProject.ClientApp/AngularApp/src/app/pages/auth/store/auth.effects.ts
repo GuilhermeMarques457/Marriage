@@ -86,6 +86,7 @@ export class AuthEffects {
         const userData: {
           email: string;
           personName: string;
+          token: string;
           expiration: Date;
           refreshToken: string;
           refreshTokenExpirationDateTime: Date;
@@ -102,6 +103,7 @@ export class AuthEffects {
         const loadedUser = new UserAuthenticated(
           userData.email,
           userData.personName,
+          userData.token,
           new Date(userData.expiration),
           userData.refreshToken,
           new Date(userData.refreshTokenExpirationDateTime)
@@ -143,6 +145,9 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticateSucess),
         tap((authSuccessAction) => {
+          console.log(authSuccessAction);
+          localStorage['token'] = authSuccessAction.user.token;
+          localStorage['refreshToken'] = authSuccessAction.user.refreshToken;
           if (authSuccessAction.redirect) this.router.navigate(['/casamento']);
         })
       ),

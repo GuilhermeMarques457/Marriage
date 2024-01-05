@@ -105,7 +105,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
                 .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
@@ -126,7 +127,7 @@ namespace CasamentoProject.WebAPI.StartupExtensions
                 };
             });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options => {});
 
             return services;
         }

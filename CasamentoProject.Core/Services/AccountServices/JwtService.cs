@@ -39,13 +39,16 @@ namespace CasamentoProject.Core.Services.AccountServices
                  new Claim(ClaimTypes.Email, user.Email!)
             };
 
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            string key = _configuration["Jwt:Key"]!;
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            string issuer = _configuration["Jwt:Issuer"]!;
+            string audience = _configuration["Jwt:Audience"]!;
             JwtSecurityToken tokenGenerator = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
+                issuer,
+                audience,
                 claims,
                 expires: expiration,
                 signingCredentials: signingCredentials

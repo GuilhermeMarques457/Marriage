@@ -12,9 +12,7 @@ using System.Security.Claims;
 
 namespace CasamentoProject.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MarriageController : ControllerBase
+    public class MarriageController : BaseAPIController
     {
         private IMarriageAdderService _marriageAdderService;
         private IMarriageDeleterService _marriageDeleterService;

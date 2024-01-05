@@ -10,8 +10,7 @@ using System.Security.Claims;
 namespace CasamentoProject.WebAPI.Controllers
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class AccountController : BaseAPIController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;

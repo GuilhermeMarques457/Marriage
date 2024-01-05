@@ -7,9 +7,7 @@ using System.Linq;
 
 namespace CasamentoProject.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FamilyMemberController : ControllerBase
+    public class FamilyMemberController : BaseAPIController
     {
         private IFamilyMemberAdderService _FamilyMemberAdderService;
         private IFamilyMemberDeleterService _FamilyMemberDeleterService;
