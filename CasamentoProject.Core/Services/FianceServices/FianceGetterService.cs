@@ -2,7 +2,7 @@
 using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.DTO.FianceDTOs;
 using CasamentoProject.Core.ServiceContracts.FianceContracts;
-using CasamentoProject.Core.Utils;
+using CasamentoProject.Core.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;

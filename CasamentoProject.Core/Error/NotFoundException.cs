@@ -1,4 +1,4 @@
-﻿namespace CasamentoProject.Core.Utils
+﻿namespace CasamentoProject.Core.Error
 {
     public class NotFoundException : Exception
     {

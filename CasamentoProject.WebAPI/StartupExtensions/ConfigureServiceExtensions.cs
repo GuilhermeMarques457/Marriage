@@ -1,4 +1,5 @@
-﻿using CasamentoProject.Core.Domain.RepositoryContracts;
+﻿using API.Errors;
+using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.AccountContracts;
 using CasamentoProject.Core.ServiceContracts.FamilyMemberContracts;
@@ -79,6 +80,27 @@ namespace CasamentoProject.WebAPI.StartupExtensions
             services.AddScoped<IFianceRepository, FianceRepository>();
 
             services.AddTransient<IJwtService, JwtService>();
+
+            // Overriding ApiController behavior to model state 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState
+                        .Where(e => e.Value!.Errors.Count() > 0)
+                        .SelectMany(e => e.Value!.Errors)
+                        .Select(e => e.ErrorMessage).ToArray();
+
+                    var errorResponse = new ValidationErrorResponse
+                    {
+                        Errors = errors,
+                        Message = "Erro de Validação",
+                        Details = "Alguns campos precisam ser reverificados, tente novamente por favor"
+                    };
+
+                    return new BadRequestObjectResult(errorResponse);
+                };
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {

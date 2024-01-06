@@ -1,7 +1,7 @@
 ﻿using CasamentoProject.Core.DTO.AccountDTOs;
+using CasamentoProject.Core.Error;
 using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.AccountContracts;
-using CasamentoProject.Core.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,15 +32,6 @@ namespace CasamentoProject.WebAPI.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ResponseUser>> PostRegister([FromBody]RegisterDTO registerDTO)
         {
-            if (!ModelState.IsValid)
-            {
-                string errorMessageRegister = string.Join(" , ",
-                    ModelState.Values.SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage));
-
-                return Problem(errorMessageRegister);
-            }
-
             ApplicationUser? user = new ApplicationUser()
             {
                 
@@ -72,15 +63,6 @@ namespace CasamentoProject.WebAPI.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<ResponseUser>> PostLogin([FromBody]LoginDTO login)
         {
-            if (!ModelState.IsValid)
-            {
-                string errorMessageLogin = string.Join(" , ",
-                    ModelState.Values.SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage));
-
-                return Problem(errorMessageLogin);
-            }
-
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, isPersistent: false, lockoutOnFailure: false);
 
 

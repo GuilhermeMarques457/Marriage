@@ -1,13 +1,8 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
 using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.DTO.MarriageDTOs;
+using CasamentoProject.Core.Error;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
-using CasamentoProject.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasamentoProject.Core.ServiceContracts.MarriageServices
 {

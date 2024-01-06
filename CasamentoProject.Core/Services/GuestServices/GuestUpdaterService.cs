@@ -1,8 +1,8 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
 using CasamentoProject.Core.Domain.RepositoryContracts;
 using CasamentoProject.Core.DTO.GuestDTOs;
+using CasamentoProject.Core.Error;
 using CasamentoProject.Core.ServiceContracts.GuestContracts;
-using CasamentoProject.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

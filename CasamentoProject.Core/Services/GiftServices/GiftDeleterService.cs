@@ -1,7 +1,7 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
 using CasamentoProject.Core.Domain.RepositoryContracts;
+using CasamentoProject.Core.Error;
 using CasamentoProject.Core.ServiceContracts.GiftContracts;
-using CasamentoProject.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

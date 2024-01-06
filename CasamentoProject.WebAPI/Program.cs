@@ -7,6 +7,8 @@ builder.Services.ConfigureServices(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHsts();
 app.UseHttpsRedirection();
@@ -17,8 +19,6 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 
