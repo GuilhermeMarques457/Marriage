@@ -31,7 +31,7 @@
       </a>
     </mat-nav-list>
 
-    <div class="logout-box" *ngIf="userAuthenticated">
+    <div class="logout-box" *ngIf="formattedTimeToLogout">
       <p class="mg-bt-sm time-left">
         Tempo antes de logout automatico: {{ formattedTimeToLogout }}
       </p>

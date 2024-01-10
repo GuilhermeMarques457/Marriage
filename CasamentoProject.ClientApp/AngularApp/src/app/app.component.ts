@@ -1,4 +1,9 @@
-import { Component, EventEmitter, HostBinding } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostBinding,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActivatedRoute,
@@ -22,8 +27,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { selectAuthUserAuthenticated } from './pages/auth/store/auth.selector';
-import { Subscription, filter, map } from 'rxjs';
+import { Subscription, filter, map, take } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
+import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
 
 @Component({
   selector: 'app-root',
@@ -84,19 +90,16 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authTimeoutService: AuthTimeoutService
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
-    this.userAuthenticatedSubs$ = this.store
-      .select(selectAuthUserAuthenticated)
-      .subscribe((user) => {
-        if (user) {
-          this.userAuthenticated = user;
-          this.timeOutToLogout(user.refreshTokenExpirationDateTime);
-        }
-      });
+
+    this.authTimeoutService.formattedTimeToLogout.subscribe((sec) => {
+      this.formattedTimeToLogout = sec;
+    });
 
     // Take Page title
     this.router.events
@@ -117,39 +120,11 @@ export class AppComponent {
     return this.isDark ? 'theme-dark' : 'theme-light';
   }
 
-  timeOutToLogout(userExpirationDateTime) {
-    const expirationTimestamp: number = new Date(
-      userExpirationDateTime
-    ).getTime();
-
-    const currentTime: number = new Date().getTime();
-
-    const secondsLogout = Math.floor(
-      (expirationTimestamp - currentTime) / 1000
-    );
-
-    this.setIntervalToLogout(secondsLogout);
-  }
-
   onLogout() {
     this.store.dispatch(logout());
   }
 
-  setIntervalToLogout(secondsLogout) {
-    let secondsLog = secondsLogout;
-    setInterval(() => {
-      secondsLog--;
-      const minutes = Math.floor(secondsLog / 60);
-      const seconds = secondsLog % 60;
-
-      this.formattedTimeToLogout = `${minutes}min ${seconds}s`;
-
-      if (secondsLog === 0) this.formattedTimeToLogout = null;
-    }, 1000);
-  }
-
   changeTheme() {
     this.isDark = !this.isDark;
-    console.log(this.isDark);
   }
 }

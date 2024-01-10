@@ -121,7 +121,7 @@ namespace CasamentoProject.WebAPI.Controllers
         {
             if (tokenModel == null)
             {
-                return BadRequest("Invalid client request");
+                return BadRequest(new ErrorResponse(400, "Recurso não enviado", "O token de verificação não foi enviado corretamente"));
             }
 
             ClaimsPrincipal? principal = _jwtService.GetPrincipalFromJwtToken(tokenModel.Token);

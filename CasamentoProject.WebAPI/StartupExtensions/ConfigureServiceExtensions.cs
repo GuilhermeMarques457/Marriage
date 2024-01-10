@@ -104,8 +104,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                //string connectionString = configuration.GetConnectionString("Default")!;
-                string connectionString = configuration.GetConnectionString("AzureDefaultConnection")!;
+                string connectionString = configuration.GetConnectionString("Default")!;
+                //string connectionString = configuration.GetConnectionString("AzureDefaultConnection")!;
                 options
                     .UseSqlServer(connectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -116,8 +116,10 @@ namespace CasamentoProject.WebAPI.StartupExtensions
                 options.AddDefaultPolicy(config =>
                 {
                     config.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>()!)
+                        .AllowAnyHeader()
                         .WithHeaders("Authorization", "origin", "accept", "content-type")
-                        .WithMethods("GET", "POST", "PUT", "DELETE");
+                        .WithMethods("GET", "POST", "PUT", "DELETE")
+                        .WithExposedHeaders("x-skip-interceptor");
                 });
             });
 

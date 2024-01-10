@@ -32,6 +32,7 @@ export const authReducer = createReducer(
   initialState,
   on(authenticateSucess, (state, action) => {
     const user = action.user;
+    console.log(action.user);
     return {
       ...state,
       authError: null,
@@ -40,7 +41,6 @@ export const authReducer = createReducer(
     };
   }),
   on(clearError, (state, action) => {
-    console.log(console.log(state));
     return { ...state, authError: null };
   }),
   on(login, (state, action) => {
@@ -60,7 +60,7 @@ export const authReducer = createReducer(
   on(refreshJWTToken, (state, action) => {
     return {
       ...state,
-      loading: false,
+      loading: true,
     };
   }),
   on(setSignUpActive, (state, action) => {

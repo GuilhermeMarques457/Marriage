@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { UserSignUp } from '../models/user.signUp.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserAuthenticated } from '../models/user.authenticated.model';
 import { UserLogin } from '../models/user.login.model';
 import { Router } from '@angular/router';
@@ -27,12 +27,6 @@ const handleError = (err: ErrorResponse, signUpError = false) => {
   if (!err.error) return of(AuthActions.authenticateFail({ error: error }));
 
   if (err.error.Details) {
-    // case 'Invalid email or password':
-    //   error.error.Details = 'Email ou senha inválidos';
-    //   error.error.Message =
-    //     'Não foi possivel encontrar um usuario com email e senha especificados';
-    //   error.error.StatusCode = '404';
-    //   break;
     error = err;
   }
 
@@ -115,8 +109,6 @@ export class AuthEffects {
           new Date(userData.refreshTokenExpirationDateTime).getTime() -
           new Date().getTime();
 
-        this.authTimeoutService.setLogoutTimer(expirationDuration);
-
         return AuthActions.authenticateSucess({
           user: loadedUser,
           redirect: false,
@@ -140,12 +132,23 @@ export class AuthEffects {
     )
   );
 
+  authLogout = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          localStorage.clear();
+          this.authTimeoutService.clearLogoutTimer();
+        })
+      ),
+    { dispatch: false }
+  );
+
   authSuccess = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.authenticateSucess),
         tap((authSuccessAction) => {
-          console.log(authSuccessAction);
           localStorage['token'] = authSuccessAction.user.token;
           localStorage['refreshToken'] = authSuccessAction.user.refreshToken;
           if (authSuccessAction.redirect) this.router.navigate(['/casamento']);
@@ -154,17 +157,33 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  refreshJWTToken = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.refreshJWTToken),
-        tap((refreshJWTTokenAction) => {
-          console.log(refreshJWTTokenAction);
-          localStorage['token'] = refreshJWTTokenAction.token;
-          localStorage['refreshToken'] = refreshJWTTokenAction.refreshToken;
-        })
-      ),
-    { dispatch: false }
+  refreshJWTToken = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.refreshJWTToken),
+      switchMap((tokenData: { token: string; refreshToken: string }) => {
+        return this.http
+          .post<UserAuthenticated>(
+            `${this.API_URL_BASE}/generate-new-jwt-token`,
+            {
+              token: tokenData.token,
+              refreshToken: tokenData.refreshToken,
+            },
+            {
+              headers: new HttpHeaders({
+                'X-Skip-Interceptor': 'true',
+              }),
+            }
+          )
+          .pipe(
+            tap((authSuccessAction: UserAuthenticated) => {
+              localStorage['token'] = authSuccessAction.token;
+              localStorage['refreshToken'] = authSuccessAction.refreshToken;
+            }),
+            map((resData: UserAuthenticated) => handleAuthentication(resData)),
+            catchError((err: ErrorResponse) => handleError(err))
+          );
+      })
+    )
   );
 
   authRedirectLogin = createEffect(

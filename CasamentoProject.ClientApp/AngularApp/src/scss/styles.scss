@@ -51,6 +51,7 @@ body {
 html,
 body {
   height: 100%;
+  position: relative;
 }
 
 body {
@@ -59,4 +60,22 @@ body {
 
 app-root {
   height: 100%;
+}
+
+.content-route {
+  position: relative;
+  z-index: 999999;
+
+  &::after {
+    z-index: -9999999999999;
+    content: "";
+    width: 50rem;
+    height: 50rem;
+    position: absolute;
+    opacity: 0.2;
+    right: 15px;
+    top: 0;
+    border-radius: 50%;
+    background-color: $primary-color;
+  }
 }
