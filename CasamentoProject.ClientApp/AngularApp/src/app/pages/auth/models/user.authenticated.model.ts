@@ -1,5 +1,6 @@
 export class UserAuthenticated {
   constructor(
+    id: string,
     email: string,
     personName: string,
     token: string,
@@ -7,6 +8,7 @@ export class UserAuthenticated {
     refreshToken: string,
     refreshTokenExpirationDateTime: Date
   ) {
+    this.id = id;
     this.email = email;
     this.expiration = expiration;
     this.personName = personName;
@@ -15,6 +17,7 @@ export class UserAuthenticated {
     this.refreshTokenExpirationDateTime = refreshTokenExpirationDateTime;
   }
 
+  id: string;
   token: string;
   email: string;
   personName: string;

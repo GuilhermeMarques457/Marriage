@@ -45,10 +45,6 @@ export class AuthInterceptorService implements HttpInterceptor {
         const refreshToken = localStorage['refreshToken'];
         const token = localStorage['token'];
 
-        console.log('old tokens');
-        console.log(token);
-        console.log(refreshToken);
-
         return of(
           this.store.dispatch(
             refreshJWTToken({
@@ -59,13 +55,8 @@ export class AuthInterceptorService implements HttpInterceptor {
         ).pipe(
           catchError(() => of(null)),
           switchMap((data) => {
-            console.log(data);
             const newRefreshToken = localStorage['refreshToken'];
             const newToken = localStorage['token'];
-
-            console.log('new tokens');
-            console.log(newToken);
-            console.log(newRefreshToken);
 
             const modifiedRequest = req.clone({
               params: new HttpParams().set('auth', newRefreshToken),

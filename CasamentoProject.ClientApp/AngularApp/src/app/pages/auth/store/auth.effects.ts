@@ -78,6 +78,7 @@ export class AuthEffects {
         if (!userDataFromLocalStorage) return AuthActions.logout();
 
         const userData: {
+          id: string;
           email: string;
           personName: string;
           token: string;
@@ -95,6 +96,7 @@ export class AuthEffects {
         }
 
         const loadedUser = new UserAuthenticated(
+          userData.id,
           userData.email,
           userData.personName,
           userData.token,
@@ -123,7 +125,15 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap((authData: { user: UserLogin }) => {
         return this.http
-          .post<UserAuthenticated>(`${this.API_URL_BASE}/Login`, authData.user)
+          .post<UserAuthenticated>(
+            `${this.API_URL_BASE}/Login`,
+            authData.user,
+            {
+              headers: new HttpHeaders({
+                'X-Skip-Interceptor': 'true',
+              }),
+            }
+          )
           .pipe(
             map((resData) => handleAuthentication(resData)),
             catchError((err) => handleError(err))

@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import {
   addMarriage,
   clearError,
+  getMarriage,
+  getMarriageByUserId,
   getMarriages,
 } from './store/marriage.actions';
 import { CommonModule } from '@angular/common';
@@ -26,6 +28,13 @@ import { MarriageErrors } from '../../shared/components/input-field/input-valida
 import { MatButtonModule } from '@angular/material/button';
 import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 import { DatePickerComponent } from '../../shared/components/date-picker/date-picker.component';
+import {
+  selectAuthState,
+  selectAuthUserAuthenticated,
+} from '../auth/store/auth.selector';
+import { tap } from 'rxjs';
+import { UserAuthenticated } from '../auth/models/user.authenticated.model';
+import { selectCurrentMarriageState } from './store/marriage.selectors';
 
 @Component({
   standalone: true,
@@ -47,10 +56,10 @@ import { DatePickerComponent } from '../../shared/components/date-picker/date-pi
   ],
 })
 export class MarriageComponent {
-  recipes: Marriage[];
-
   photoCoupleSrc: string | ArrayBuffer | null;
   marriageForm: FormGroup;
+  currentUser: UserAuthenticated;
+  currentMarriage: Marriage;
   submitted = false;
   isLoading = false;
 
@@ -65,6 +74,26 @@ export class MarriageComponent {
       neighborhood: new FormControl(null, [Validators.required]),
       numberAddress: new FormControl(null, [Validators.required]),
     });
+
+    this.store
+      .select(selectAuthUserAuthenticated)
+      .pipe(
+        tap((userAuthenticated) => {
+          this.currentUser = userAuthenticated;
+        })
+      )
+      .subscribe();
+
+    this.store
+      .select(selectCurrentMarriageState)
+      .pipe(
+        tap((marriage) => {
+          this.currentMarriage = marriage;
+          console.log(this.currentMarriage);
+        })
+      )
+      .subscribe();
+    this.store.dispatch(getMarriageByUserId({ userId: this.currentUser.id }));
   }
 
   photoErrors = MarriageErrors.photoErrors;
@@ -77,6 +106,7 @@ export class MarriageComponent {
   }
 
   onSubmit() {
+    console.log(this.marriageForm);
     if (!this.marriageForm.valid) return;
 
     const marriage = new Marriage(

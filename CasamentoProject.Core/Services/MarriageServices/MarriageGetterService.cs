@@ -35,5 +35,18 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageServices
 
             return existingMarriage.ToMarriageResponse();
         }
+
+        public async Task<MarriageResponse?> GetMarriageByUserId(Guid? UserId)
+        {
+            if (UserId == null)
+                throw new ArgumentNullException(nameof(UserId), "Usuario não informado");
+
+            Marriage? existingMarriage = await _repository.GetMarriageByUserId(UserId);
+
+            if (existingMarriage == null)
+                throw new NotFoundException(nameof(existingMarriage), "Casamento não encontrado");
+
+            return existingMarriage.ToMarriageResponse();
+        }
     }
 }

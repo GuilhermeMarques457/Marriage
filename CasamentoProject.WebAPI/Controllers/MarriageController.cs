@@ -59,6 +59,21 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
+        [HttpGet("get-marriage-by-user-id/{userId:guid}")]
+        public async Task<ActionResult<MarriageResponse>> GetMarriageByUserId([FromRoute] Guid userId)
+        {
+            try
+            {
+                var foundMarriage = await _marriageGetterService.GetMarriageByUserId(userId);
+
+                return Ok(foundMarriage);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         [HttpPost("post-marriage")]
         public async Task<ActionResult<MarriageResponse>> PostMarriage([FromBody] MarriageAddRequest marriage)
         {

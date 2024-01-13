@@ -10,6 +10,8 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageContracts
     public interface IMarriageGetterService
     {
         Task<MarriageResponse?> GetMarriageById(Guid? MarriageId);
+        Task<MarriageResponse?> GetMarriageByUserId(Guid? MarriageId);
         Task<List<MarriageResponse>?> GetAllMarriages();
+
     }
 }

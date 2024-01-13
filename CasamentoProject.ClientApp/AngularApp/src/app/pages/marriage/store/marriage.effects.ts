@@ -60,6 +60,24 @@ export class MarriageEffects {
     )
   );
 
+  getMarriageByUserId = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MarriageActions.getMarriageByUserId),
+      switchMap((action) =>
+        this.http
+          .get<Marriage>(
+            `${this.API_URL_BASE}/get-marriage-by-user-id/${action.userId}`
+          )
+          .pipe(
+            map((Marriage: Marriage) => {
+              return setMarriage({ Marriage: Marriage });
+            }),
+            catchError((err) => handleError(err))
+          )
+      )
+    )
+  );
+
   postMarriage = createEffect(() =>
     this.actions$.pipe(
       ofType(MarriageActions.addMarriage),

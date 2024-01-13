@@ -9,6 +9,7 @@ namespace CasamentoProject.Core.DTO.AccountDTOs
 {
     public class ResponseUser
     {
+        public Guid Id { get; set; }
         public string? Email { get; set; } = string.Empty;
         public string? PersonName { get; set; } = string.Empty;
         public string? Token { get; set; } = string.Empty;

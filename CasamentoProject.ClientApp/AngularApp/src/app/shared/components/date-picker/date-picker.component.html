@@ -26,9 +26,21 @@
     Data tem que ser maior que o dia de hoje
   </mat-error>
   <mat-error
-    *ngIf="form.get('date').touched && form.get('date').hasError('required')"
+    *ngIf="
+      form.get('date').touched &&
+      form.get('date').hasError('required') &&
+      !form.get('date').hasError('matDatepickerParse')
+    "
   >
     Data não pode ser nula
+  </mat-error>
+  <mat-error
+    *ngIf="
+      form.get('date').touched &&
+      form.get('date').hasError('matDatepickerParse')
+    "
+  >
+    Data tem que estar no formato DD/MM/YYYY
   </mat-error>
 </mat-form-field>
 

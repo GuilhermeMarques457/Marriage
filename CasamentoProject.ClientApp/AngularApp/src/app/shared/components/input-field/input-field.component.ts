@@ -62,4 +62,6 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() inputErrors: InputError[];
   @Input() placeholder: string;
   @Input() icon: string;
+  @Input() currentValue: any;
+  @Input() disabled: boolean;
 }

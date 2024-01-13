@@ -75,22 +75,17 @@ namespace CasamentoProject.WebAPI.Controllers
                 return NoContent();
             }
 
-            var isAuthenticatedBeforeSignIn = User.Identity.IsAuthenticated;
-
             await _signInManager.SignInAsync(user, isPersistent: false);    
 
-            
-            var isAuthenticatedAfterSignIn = User.Identity.IsAuthenticated;
-
             var authenticationResponse = _jwtService.CreateJwtToken(user);
-
-
 
             user.RefreshToken = authenticationResponse.RefreshToken;
 
             user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
 
             await _userManager.UpdateAsync(user);
+
+            authenticationResponse.Id = user.Id;
 
             return Ok(authenticationResponse);
            
@@ -143,7 +138,7 @@ namespace CasamentoProject.WebAPI.Controllers
 
             user.RefreshToken = authenticationResponse.RefreshToken;
             user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
-
+            authenticationResponse.Id = user.Id;
             await _userManager.UpdateAsync(user);
 
             return Ok(authenticationResponse);

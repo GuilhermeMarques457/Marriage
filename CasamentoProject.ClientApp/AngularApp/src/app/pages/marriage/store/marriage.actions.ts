@@ -19,6 +19,11 @@ export const getMarriage = createAction(
   props<{ id: string }>()
 );
 
+export const getMarriageByUserId = createAction(
+  '[Marriage] Get Marriage By User Id',
+  props<{ userId: string }>()
+);
+
 export const addMarriage = createAction(
   '[Marriage] Add Marriage',
   props<{ Marriage: Marriage }>()

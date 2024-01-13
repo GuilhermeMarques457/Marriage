@@ -15,12 +15,8 @@ export class AuthTimeoutService {
   constructor(private store: Store<AppState>) {
     this.store
       .select(selectAuthUserAuthenticated)
-      .pipe(
-        filter((user: UserAuthenticated) => user !== null),
-        takeUntil(this.destroy$) // Filtra usuários não nulos
-      )
+      .pipe(filter((user: UserAuthenticated) => user !== null))
       .subscribe((user: UserAuthenticated) => {
-        console.log('usuario autenticado kaakakka');
         this.timeOutToLogout(user.refreshTokenExpirationDateTime);
       });
   }
@@ -46,8 +42,6 @@ export class AuthTimeoutService {
       secondsLog--;
       const minutes = Math.floor(secondsLog / 60);
       const seconds = secondsLog % 60;
-
-      console.log(`${minutes}min ${seconds}s`);
 
       this.formattedTimeToLogout.next(`${minutes}min ${seconds}s`);
 

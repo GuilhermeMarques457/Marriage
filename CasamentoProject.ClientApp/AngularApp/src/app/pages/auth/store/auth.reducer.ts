@@ -32,7 +32,6 @@ export const authReducer = createReducer(
   initialState,
   on(authenticateSucess, (state, action) => {
     const user = action.user;
-    console.log(action.user);
     return {
       ...state,
       authError: null,

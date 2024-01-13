@@ -57,6 +57,13 @@ namespace CasamentoProject.Infrastucture.Repositories
                 .FirstOrDefaultAsync(temp => temp.Id == MarriageID);
         }
 
+        public async Task<Marriage?> GetMarriageByUserId(Guid? UserID)
+        {
+            return await _context.Marriages
+               .AsNoTracking()
+               .FirstOrDefaultAsync(temp => temp.CurrentUserId == UserID);
+        }
+
         public async Task<Marriage?> UpdateMarriage(Marriage Marriage)
         {
             Marriage? matchingMarriage = await GetMarriageById(Marriage.Id);

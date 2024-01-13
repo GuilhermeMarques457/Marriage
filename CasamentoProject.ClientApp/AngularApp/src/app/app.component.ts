@@ -27,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { selectAuthUserAuthenticated } from './pages/auth/store/auth.selector';
-import { Subscription, filter, map, take } from 'rxjs';
+import { BehaviorSubject, Subscription, filter, map, take, tap } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
 
@@ -97,9 +97,17 @@ export class AppComponent {
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
 
-    this.authTimeoutService.formattedTimeToLogout.subscribe((sec) => {
-      this.formattedTimeToLogout = sec;
-    });
+    this.store
+      .select(selectAuthUserAuthenticated)
+      .pipe(
+        tap((userAuth) => {
+          if (!userAuth) return;
+          this.authTimeoutService.formattedTimeToLogout.subscribe((sec) => {
+            this.formattedTimeToLogout = sec;
+          });
+        })
+      )
+      .subscribe();
 
     // Take Page title
     this.router.events

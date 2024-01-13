@@ -1,4 +1,5 @@
-<div class="form-box">
+<div class="background-styled"></div>
+<div class="form-box" style="z-index: 999; position: relative">
   <div *ngIf="isLoading" style="text-align: center">
     <mat-progress-spinner
       class="example-margin"
@@ -7,6 +8,7 @@
     >
     </mat-progress-spinner>
   </div>
+
   <form
     [formGroup]="marriageForm"
     class="form-box-container"
@@ -61,6 +63,7 @@
           <div class="grid grid--2--cols gap-md">
             <app-date-picker [form]="marriageForm"></app-date-picker>
             <app-input-field
+              [currentValue]="currentMarriage.Street"
               [label]="'Rua'"
               [form]="marriageForm"
               [inputErrors]="streetErrors"

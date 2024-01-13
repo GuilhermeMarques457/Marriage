@@ -13,6 +13,7 @@ namespace CasamentoProject.Core.Domain.RepositoryContracts
         Task<Marriage?> UpdateMarriage(Marriage Marriage);
         Task<bool> DeleteMarriage(Guid? MarriageID);
         Task<Marriage?> GetMarriageById(Guid? MarriageID);
+        Task<Marriage?> GetMarriageByUserId(Guid? UserID);
         Task<List<Marriage>> GetAllMarriages();
     }
 }

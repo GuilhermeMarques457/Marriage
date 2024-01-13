@@ -5,6 +5,7 @@ import {
   deleteMarriage,
   errorHandlerMarriage,
   getMarriage,
+  getMarriageByUserId,
   getMarriages,
   setMarriage,
   setMarriages,
@@ -48,6 +49,13 @@ export const marriageReducer = createReducer(
   }),
 
   on(getMarriage, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+
+  on(getMarriageByUserId, (state, action) => {
     return {
       ...state,
       loading: true,
