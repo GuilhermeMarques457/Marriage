@@ -66,4 +66,6 @@ export class DatePickerComponent implements ControlValueAccessor {
   get isTouchDevice() {
     return this.platform.ANDROID || this.platform.IOS;
   }
+
+  @Input() currentValue: any;
 }

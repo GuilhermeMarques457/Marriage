@@ -3,9 +3,8 @@
     <mat-label>{{ label }}</mat-label>
 
     <input
-      [disabled]="disabled"
-      value="{{ currentValue }}"
       matInput
+      [disabled]="true"
       placeholder="{{ placeholder }}"
       [formControlName]="formControlName"
       [id]="formControlName"

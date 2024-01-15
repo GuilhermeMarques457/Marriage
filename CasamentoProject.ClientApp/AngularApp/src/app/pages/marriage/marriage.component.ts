@@ -35,6 +35,8 @@ import {
 import { tap } from 'rxjs';
 import { UserAuthenticated } from '../auth/models/user.authenticated.model';
 import { selectCurrentMarriageState } from './store/marriage.selectors';
+import { MarriageEditComponent } from './marriage-edit/marriage-edit.component';
+import { MarriageCreateComponent } from './marriage-create/marriage-create.component';
 
 @Component({
   standalone: true,
@@ -46,17 +48,14 @@ import { selectCurrentMarriageState } from './store/marriage.selectors';
     ReactiveFormsModule,
     AlertComponent,
     MatProgressSpinnerModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
-    InputFieldComponent,
     MatButtonModule,
     BtnCrazyGradientComponent,
-    DatePickerComponent,
+    MarriageEditComponent,
+    MarriageCreateComponent,
   ],
 })
 export class MarriageComponent {
-  photoCoupleSrc: string | ArrayBuffer | null;
   marriageForm: FormGroup;
   currentUser: UserAuthenticated;
   currentMarriage: Marriage;
@@ -89,20 +88,11 @@ export class MarriageComponent {
       .pipe(
         tap((marriage) => {
           this.currentMarriage = marriage;
-          console.log(this.currentMarriage);
         })
       )
       .subscribe();
+
     this.store.dispatch(getMarriageByUserId({ userId: this.currentUser.id }));
-  }
-
-  photoErrors = MarriageErrors.photoErrors;
-  streetErrors = MarriageErrors.streetErrors;
-  neighborhoodErrors = MarriageErrors.neighborhoodErrors;
-  numberAddressErrors = MarriageErrors.numberAddresssErrors;
-
-  onGetMarriages() {
-    this.store.dispatch(getMarriages());
   }
 
   onSubmit() {
@@ -123,23 +113,7 @@ export class MarriageComponent {
     this.store.dispatch(addMarriage({ Marriage: marriage }));
   }
 
-  onFileChange(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.photoCoupleSrc = e.target.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   onHandleError() {
     this.store.dispatch(clearError());
-  }
-
-  openInputFile(formInput: HTMLInputElement) {
-    formInput.click();
   }
 }

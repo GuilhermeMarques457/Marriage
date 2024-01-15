@@ -1,15 +1,15 @@
 export class Marriage {
-  public Id: string | null;
-  public PhotoOfCouplePath: string;
-  public Date: Date;
-  public MoneyRaised: number;
-  public MoneyExpected: number;
-  public Street: string;
-  public Neighborhood: string;
-  public NumberAddress: number;
-  public Fiances: [];
-  public Gifts: [];
-  public GuestsPlusFamily: [];
+  public id: string | null;
+  public photoOfCouplePath: string;
+  public date: Date;
+  public moneyRaised: number;
+  public moneyExpected: number;
+  public street: string;
+  public neighborhood: string;
+  public numberAddress: number;
+  public fiances: [];
+  public gifts: [];
+  public guestsPlusFamily: [];
 
   constructor(
     photoOfCouplePath: string,
@@ -20,16 +20,16 @@ export class Marriage {
     numberAddress: number,
     id?: string
   ) {
-    this.Id = id || null; // Set a default value if id is not provided
-    this.Date = date;
-    this.Street = street;
-    this.Neighborhood = neighborhood;
-    this.NumberAddress = numberAddress;
-    this.MoneyExpected = moneyExpected;
-    this.PhotoOfCouplePath = photoOfCouplePath;
+    this.id = id || null; // Set a default value if id is not provided
+    this.date = date;
+    this.street = street;
+    this.neighborhood = neighborhood;
+    this.numberAddress = numberAddress;
+    this.moneyExpected = moneyExpected;
+    this.photoOfCouplePath = photoOfCouplePath;
 
-    this.Fiances = [];
-    this.Gifts = [];
-    this.GuestsPlusFamily = [];
+    this.fiances = [];
+    this.gifts = [];
+    this.guestsPlusFamily = [];
   }
 }

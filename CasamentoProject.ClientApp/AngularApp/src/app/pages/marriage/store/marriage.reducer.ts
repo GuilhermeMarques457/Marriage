@@ -74,7 +74,7 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      Marriages: state.Marriages,
+      currentMarriage: action.Marriage,
     };
   }),
 
@@ -82,7 +82,7 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      Marriages: state.Marriages,
+      currentMarriage: null,
     };
   }),
 

@@ -50,9 +50,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {}
 
   ngOnInit(): void {
-    if (this.isPassword) {
-      this.password = true;
-    }
+    if (this.isPassword) this.password = true;
   }
 
   @Input() isPassword: boolean;
@@ -62,6 +60,5 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() inputErrors: InputError[];
   @Input() placeholder: string;
   @Input() icon: string;
-  @Input() currentValue: any;
   @Input() disabled: boolean;
 }
