@@ -1,10 +1,9 @@
 <div class="input-box" [formGroup]="form">
   <mat-form-field>
     <mat-label>{{ label }}</mat-label>
-
     <input
+      [isDisabled]="isDisableInput"
       matInput
-      [disabled]="true"
       placeholder="{{ placeholder }}"
       [formControlName]="formControlName"
       [id]="formControlName"

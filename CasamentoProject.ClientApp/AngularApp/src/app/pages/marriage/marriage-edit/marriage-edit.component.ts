@@ -9,6 +9,9 @@ import { MarriageErrors } from '../../../shared/components/input-field/input-val
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Marriage } from '../marriage.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
+import { setInputIsDisable } from '../../../shared/store/usefull.actions';
 
 @Component({
   selector: 'app-marriage-edit',
@@ -32,6 +35,7 @@ export class MarriageEditComponent {
   streetErrors = MarriageErrors.streetErrors;
   neighborhoodErrors = MarriageErrors.neighborhoodErrors;
   numberAddressErrors = MarriageErrors.numberAddresssErrors;
+  isInputDisabled = true;
 
   @Input() marriageForm;
   @Input() currentMarriage: Marriage;
@@ -46,6 +50,15 @@ export class MarriageEditComponent {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  constructor(private store: Store<AppState>) {}
+
+  onDisableInput() {
+    this.isInputDisabled = !this.isInputDisabled;
+    this.store.dispatch(
+      setInputIsDisable({ isDisabled: this.isInputDisabled })
+    );
   }
 
   ngOnInit(): void {}

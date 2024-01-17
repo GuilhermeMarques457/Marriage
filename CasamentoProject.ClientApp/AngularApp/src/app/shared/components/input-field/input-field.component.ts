@@ -12,6 +12,10 @@ import {
 import { InputError } from '../../models/input-error.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DisableControlDirective } from '../../directives/disable-control.directive';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
+import { selectUsefullState } from '../../store/usefull.selectors';
 
 @Component({
   selector: 'app-input-field',
@@ -24,6 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    DisableControlDirective,
   ],
   providers: [
     {
@@ -51,7 +56,16 @@ export class InputFieldComponent implements ControlValueAccessor {
 
   ngOnInit(): void {
     if (this.isPassword) this.password = true;
+
+    this.store.select(selectUsefullState).subscribe({
+      next: (usefullState) => {
+        console.log(usefullState.isInputDisabled);
+        this.isDisableInput = usefullState.isInputDisabled;
+      },
+    });
   }
+
+  constructor(private store: Store<AppState>) {}
 
   @Input() isPassword: boolean;
   @Input() label: string;
@@ -60,5 +74,5 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() inputErrors: InputError[];
   @Input() placeholder: string;
   @Input() icon: string;
-  @Input() disabled: boolean;
+  @Input() isDisableInput: boolean;
 }

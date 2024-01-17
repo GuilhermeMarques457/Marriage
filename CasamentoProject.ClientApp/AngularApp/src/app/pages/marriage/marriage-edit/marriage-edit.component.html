@@ -33,13 +33,24 @@
       />
     </div>
   </div>
-  <div class="input-info-box h-100">
-    <h2 class="form-heading-info">Informações para os convidados</h2>
+  <div class="input-info-box h-100 gap-md">
+    <div class="flex flex-align-center flex-spaced">
+      <h2 class="form-heading-info">Informações para os convidados</h2>
+      <button
+        mat-raised-button
+        color="accent"
+        class="btn-edit"
+        (click)="onDisableInput()"
+      >
+        Editar <mat-icon class="btn-edit-icon">settings</mat-icon>
+      </button>
+    </div>
+
     <div class="form-input-box">
       <div class="grid grid--2--cols gap-md">
         <app-date-picker [form]="marriageForm"></app-date-picker>
+
         <app-input-field
-          [disabled]="true"
           [ngModel]="currentMarriage.street"
           [label]="'Rua'"
           [form]="marriageForm"
@@ -62,7 +73,6 @@
         ></app-input-field>
 
         <app-input-field
-          [attr.disabled]="true"
           [ngModel]="currentMarriage.numberAddress"
           [label]="'Numero do Endereço'"
           [form]="marriageForm"
