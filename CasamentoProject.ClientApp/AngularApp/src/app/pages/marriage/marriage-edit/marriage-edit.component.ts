@@ -30,11 +30,13 @@ import { setInputIsDisable } from '../../../shared/store/usefull.actions';
   styleUrl: './marriage-edit.component.scss',
 })
 export class MarriageEditComponent {
+  //#region Errors To user
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
   neighborhoodErrors = MarriageErrors.neighborhoodErrors;
   numberAddressErrors = MarriageErrors.numberAddresssErrors;
+  //#endregion
   isInputDisabled = true;
 
   @Input() marriageForm;

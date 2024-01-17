@@ -95,24 +95,6 @@ export class MarriageComponent {
     this.store.dispatch(getMarriageByUserId({ userId: this.currentUser.id }));
   }
 
-  onSubmit() {
-    console.log(this.marriageForm);
-    if (!this.marriageForm.valid) return;
-
-    const marriage = new Marriage(
-      this.marriageForm.value.photo,
-      this.marriageForm.value.date,
-      this.marriageForm.value.moneyExpected,
-      this.marriageForm.value.street,
-      this.marriageForm.value.neighborhood,
-      this.marriageForm.value.numberAddress
-    );
-
-    console.log(marriage);
-
-    this.store.dispatch(addMarriage({ Marriage: marriage }));
-  }
-
   onHandleError() {
     this.store.dispatch(clearError());
   }

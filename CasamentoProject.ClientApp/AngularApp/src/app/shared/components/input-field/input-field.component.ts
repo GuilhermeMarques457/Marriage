@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, forwardRef } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
@@ -59,13 +59,14 @@ export class InputFieldComponent implements ControlValueAccessor {
 
     this.store.select(selectUsefullState).subscribe({
       next: (usefullState) => {
-        console.log(usefullState.isInputDisabled);
         this.isDisableInput = usefullState.isInputDisabled;
+
+        this.cdr.detectChanges();
       },
     });
   }
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
 
   @Input() isPassword: boolean;
   @Input() label: string;

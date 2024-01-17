@@ -15,7 +15,6 @@ export class DisableControlDirective {
   }
 
   private applyDisableState(): void {
-    console.log('disable directive, is disabled:' + this.isDisabled);
     const action = this.isDisabled ? 'disable' : 'enable';
 
     this.ngControl.control[action]();
