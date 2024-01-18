@@ -2,12 +2,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Marriage } from '../marriage.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 const handleError = (response: ErrorResponse) => {
   let error = new ErrorResponse(

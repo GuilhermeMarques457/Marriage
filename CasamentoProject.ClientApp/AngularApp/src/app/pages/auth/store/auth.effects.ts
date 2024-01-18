@@ -3,13 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { UserSignUp } from '../models/user.signUp.model';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserAuthenticated } from '../models/user.authenticated.model';
 import { UserLogin } from '../models/user.login.model';
 import { Router } from '@angular/router';
 import { AuthTimeoutService } from '../auth-timeout.service';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 const handleAuthentication = (resData: UserAuthenticated) => {
   localStorage.setItem('userData', JSON.stringify(resData));
