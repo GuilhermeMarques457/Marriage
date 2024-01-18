@@ -12,9 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ErrorResponse } from '../../models/error-response.model';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { selectAuthState } from '../../../pages/auth/store/auth.selector';
-import { clearError } from '../../../pages/auth/store/auth.actions';
+import { clearMarriageError } from '../../../pages/marriage/store/marriage.actions';
+import { clearAuthError } from '../../../pages/auth/store/auth.actions';
 
 @Component({
   standalone: true,
@@ -43,6 +42,7 @@ export class AlertComponent {
   }
 
   onCleanError() {
-    this.store.dispatch(clearError());
+    this.store.dispatch(clearAuthError());
+    this.store.dispatch(clearMarriageError());
   }
 }

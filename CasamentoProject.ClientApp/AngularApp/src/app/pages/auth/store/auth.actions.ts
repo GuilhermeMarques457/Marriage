@@ -35,6 +35,6 @@ export const refreshJWTToken = createAction(
   props<{ token: string; refreshToken: string }>()
 );
 
-export const clearError = createAction('[Auth] ClearError');
+export const clearAuthError = createAction('[Auth] ClearError');
 
 export const logout = createAction('[Auth] Logout');

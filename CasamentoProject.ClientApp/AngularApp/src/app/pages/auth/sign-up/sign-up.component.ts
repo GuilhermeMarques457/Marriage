@@ -10,12 +10,7 @@ import { UserSignUp } from '../models/user.signUp.model';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectAuthState } from '../store/auth.selector';
-import {
-  clearError,
-  setLoginActive,
-  setSignUpActive,
-  signUp,
-} from '../store/auth.actions';
+import { setLoginActive, signUp } from '../store/auth.actions';
 import { RouterModule } from '@angular/router';
 import { AppState } from '../../../store/app.reducer';
 import { PasswordValidator } from '../../../shared/validators/password-validator';
@@ -31,7 +26,6 @@ import { PhoneValidator } from '../../../shared/validators/phone-validator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
-import { InputError } from '../../../shared/models/input-error.model';
 import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
 import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 
@@ -125,9 +119,5 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.signupForm.reset();
-  }
-
-  onHandleError() {
-    this.store.dispatch(clearError());
   }
 }

@@ -59,7 +59,7 @@ export class InputFieldComponent implements ControlValueAccessor {
 
     this.store.select(selectUsefullState).subscribe({
       next: (usefullState) => {
-        this.isDisableInput = usefullState.isInputDisabled;
+        this.isDisabledInput = usefullState.isInputDisabled;
 
         this.cdr.detectChanges();
       },
@@ -75,5 +75,5 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() inputErrors: InputError[];
   @Input() placeholder: string;
   @Input() icon: string;
-  @Input() isDisableInput: boolean;
+  @Input() isDisabledInput: boolean;
 }

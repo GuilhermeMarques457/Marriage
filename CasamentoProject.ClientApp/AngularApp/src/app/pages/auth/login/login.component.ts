@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectAuthState } from '../store/auth.selector';
 import { UserLogin } from '../models/user.login.model';
-import { clearError, login, setSignUpActive } from '../store/auth.actions';
+import { login, setSignUpActive } from '../store/auth.actions';
 import { AppState } from '../../../store/app.reducer';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
-import { InputError } from '../../../shared/models/input-error.model';
 import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 
 @Component({
@@ -100,9 +99,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.loginForm.reset();
-  }
-
-  onHandleError() {
-    this.store.dispatch(clearError());
   }
 }

@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { Component, Input, forwardRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, forwardRef } from '@angular/core';
 import moment from 'moment';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,12 +8,17 @@ import { MatInputModule } from '@angular/material/input';
 import {
   ControlValueAccessor,
   FormGroup,
+  FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DisableControlDirective } from '../../directives/disable-control.directive';
+import { selectUsefullState } from '../../store/usefull.selectors';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
 
 @Component({
   selector: 'app-date-picker',
@@ -26,6 +31,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    DisableControlDirective,
+    FormsModule,
   ],
   providers: [
     {
@@ -40,6 +47,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 })
 export class DatePickerComponent implements ControlValueAccessor {
   @Input() form: FormGroup;
+  @Input() isDisabledInput: boolean;
+  @Input() currentValue: any;
   today = new Date();
 
   onChange: any = () => {};
@@ -54,18 +63,29 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
   setDisabledState?(isDisabled: boolean): void {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(selectUsefullState).subscribe({
+      next: (usefullState) => {
+        this.isDisabledInput = usefullState.isInputDisabled;
+
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  constructor(
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef,
+    private platform: Platform
+  ) {}
+
   public minDate = moment([
     this.today.getFullYear(),
     this.today.getMonth(),
     this.today.getDay(),
   ]);
 
-  constructor(private platform: Platform) {}
-
   get isTouchDevice() {
     return this.platform.ANDROID || this.platform.IOS;
   }
-
-  @Input() currentValue: any;
 }

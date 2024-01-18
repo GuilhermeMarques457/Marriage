@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   addMarriage,
-  clearError,
+  clearMarriageError,
   deleteMarriage,
   errorHandlerMarriage,
   getMarriage,
@@ -94,7 +94,7 @@ export const marriageReducer = createReducer(
     };
   }),
 
-  on(clearError, (state, action) => {
+  on(clearMarriageError, (state, action) => {
     return {
       ...state,
       error: null,

@@ -50,9 +50,9 @@ namespace CasamentoProject.Infrastucture.Repositories
         public async Task<Marriage?> GetMarriageById(Guid? MarriageID)
         {
             return await _context.Marriages
-                .Include(temp => temp.Gifts)
-                .Include(temp => temp.Fiances)
-                .Include(temp => temp.GuestsPlusFamily)
+                //.Include(temp => temp.Gifts)
+                //.Include(temp => temp.Fiances)
+                //.Include(temp => temp.GuestsPlusFamily)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(temp => temp.Id == MarriageID);
         }

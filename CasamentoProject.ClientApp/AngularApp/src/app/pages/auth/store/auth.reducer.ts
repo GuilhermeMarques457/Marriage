@@ -3,7 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   authenticateFail,
   authenticateSucess,
-  clearError,
+  clearAuthError,
   login,
   logout,
   refreshJWTToken,
@@ -39,7 +39,7 @@ export const authReducer = createReducer(
       loading: false,
     };
   }),
-  on(clearError, (state, action) => {
+  on(clearAuthError, (state, action) => {
     return { ...state, authError: null };
   }),
   on(login, (state, action) => {

@@ -44,4 +44,4 @@ export const errorHandlerMarriage = createAction(
   props<{ error: ErrorResponse }>()
 );
 
-export const clearError = createAction('[Marriage] Clear Error');
+export const clearMarriageError = createAction('[Marriage] Clear Error');
