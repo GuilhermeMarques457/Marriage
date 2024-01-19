@@ -30,6 +30,7 @@ import { selectAuthUserAuthenticated } from './pages/auth/store/auth.selector';
 import { BehaviorSubject, Subscription, filter, map, take, tap } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
+import { setInputIsDisable } from './shared/store/usefull.actions';
 
 @Component({
   selector: 'app-root',
@@ -99,15 +100,15 @@ export class AppComponent {
 
     this.store
       .select(selectAuthUserAuthenticated)
-      .pipe(
-        tap((userAuth) => {
+      .pipe(take(1))
+      .subscribe({
+        next: (userAuth) => {
           if (!userAuth) return;
           this.authTimeoutService.formattedTimeToLogout.subscribe((sec) => {
             this.formattedTimeToLogout = sec;
           });
-        })
-      )
-      .subscribe();
+        },
+      });
 
     // Take Page title
     this.router.events
@@ -130,6 +131,7 @@ export class AppComponent {
 
   onLogout() {
     this.store.dispatch(logout());
+    this.store.dispatch(setInputIsDisable({ isDisabled: false }));
   }
 
   changeTheme() {

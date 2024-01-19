@@ -17,6 +17,7 @@ export class AuthTimeoutService {
       .select(selectAuthUserAuthenticated)
       .pipe(filter((user: UserAuthenticated) => user !== null))
       .subscribe((user: UserAuthenticated) => {
+        console.log(user);
         this.timeOutToLogout(user.refreshTokenExpirationDateTime);
       });
   }

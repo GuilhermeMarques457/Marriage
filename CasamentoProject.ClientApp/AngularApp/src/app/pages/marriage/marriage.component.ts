@@ -27,6 +27,7 @@ import { selectMarriageState } from './store/marriage.selectors';
 import { MarriageEditComponent } from './marriage-edit/marriage-edit.component';
 import { MarriageCreateComponent } from './marriage-create/marriage-create.component';
 import { ErrorResponse } from '../../shared/models/error-response.model';
+import { setInputIsDisable } from '../../shared/store/usefull.actions';
 
 @Component({
   standalone: true,
@@ -80,18 +81,24 @@ export class MarriageComponent {
         tap((marriageState) => {
           this.currentMarriage = marriageState.currentMarriage;
 
-          // if (marriageState.error) {
-          //   console.log('criou alert');
-          //   this.dialog.open(AlertComponent, {
-          //     data: new ErrorResponse(
-          //       marriageState.error.error.Message,
-          //       marriageState.error.error.Details,
-          //       marriageState.error.error.StatusCode
-          //     ),
-          //     exitAnimationDuration: '300ms',
-          //     enterAnimationDuration: '300ms',
-          //   });
-          // }
+          if (this.currentMarriage)
+            this.store.dispatch(setInputIsDisable({ isDisabled: true }));
+
+          console.log(marriageState.error);
+          if (
+            marriageState.error &&
+            marriageState.error.error.Details !== 'Casamento não encontrado'
+          ) {
+            this.dialog.open(AlertComponent, {
+              data: new ErrorResponse(
+                marriageState.error.error.Message,
+                marriageState.error.error.Details,
+                marriageState.error.error.StatusCode
+              ),
+              exitAnimationDuration: '300ms',
+              enterAnimationDuration: '300ms',
+            });
+          }
         })
       )
       .subscribe();
@@ -103,6 +110,7 @@ export class MarriageComponent {
     const currentMarriageId = this.currentMarriage
       ? this.currentMarriage.id
       : null;
+
     if (!this.marriageForm.valid) return;
 
     const marriage = new Marriage(
@@ -112,9 +120,8 @@ export class MarriageComponent {
       this.marriageForm.value.street,
       this.marriageForm.value.neighborhood,
       this.marriageForm.value.numberAddress,
-      this.currentMarriage.id
+      currentMarriageId
     );
-    console.log(marriage);
 
     if (marriage.id) {
       this.store.dispatch(updateMarriage({ Marriage: marriage }));
