@@ -29,7 +29,10 @@
         ></app-btn-crazy-gradient>
       </div>
     </div>
-    <!-- <app-marriage-create *ngIf="!currentMarriage"></app-marriage-create> -->
+    <app-marriage-create
+      *ngIf="!currentMarriage"
+      [marriageForm]="marriageForm"
+    ></app-marriage-create>
     <app-marriage-edit
       *ngIf="currentMarriage"
       [marriageForm]="marriageForm"

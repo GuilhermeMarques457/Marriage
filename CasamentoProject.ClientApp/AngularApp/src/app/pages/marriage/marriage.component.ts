@@ -48,7 +48,7 @@ import { ErrorResponse } from '../../shared/models/error-response.model';
 export class MarriageComponent {
   marriageForm: FormGroup;
   currentUser: UserAuthenticated;
-  currentMarriage: Marriage;
+  currentMarriage?: Marriage;
   submitted = false;
   isLoading = false;
   error: ErrorResponse = null;
@@ -80,20 +80,18 @@ export class MarriageComponent {
         tap((marriageState) => {
           this.currentMarriage = marriageState.currentMarriage;
 
-          console.log(marriageState.error);
-
-          if (marriageState.error) {
-            console.log('criou alert');
-            this.dialog.open(AlertComponent, {
-              data: new ErrorResponse(
-                marriageState.error.error.Message,
-                marriageState.error.error.Details,
-                marriageState.error.error.StatusCode
-              ),
-              exitAnimationDuration: '300ms',
-              enterAnimationDuration: '300ms',
-            });
-          }
+          // if (marriageState.error) {
+          //   console.log('criou alert');
+          //   this.dialog.open(AlertComponent, {
+          //     data: new ErrorResponse(
+          //       marriageState.error.error.Message,
+          //       marriageState.error.error.Details,
+          //       marriageState.error.error.StatusCode
+          //     ),
+          //     exitAnimationDuration: '300ms',
+          //     enterAnimationDuration: '300ms',
+          //   });
+          // }
         })
       )
       .subscribe();
@@ -102,6 +100,9 @@ export class MarriageComponent {
   }
 
   onSubmit() {
+    const currentMarriageId = this.currentMarriage
+      ? this.currentMarriage.id
+      : null;
     if (!this.marriageForm.valid) return;
 
     const marriage = new Marriage(
@@ -113,10 +114,12 @@ export class MarriageComponent {
       this.marriageForm.value.numberAddress,
       this.currentMarriage.id
     );
-
     console.log(marriage);
-    marriage.id
-      ? this.store.dispatch(updateMarriage({ Marriage: marriage }))
-      : this.store.dispatch(addMarriage({ Marriage: marriage }));
+
+    if (marriage.id) {
+      this.store.dispatch(updateMarriage({ Marriage: marriage }));
+    } else {
+      this.store.dispatch(addMarriage({ Marriage: marriage }));
+    }
   }
 }

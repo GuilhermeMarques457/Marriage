@@ -6,7 +6,7 @@ export interface State {
 }
 
 const initalState: State = {
-  isInputDisabled: true,
+  isInputDisabled: false,
 };
 
 export const usefullReducer = createReducer(

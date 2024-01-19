@@ -68,6 +68,8 @@ export class DatePickerComponent implements ControlValueAccessor {
       next: (usefullState) => {
         this.isDisabledInput = usefullState.isInputDisabled;
 
+        console.log(this.isDisabledInput);
+
         this.cdr.detectChanges();
       },
     });

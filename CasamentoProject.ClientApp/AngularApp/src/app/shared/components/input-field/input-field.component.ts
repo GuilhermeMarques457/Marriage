@@ -66,7 +66,9 @@ export class InputFieldComponent implements ControlValueAccessor {
     });
   }
 
-  constructor(private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
+  constructor(private store: Store<AppState>, private cdr: ChangeDetectorRef) {
+    this.isDisabledInput = false;
+  }
 
   @Input() isPassword: boolean;
   @Input() label: string;
