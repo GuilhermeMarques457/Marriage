@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import * as fromAppState from './store/app.reducer';
 
 import { routes } from './app.routes';
-import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
+// import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './pages/auth/auth-interceptor.service';
 import { AuthEffects } from './pages/auth/store/auth.effects';
@@ -19,7 +19,7 @@ import { provideStore } from '@ngrx/store';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    AuthTimeoutService,
+    // AuthTimeoutService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

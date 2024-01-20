@@ -8,7 +8,9 @@ import {
   logout,
   refreshJWTToken,
   setLoginActive,
+  setNewTimeToLogout,
   setSignUpActive,
+  setTimoutToLogout,
   signUp,
 } from './auth.actions';
 import { UserAuthenticated } from '../models/user.authenticated.model';
@@ -19,6 +21,8 @@ export interface State {
   authError: ErrorResponse | null;
   loading: boolean;
   formActive: string;
+  timeToLogoutFormatted: string;
+  timeOutIsActive: boolean;
 }
 
 const initialState: State = {
@@ -26,6 +30,8 @@ const initialState: State = {
   authError: null,
   loading: false,
   formActive: 'login-active',
+  timeToLogoutFormatted: null,
+  timeOutIsActive: false,
 };
 
 export const authReducer = createReducer(
@@ -39,6 +45,7 @@ export const authReducer = createReducer(
       loading: false,
     };
   }),
+
   on(clearAuthError, (state, action) => {
     return { ...state, authError: null };
   }),
@@ -54,6 +61,18 @@ export const authReducer = createReducer(
       userAuthenticated: null,
       authError: action.error,
       loading: false,
+    };
+  }),
+  on(setTimoutToLogout, (state, action) => {
+    return {
+      ...state,
+      timeOutIsActive: action.timerIsActive,
+    };
+  }),
+  on(setNewTimeToLogout, (state, action) => {
+    return {
+      ...state,
+      timeToLogoutFormatted: action.dateFormatted,
     };
   }),
   on(refreshJWTToken, (state, action) => {

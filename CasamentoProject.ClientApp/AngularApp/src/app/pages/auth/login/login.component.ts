@@ -92,6 +92,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginForm.value.password
     );
 
+    console.log('entrou');
+
     this.store.dispatch(login({ user: user }));
 
     this.loginForm.reset();

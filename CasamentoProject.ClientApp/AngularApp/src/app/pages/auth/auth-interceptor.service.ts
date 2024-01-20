@@ -22,6 +22,7 @@ import { AppState } from '../../store/app.reducer';
 import { environment } from '../../../environments/environment';
 import { refreshJWTToken } from './store/auth.actions';
 import { UserAuthenticated } from './models/user.authenticated.model';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
@@ -41,6 +42,8 @@ export class AuthInterceptorService implements HttpInterceptor {
       take(1),
       exhaustMap((user: UserAuthenticated) => {
         if (!user) return next.handle(req);
+
+        // const authenticatedUser = user;
 
         const refreshToken = localStorage['refreshToken'];
         const token = localStorage['token'];
@@ -62,6 +65,11 @@ export class AuthInterceptorService implements HttpInterceptor {
               params: new HttpParams().set('auth', newRefreshToken),
               headers: req.headers.set('Authorization', `Bearer ${newToken}`),
             });
+
+            // AuthActions.authenticateSucess({
+            //   user: authenticatedUser,
+            //   redirect: true,
+            // });
 
             return next.handle(modifiedRequest);
           })

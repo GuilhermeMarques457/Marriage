@@ -84,7 +84,6 @@ export class MarriageComponent {
           if (this.currentMarriage)
             this.store.dispatch(setInputIsDisable({ isDisabled: true }));
 
-          console.log(marriageState.error);
           if (
             marriageState.error &&
             marriageState.error.error.Details !== 'Casamento não encontrado'

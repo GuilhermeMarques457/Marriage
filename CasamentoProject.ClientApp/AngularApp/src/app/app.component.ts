@@ -26,10 +26,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
-import { selectAuthUserAuthenticated } from './pages/auth/store/auth.selector';
+import {
+  selectAuthTimer,
+  selectAuthUserAuthenticated,
+} from './pages/auth/store/auth.selector';
 import { BehaviorSubject, Subscription, filter, map, take, tap } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
-import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
+// import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
 import { setInputIsDisable } from './shared/store/usefull.actions';
 
 @Component({
@@ -59,7 +62,7 @@ import { setInputIsDisable } from './shared/store/usefull.actions';
 export class AppComponent {
   userAuthenticatedSubs$: Subscription = null;
   userAuthenticated: UserAuthenticated = null;
-  formattedTimeToLogout: string = null;
+  formattedTimeToLogout: string | null = null;
   title = 'AngularApp';
   currentMenuItem;
 
@@ -91,24 +94,17 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private router: Router,
-    private authTimeoutService: AuthTimeoutService
+    private router: Router // private authTimeoutService: AuthTimeoutService
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
 
-    this.store
-      .select(selectAuthUserAuthenticated)
-      .pipe(take(1))
-      .subscribe({
-        next: (userAuth) => {
-          if (!userAuth) return;
-          this.authTimeoutService.formattedTimeToLogout.subscribe((sec) => {
-            this.formattedTimeToLogout = sec;
-          });
-        },
-      });
+    this.store.select(selectAuthTimer).subscribe({
+      next: (time) => {
+        this.formattedTimeToLogout = time;
+      },
+    });
 
     // Take Page title
     this.router.events
@@ -132,6 +128,7 @@ export class AppComponent {
   onLogout() {
     this.store.dispatch(logout());
     this.store.dispatch(setInputIsDisable({ isDisabled: false }));
+    this.formattedTimeToLogout = null;
   }
 
   changeTheme() {
