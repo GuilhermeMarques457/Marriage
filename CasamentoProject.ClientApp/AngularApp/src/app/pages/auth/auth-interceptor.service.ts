@@ -8,27 +8,20 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable, catchError, exhaustMap, of, switchMap, take } from 'rxjs';
 import {
-  Observable,
-  catchError,
-  exhaustMap,
-  of,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { selectAuthUserAuthenticated } from './store/auth.selector';
+  selectAuthState,
+  selectAuthTimerIsActive,
+  selectAuthUserAuthenticated,
+} from './store/auth.selector';
 import { AppState } from '../../store/app.reducer';
-import { environment } from '../../../environments/environment';
 import { refreshJWTToken } from './store/auth.actions';
 import { UserAuthenticated } from './models/user.authenticated.model';
 import * as AuthActions from '../auth/store/auth.actions';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private store: Store<AppState>, private httpClient: HttpClient) {}
-
-  private API_URL_BASE = `${environment.API_URL}/Account`;
+  constructor(private store: Store<AppState>) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -42,8 +35,6 @@ export class AuthInterceptorService implements HttpInterceptor {
       take(1),
       exhaustMap((user: UserAuthenticated) => {
         if (!user) return next.handle(req);
-
-        // const authenticatedUser = user;
 
         const refreshToken = localStorage['refreshToken'];
         const token = localStorage['token'];
@@ -60,16 +51,26 @@ export class AuthInterceptorService implements HttpInterceptor {
           switchMap((data) => {
             const newRefreshToken = localStorage['refreshToken'];
             const newToken = localStorage['token'];
+            const userData = JSON.parse(localStorage['userData']);
 
             const modifiedRequest = req.clone({
               params: new HttpParams().set('auth', newRefreshToken),
               headers: req.headers.set('Authorization', `Bearer ${newToken}`),
             });
 
-            // AuthActions.authenticateSucess({
-            //   user: authenticatedUser,
-            //   redirect: true,
-            // });
+            this.store.select(selectAuthState).subscribe({
+              next: (authState) => {
+                if (!authState.timeOutIsActive && authState.userAuthenticated)
+                  this.store.dispatch(
+                    AuthActions.setTimoutToLogout({
+                      dateToLogout: userData.refreshTokenExpirationDateTime,
+                      timerIsActive: true,
+                    })
+                  );
+
+                return next.handle(modifiedRequest);
+              },
+            });
 
             return next.handle(modifiedRequest);
           })

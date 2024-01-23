@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  HostBinding,
-} from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActivatedRoute,
@@ -13,7 +8,11 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { AppState } from './store/app.reducer';
-import { autoLogin, logout } from './pages/auth/store/auth.actions';
+import {
+  autoLogin,
+  logout,
+  setTimoutToLogout,
+} from './pages/auth/store/auth.actions';
 import { Store } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/auth/login/login.component';
@@ -26,13 +25,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
-import {
-  selectAuthTimer,
-  selectAuthUserAuthenticated,
-} from './pages/auth/store/auth.selector';
-import { BehaviorSubject, Subscription, filter, map, take, tap } from 'rxjs';
+import { selectAuthState } from './pages/auth/store/auth.selector';
+import { Subscription, filter, map } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
-// import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
 import { setInputIsDisable } from './shared/store/usefull.actions';
 
 @Component({
@@ -94,15 +89,17 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private router: Router // private authTimeoutService: AuthTimeoutService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
 
-    this.store.select(selectAuthTimer).subscribe({
-      next: (time) => {
-        this.formattedTimeToLogout = time;
+    this.store.select(selectAuthState).subscribe({
+      next: (authState) => {
+        authState.userAuthenticated
+          ? (this.formattedTimeToLogout = authState.timeToLogoutFormatted)
+          : (this.formattedTimeToLogout = null);
       },
     });
 
@@ -128,7 +125,9 @@ export class AppComponent {
   onLogout() {
     this.store.dispatch(logout());
     this.store.dispatch(setInputIsDisable({ isDisabled: false }));
-    this.formattedTimeToLogout = null;
+    this.store.dispatch(
+      setTimoutToLogout({ dateToLogout: null, timerIsActive: false })
+    );
   }
 
   changeTheme() {
