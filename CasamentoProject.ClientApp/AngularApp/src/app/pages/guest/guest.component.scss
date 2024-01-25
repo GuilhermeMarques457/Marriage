@@ -1,0 +1,19 @@
+@import "../../../scss/variables";
+
+.page-title {
+  color: $primary-color;
+  font-size: 3.2rem;
+  margin-bottom: 2.8rem;
+}
+
+.new-button mat-icon {
+  width: 35px;
+  height: 35px;
+  font-size: 35px;
+}
+
+.new-button {
+  width: 60px;
+  height: 60px;
+  font-size: 50px;
+}
