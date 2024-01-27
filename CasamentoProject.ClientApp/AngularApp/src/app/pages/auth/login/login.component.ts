@@ -84,15 +84,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.loginForm);
     if (!this.loginForm.valid) return;
 
     const user: UserLogin = new UserLogin(
       this.loginForm.value.email,
       this.loginForm.value.password
     );
-
-    console.log('entrou');
 
     this.store.dispatch(login({ user: user }));
 

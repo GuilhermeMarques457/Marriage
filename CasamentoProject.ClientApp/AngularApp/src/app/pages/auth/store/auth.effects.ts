@@ -70,7 +70,6 @@ export class AuthEffects {
         ofType(AuthActions.setTimoutToLogout),
         tap((dateState) => {
           let fullSeconds = timeOutToLogout(dateState.dateToLogout);
-          console.log(dateState);
           if (fullSeconds > 0 && !this.logoutTimer) {
             this.logoutTimer = setInterval(() => {
               fullSeconds--;

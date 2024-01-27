@@ -1,4 +1,5 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
     {
         public string? PhotoOfCouplePath { get; set; }
         public DateTime? Date { get; set; } = null!;
+        public IFormFile? File { get; set; }
         public double? MoneyRaised { get; set; }
         public double? MoneyExpected { get; set; }
         public string Street { get; set; } = null!;

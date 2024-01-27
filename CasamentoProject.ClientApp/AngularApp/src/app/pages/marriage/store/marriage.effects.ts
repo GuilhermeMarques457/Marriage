@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Marriage } from '../marriage.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { setMarriages } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
@@ -83,7 +83,10 @@ export class MarriageEffects {
       ofType(MarriageActions.addMarriage),
       switchMap((action) => {
         return this.http
-          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, action.Marriage)
+          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, {
+            ...action.Marriage,
+            file: action.Photo,
+          })
           .pipe(
             map((Marriage: Marriage) => {
               console.log(Marriage);
@@ -98,16 +101,19 @@ export class MarriageEffects {
   updateMarriage = createEffect(() =>
     this.actions$.pipe(
       ofType(MarriageActions.updateMarriage),
-      switchMap((action) =>
-        this.http
-          .put<Marriage>(`${this.API_URL_BASE}/put-marriage`, action.Marriage)
+      switchMap((action) => {
+        const formData: FormData = new FormData();
+        formData.append('file', action.Photo);
+
+        return this.http
+          .put<Marriage>(`${this.API_URL_BASE}/put-marriage`, formData)
           .pipe(
             map((Marriage: Marriage) => {
               return setMarriage({ Marriage: Marriage });
             }),
             catchError((err) => handleError(err))
-          )
-      )
+          );
+      })
     )
   );
 

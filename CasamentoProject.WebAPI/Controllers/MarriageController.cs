@@ -79,6 +79,7 @@ namespace CasamentoProject.WebAPI.Controllers
         {
             try
             {
+
                 var isAuthenticatedAfterSignIn = User.Identity!.IsAuthenticated;
 
                 ApplicationUser? currentUser = new ApplicationUser();
@@ -105,18 +106,19 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPut("put-marriage")]
-        public async Task<ActionResult<MarriageResponse>> PutMarriage([FromBody] MarriageUpdateRequest marriage)
+        public async Task<ActionResult<MarriageResponse>> PutMarriage(IFormFile file)
         {
-            try
-            {
-                var updateMarriage = await _marriageUpdaterService.UpdateMarriage(marriage);
+            //try
+            //{
+            //    var updateMarriage = await _marriageUpdaterService.UpdateMarriage(marriage);
 
-                return Ok(updateMarriage);
-            }
-            catch
-            {
-                throw;
-            }
+            //    return Ok(updateMarriage);
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
+            return Ok(new MarriageResponse());
         }
 
         [HttpDelete("delete-marriage/{id:guid}")]

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,6 +31,7 @@ import { setInputIsDisable } from '../../../shared/store/usefull.actions';
 })
 export class MarriageEditComponent {
   //#region Errors To user
+  file?: File;
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
@@ -41,16 +42,20 @@ export class MarriageEditComponent {
 
   @Input() marriageForm;
   @Input() currentMarriage: Marriage;
+  @Output() photoEvent = new EventEmitter<File>();
+
+  //#region Errors To user
 
   onFileChange(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      const file = files[0];
+    this.file = <File>event.target.files[0];
+    if (event.target.files && this.file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.photoCoupleSrc = e.target.result as string;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.file);
+
+      this.photoEvent.emit(this.file);
     }
   }
 

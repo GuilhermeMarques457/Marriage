@@ -36,6 +36,7 @@
     <app-marriage-edit
       *ngIf="currentMarriage"
       [marriageForm]="marriageForm"
+      (photoEvent)="onAddFileToForm($event)"
       [currentMarriage]="currentMarriage"
     ></app-marriage-edit>
   </form>

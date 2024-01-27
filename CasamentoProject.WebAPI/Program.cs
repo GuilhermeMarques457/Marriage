@@ -22,4 +22,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering(); // Isso pode ser necessário para ler o corpo da solicitação mais de uma vez
+    await next();
+});
+
 app.Run();

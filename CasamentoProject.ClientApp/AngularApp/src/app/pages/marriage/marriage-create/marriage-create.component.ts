@@ -28,6 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class MarriageCreateComponent {
   //#region Errors To user
+  file?: File;
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
@@ -40,14 +41,13 @@ export class MarriageCreateComponent {
   @Input() currentMarriage: Marriage;
 
   onFileChange(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      const file = files[0];
+    this.file = <File>event.target.files[0];
+    if (event.target.files && this.file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.photoCoupleSrc = e.target.result as string;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.file);
     }
   }
 

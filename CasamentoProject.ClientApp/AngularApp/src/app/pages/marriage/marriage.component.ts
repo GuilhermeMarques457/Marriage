@@ -53,6 +53,7 @@ export class MarriageComponent {
   submitted = false;
   isLoading = false;
   error: ErrorResponse = null;
+  file: File;
 
   constructor(private store: Store<AppState>, private dialog: MatDialog) {}
 
@@ -123,9 +124,17 @@ export class MarriageComponent {
     );
 
     if (marriage.id) {
-      this.store.dispatch(updateMarriage({ Marriage: marriage }));
+      this.store.dispatch(
+        updateMarriage({ Marriage: marriage, Photo: this.file })
+      );
     } else {
-      this.store.dispatch(addMarriage({ Marriage: marriage }));
+      this.store.dispatch(
+        addMarriage({ Marriage: marriage, Photo: this.file })
+      );
     }
+  }
+
+  onAddFileToForm(file: File) {
+    this.file = file;
   }
 }

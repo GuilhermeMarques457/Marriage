@@ -33,8 +33,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
             services.AddControllers(options =>
             {
                 options.Filters.Add(new ProducesAttribute("application/json"));
-
                 options.Filters.Add(new ConsumesAttribute("application/json"));
+                options.Filters.Add(new ConsumesAttribute("multipart/form-data"));
 
                 // Adding the [Authorize] attribute as a global filter, to make authentication work
                 //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
