@@ -81,7 +81,7 @@ $mat-custom-accent: (
 
 $primary: mat.define-palette($mat-custom-primary, 500);
 $accent: mat.define-palette($mat-custom-accent, 500);
-$warn: mat.define-palette(mat.$red-palette);
+$warn: mat.define-palette(mat.$red-palette, 900);
 
 $theme-light: mat.define-light-theme($primary, $accent, $warn);
 $theme-dark: mat.define-dark-theme($primary, $accent, $warn);

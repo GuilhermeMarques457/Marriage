@@ -17,6 +17,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'convidados',
+    loadChildren: () =>
+      import('./pages/guest/guest.routing').then((g) => g.GuestRouting),
+  },
+  {
     path: 'index',
     component: HomeComponent,
     canActivate: [AuthGuard],

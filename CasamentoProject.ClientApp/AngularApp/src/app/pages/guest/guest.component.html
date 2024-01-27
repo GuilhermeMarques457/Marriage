@@ -1,0 +1,24 @@
+<div class="flex flex-spaced">
+  <h1 class="page-title">Gerencie seus convidados</h1>
+
+  <a
+    routerLink="adicionar"
+    mat-fab
+    class="new-button"
+    color="accent"
+    type="button"
+    *ngIf="!isAdding"
+    ><mat-icon>add</mat-icon></a
+  >
+  <a
+    *ngIf="isAdding"
+    mat-fab
+    class="new-button"
+    color="warn"
+    type="button"
+    (click)="onCloseAdding()"
+    ><mat-icon>close</mat-icon></a
+  >
+</div>
+
+<router-outlet></router-outlet>

@@ -73,6 +73,14 @@
   flex-direction: column;
 }
 
+.flex-end {
+  justify-content: end;
+}
+
+.flex-align-start {
+  align-items: start;
+}
+
 .flex-spaced {
   justify-content: space-between;
 }
