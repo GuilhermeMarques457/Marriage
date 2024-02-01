@@ -26,12 +26,27 @@ export const getMarriageByUserId = createAction(
 
 export const addMarriage = createAction(
   '[Marriage] Add Marriage',
-  props<{ Marriage: Marriage; Photo: File }>()
+  props<{ Marriage: Marriage }>()
 );
 
 export const updateMarriage = createAction(
   '[Marriage] Update Marriage',
-  props<{ Marriage: Marriage; Photo: File }>()
+  props<{ Marriage: Marriage }>()
+);
+
+export const changePhotoMarriage = createAction(
+  '[Marriage] Change the photo of the Marriage',
+  props<{ Photo: File; id: string }>()
+);
+
+export const getPhotoMarriage = createAction(
+  '[Marriage] Get the photo of the Marriage',
+  props<{ Photo: string }>()
+);
+
+export const setPhotoMarriage = createAction(
+  '[Marriage] Set the photo of the Marriage',
+  props<{ PhotoUrl: string }>()
 );
 
 export const deleteMarriage = createAction(

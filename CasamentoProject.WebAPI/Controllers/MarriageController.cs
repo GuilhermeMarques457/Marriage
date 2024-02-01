@@ -1,8 +1,11 @@
 ﻿
+using CasamentoProject.Core.Domain.Entities;
 using CasamentoProject.Core.DTO.MarriageDTOs;
+using CasamentoProject.Core.Helpers;
 using CasamentoProject.Core.Identity;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +21,17 @@ namespace CasamentoProject.WebAPI.Controllers
         private IMarriageDeleterService _marriageDeleterService;
         private IMarriageUpdaterService _marriageUpdaterService;
         private IMarriageGetterService _marriageGetterService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public MarriageController(IMarriageAdderService marriageAdderService, IMarriageDeleterService marriageDeleterService, IMarriageUpdaterService marriageUpdaterService, IMarriageGetterService marriageGetterService, UserManager<ApplicationUser> userManager)
+        public MarriageController(IMarriageAdderService marriageAdderService, IMarriageDeleterService marriageDeleterService, IMarriageUpdaterService marriageUpdaterService, IMarriageGetterService marriageGetterService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _marriageAdderService = marriageAdderService;
             _marriageDeleterService = marriageDeleterService;
             _marriageUpdaterService = marriageUpdaterService;
             _marriageGetterService = marriageGetterService;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("get-marriages")]
@@ -65,6 +70,11 @@ namespace CasamentoProject.WebAPI.Controllers
             try
             {
                 var foundMarriage = await _marriageGetterService.GetMarriageByUserId(userId);
+                
+                // Nao ta aceitando retornar um form file da minha api akkakaka
+                //var File = ImageHelper.GetImage(foundMarriage.PhotoOfCouplePath);
+
+                //foundMarriage.File = File;
 
                 return Ok(foundMarriage);
             }
@@ -106,19 +116,18 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPut("put-marriage")]
-        public async Task<ActionResult<MarriageResponse>> PutMarriage(IFormFile file)
+        public async Task<ActionResult<MarriageResponse>> PutMarriage(MarriageUpdateRequest marriage)
         {
-            //try
-            //{
-            //    var updateMarriage = await _marriageUpdaterService.UpdateMarriage(marriage);
+            try
+            {
+                var updateMarriage = await _marriageUpdaterService.UpdateMarriage(marriage);
 
-            //    return Ok(updateMarriage);
-            //}
-            //catch
-            //{
-            //    throw;
-            //}
-            return Ok(new MarriageResponse());
+                return Ok(updateMarriage);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         [HttpDelete("delete-marriage/{id:guid}")]
@@ -133,6 +142,53 @@ namespace CasamentoProject.WebAPI.Controllers
             catch
             {
                 throw;
+            }
+        }
+
+        [HttpPut("change-marriage-photo/{id}")]
+        public async Task<ActionResult<string>> ChangeMarriage(IFormFile file, string id)
+        {
+            try
+            {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+
+                var foundMarriage = await _marriageGetterService.GetMarriageById(Guid.Parse(id));
+
+                await _marriageUpdaterService.AddImageMarriage(foundMarriage.Id, file, webRootPath);
+
+                var updatedMarriage = await _marriageGetterService.GetMarriageById(foundMarriage.Id);
+
+                return Ok(updatedMarriage.PhotoOfCouplePath);
+            }
+            catch
+            {
+                throw;
+            }
+  
+        }
+
+        [HttpGet("get-marriage-image/{fileName}")]
+        public IActionResult GetImage(string fileName)
+        {
+            try
+            {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+
+                var imagePath = Path.Combine(webRootPath, "images/couple", fileName);
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+                    return File(imageBytes, "image/png");
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
             }
         }
     }

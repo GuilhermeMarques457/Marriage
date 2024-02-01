@@ -19,4 +19,8 @@
     <ProjectReference Include="..\CasamentoProject.Infrastucture\CasamentoProject.Infrastucture.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\couple\" />
+  </ItemGroup>
+
 </Project>

@@ -65,7 +65,6 @@ namespace CasamentoProject.WebAPI.Controllers
         {
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, isPersistent: false, lockoutOnFailure: false);
 
-
             if (!result.Succeeded) throw new NotFoundException(nameof(result), "Email ou senha incorretos");
 
             ApplicationUser? user = await _userManager.FindByEmailAsync(login.Email!);

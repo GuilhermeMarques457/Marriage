@@ -10,9 +10,11 @@ var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
+app.UseStaticFiles();
+
 app.UseHsts();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
 
 app.UseRouting();
 app.UseCors();

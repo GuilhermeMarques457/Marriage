@@ -12,6 +12,11 @@ import { Marriage } from '../marriage.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { setInputIsDisable } from '../../../shared/store/usefull.actions';
+import {
+  changePhotoMarriage,
+  getPhotoMarriage,
+} from '../store/marriage.actions';
+import { selectMarriageState } from '../store/marriage.selectors';
 
 @Component({
   selector: 'app-marriage-edit',
@@ -55,6 +60,10 @@ export class MarriageEditComponent {
       };
       reader.readAsDataURL(this.file);
 
+      this.store.dispatch(
+        changePhotoMarriage({ Photo: this.file, id: this.currentMarriage.id })
+      );
+
       this.photoEvent.emit(this.file);
     }
   }
@@ -68,7 +77,19 @@ export class MarriageEditComponent {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(
+      getPhotoMarriage({
+        Photo:
+          'f470a450-0460-40ec-a992-8363cf814783-Captura%20de%20tela%202024-01-24%20130346.png',
+      })
+    );
+
+    this.store.select(selectMarriageState).subscribe((state) => {
+      this.photoCoupleSrc = state.marriagePhoto;
+      console.log(this.photoCoupleSrc);
+    });
+  }
 
   openInputFile(formInput: HTMLInputElement) {
     formInput.click();

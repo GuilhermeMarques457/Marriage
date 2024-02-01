@@ -23,7 +23,7 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageServices
             return marriage.Select(temp => temp.ToMarriageResponse()).ToList();
         }
 
-        public async Task<MarriageResponse?> GetMarriageById(Guid? MarriageID)
+        public async Task<MarriageResponse> GetMarriageById(Guid? MarriageID)
         {
             if (MarriageID == null)
                 throw new ArgumentNullException(nameof(MarriageID), "Casamento não informado");
@@ -36,7 +36,7 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageServices
             return existingMarriage.ToMarriageResponse();
         }
 
-        public async Task<MarriageResponse?> GetMarriageByUserId(Guid? UserId)
+        public async Task<MarriageResponse> GetMarriageByUserId(Guid? UserId)
         {
             if (UserId == null)
                 throw new ArgumentNullException(nameof(UserId), "Usuario não informado");

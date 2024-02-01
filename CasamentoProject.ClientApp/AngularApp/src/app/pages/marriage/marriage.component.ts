@@ -124,13 +124,9 @@ export class MarriageComponent {
     );
 
     if (marriage.id) {
-      this.store.dispatch(
-        updateMarriage({ Marriage: marriage, Photo: this.file })
-      );
+      this.store.dispatch(updateMarriage({ Marriage: marriage }));
     } else {
-      this.store.dispatch(
-        addMarriage({ Marriage: marriage, Photo: this.file })
-      );
+      this.store.dispatch(addMarriage({ Marriage: marriage }));
     }
   }
 

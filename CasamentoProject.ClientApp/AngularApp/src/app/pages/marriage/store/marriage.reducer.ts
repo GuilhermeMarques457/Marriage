@@ -1,14 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   addMarriage,
+  changePhotoMarriage,
   clearMarriageError,
   deleteMarriage,
   errorHandlerMarriage,
   getMarriage,
   getMarriageByUserId,
   getMarriages,
+  getPhotoMarriage,
   setMarriage,
   setMarriages,
+  setPhotoMarriage,
   updateMarriage,
 } from './marriage.actions';
 import { Marriage } from '../marriage.model';
@@ -19,6 +22,7 @@ export interface State {
   currentMarriage: Marriage | null;
   error: ErrorResponse;
   loading: boolean;
+  marriagePhoto: string;
 }
 
 const initalState: State = {
@@ -26,6 +30,7 @@ const initalState: State = {
   currentMarriage: null,
   error: null,
   loading: false,
+  marriagePhoto: null,
 };
 
 export const marriageReducer = createReducer(
@@ -83,6 +88,28 @@ export const marriageReducer = createReducer(
       ...state,
       loading: true,
       currentMarriage: null,
+    };
+  }),
+
+  on(changePhotoMarriage, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+
+  on(getPhotoMarriage, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+
+  on(setPhotoMarriage, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      marriagePhoto: action.PhotoUrl,
     };
   }),
 

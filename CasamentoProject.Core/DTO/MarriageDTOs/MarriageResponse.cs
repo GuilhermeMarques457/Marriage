@@ -1,4 +1,6 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
+using CasamentoProject.Core.Helpers;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;

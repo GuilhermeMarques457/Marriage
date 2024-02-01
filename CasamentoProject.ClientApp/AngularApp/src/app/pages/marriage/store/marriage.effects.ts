@@ -1,10 +1,10 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, from, map, of, switchMap, tap } from 'rxjs';
 import { Marriage } from '../marriage.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { setMarriages } from './marriage.actions';
+import { setMarriages, setPhotoMarriage } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { environment } from '../../../../environments/environment';
@@ -83,13 +83,9 @@ export class MarriageEffects {
       ofType(MarriageActions.addMarriage),
       switchMap((action) => {
         return this.http
-          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, {
-            ...action.Marriage,
-            file: action.Photo,
-          })
+          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, action.Marriage)
           .pipe(
             map((Marriage: Marriage) => {
-              console.log(Marriage);
               return setMarriage({ Marriage: Marriage });
             }),
             catchError((err) => handleError(err))
@@ -102,11 +98,8 @@ export class MarriageEffects {
     this.actions$.pipe(
       ofType(MarriageActions.updateMarriage),
       switchMap((action) => {
-        const formData: FormData = new FormData();
-        formData.append('file', action.Photo);
-
         return this.http
-          .put<Marriage>(`${this.API_URL_BASE}/put-marriage`, formData)
+          .put<Marriage>(`${this.API_URL_BASE}/put-marriage`, action.Marriage)
           .pipe(
             map((Marriage: Marriage) => {
               return setMarriage({ Marriage: Marriage });
@@ -128,6 +121,50 @@ export class MarriageEffects {
               return setMarriage({ Marriage: null });
             }),
             catchError((err) => handleError(err))
+          )
+      )
+    )
+  );
+
+  changePhotoMarriage = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(MarriageActions.changePhotoMarriage),
+        switchMap((action) => {
+          const formData: FormData = new FormData();
+
+          formData.append('file', action.Photo);
+
+          return this.http
+            .put<Marriage>(
+              `${this.API_URL_BASE}/change-marriage-photo/${action.id}`,
+              formData
+            )
+            .pipe(catchError((err) => handleError(err)));
+        })
+      ),
+    { dispatch: false }
+  );
+
+  getPhotoMarriage = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MarriageActions.getPhotoMarriage),
+      switchMap((action) =>
+        this.http
+          .get<Blob>(
+            `${this.API_URL_BASE}/get-marriage-image/${action.Photo}`,
+            { observe: 'response', responseType: 'blob' as 'json' }
+          )
+          .pipe(
+            map((response) => {
+              // Aqui você pode acessar a resposta como um Blob
+              const blob = response.body;
+
+              // Se precisar exibir a imagem, você pode criar uma URL do blob
+              const imageUrl = URL.createObjectURL(blob);
+
+              return setPhotoMarriage({ PhotoUrl: imageUrl });
+            })
           )
       )
     )

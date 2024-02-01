@@ -14,7 +14,7 @@ import {
   setTimoutToLogout,
 } from './pages/auth/store/auth.actions';
 import { Store } from '@ngrx/store';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SignUpComponent } from './pages/auth/sign-up/sign-up.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -89,7 +89,8 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
