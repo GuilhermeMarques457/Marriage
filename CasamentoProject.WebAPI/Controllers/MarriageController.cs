@@ -70,11 +70,6 @@ namespace CasamentoProject.WebAPI.Controllers
             try
             {
                 var foundMarriage = await _marriageGetterService.GetMarriageByUserId(userId);
-                
-                // Nao ta aceitando retornar um form file da minha api akkakaka
-                //var File = ImageHelper.GetImage(foundMarriage.PhotoOfCouplePath);
-
-                //foundMarriage.File = File;
 
                 return Ok(foundMarriage);
             }
@@ -146,7 +141,7 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPut("change-marriage-photo/{id}")]
-        public async Task<ActionResult<string>> ChangeMarriage(IFormFile file, string id)
+        public async Task<ActionResult<string>> ChangeMarriagePhoto(IFormFile file, string id)
         {
             try
             {
@@ -168,13 +163,13 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpGet("get-marriage-image/{fileName}")]
-        public IActionResult GetImage(string fileName)
+        public IActionResult GetMarriageImage(string fileName)
         {
             try
             {
                 string webRootPath = _webHostEnvironment.WebRootPath;
 
-                var imagePath = Path.Combine(webRootPath, "images/couple", fileName);
+                var imagePath = Path.Combine(webRootPath, "images/couple", fileName).Replace("\\", "/");
 
                 if (System.IO.File.Exists(imagePath))
                 {

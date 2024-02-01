@@ -12,14 +12,15 @@ namespace CasamentoProject.Core.Helpers
     {
         public async static Task<string> AddImage(IFormFile filePath, string projectFolder, string wwwrootFolder, Guid? id)
         {
-            var fileFullPath = Path.Combine(projectFolder, wwwrootFolder, $"{id}-{filePath.FileName}");
+            var fileName = Path.Combine($"{id}-{filePath.FileName}").Replace("\\", "/");
+            var fileFullPath = Path.Combine(projectFolder, wwwrootFolder, fileName).Replace("\\", "/");
 
             using (var stream = new FileStream(fileFullPath, FileMode.Create))
             {
                 await filePath.CopyToAsync(stream);
             }
 
-            return fileFullPath;
+            return fileName;
         }
 
         public static Task<bool> DeleteImage(string? filePath, string? projectFolder)

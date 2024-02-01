@@ -80,8 +80,7 @@ export class MarriageEditComponent {
   ngOnInit(): void {
     this.store.dispatch(
       getPhotoMarriage({
-        Photo:
-          'f470a450-0460-40ec-a992-8363cf814783-Captura%20de%20tela%202024-01-24%20130346.png',
+        Photo: this.currentMarriage.photoOfCouplePath,
       })
     );
 
