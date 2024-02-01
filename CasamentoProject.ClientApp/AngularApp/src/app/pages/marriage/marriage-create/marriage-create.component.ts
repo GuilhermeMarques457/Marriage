@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +39,7 @@ export class MarriageCreateComponent {
 
   @Input() marriageForm;
   @Input() currentMarriage: Marriage;
+  @Output() photoEvent = new EventEmitter<File>();
 
   onFileChange(event: any) {
     this.file = <File>event.target.files[0];
@@ -48,12 +49,14 @@ export class MarriageCreateComponent {
         this.photoCoupleSrc = e.target.result as string;
       };
       reader.readAsDataURL(this.file);
+
+      this.photoEvent.emit(this.file);
     }
   }
 
   ngOnInit(): void {}
 
-  openInputFile(formInput: HTMLInputElement) {
+  onOpenInputFile(formInput: HTMLInputElement) {
     formInput.click();
   }
 }

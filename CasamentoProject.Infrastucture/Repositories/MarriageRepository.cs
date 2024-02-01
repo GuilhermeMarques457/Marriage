@@ -71,7 +71,8 @@ namespace CasamentoProject.Infrastucture.Repositories
             if (matchingMarriage == null) return matchingMarriage;
 
             matchingMarriage.Date = Marriage.Date;
-            matchingMarriage.PhotoOfCouplePath = Marriage.PhotoOfCouplePath;
+            if(Marriage.PhotoOfCouplePath != null) 
+                matchingMarriage.PhotoOfCouplePath = Marriage.PhotoOfCouplePath;
             matchingMarriage.Neighborhood = Marriage.Neighborhood;
             matchingMarriage.Street = Marriage.Street;
             matchingMarriage.NumberAddress = Marriage.NumberAddress;

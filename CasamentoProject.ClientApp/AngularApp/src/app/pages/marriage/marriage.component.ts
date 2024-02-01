@@ -3,6 +3,7 @@ import { Marriage } from './marriage.model';
 import { Store } from '@ngrx/store';
 import {
   addMarriage,
+  changePhotoMarriage,
   getMarriageByUserId,
   updateMarriage,
 } from './store/marriage.actions';
@@ -23,11 +24,15 @@ import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gra
 import { selectAuthUserAuthenticated } from '../auth/store/auth.selector';
 import { tap } from 'rxjs';
 import { UserAuthenticated } from '../auth/models/user.authenticated.model';
-import { selectMarriageState } from './store/marriage.selectors';
+import {
+  selectCurrentMarriageState,
+  selectMarriageState,
+} from './store/marriage.selectors';
 import { MarriageEditComponent } from './marriage-edit/marriage-edit.component';
 import { MarriageCreateComponent } from './marriage-create/marriage-create.component';
 import { ErrorResponse } from '../../shared/models/error-response.model';
 import { setInputIsDisable } from '../../shared/store/usefull.actions';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -55,7 +60,11 @@ export class MarriageComponent {
   error: ErrorResponse = null;
   file: File;
 
-  constructor(private store: Store<AppState>, private dialog: MatDialog) {}
+  constructor(
+    private store: Store<AppState>,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.marriageForm = new FormGroup({
@@ -103,6 +112,20 @@ export class MarriageComponent {
       )
       .subscribe();
 
+    this.store.select(selectCurrentMarriageState).subscribe((state) => {
+      this.currentMarriage = state;
+      if (this.file && this.currentMarriage != null) {
+        this.store.dispatch(
+          changePhotoMarriage({
+            Photo: this.file,
+            id: this.currentMarriage.id,
+          })
+        );
+
+        this.router.navigateByUrl('/casamento');
+      }
+    });
+
     this.store.dispatch(getMarriageByUserId({ userId: this.currentUser.id }));
   }
 
@@ -123,10 +146,22 @@ export class MarriageComponent {
       currentMarriageId
     );
 
-    if (marriage.id) {
-      this.store.dispatch(updateMarriage({ Marriage: marriage }));
+    if (!this.file && this.currentMarriage.photoOfCouplePath == null) {
+      this.dialog.open(AlertComponent, {
+        data: new ErrorResponse(
+          'Foto Casal é necessaria',
+          'Para realizar o cadastro do casamento é necessario a foto do casal para envio dos convites',
+          '400'
+        ),
+        exitAnimationDuration: '300ms',
+        enterAnimationDuration: '300ms',
+      });
     } else {
-      this.store.dispatch(addMarriage({ Marriage: marriage }));
+      if (currentMarriageId) {
+        this.store.dispatch(updateMarriage({ Marriage: marriage }));
+      } else {
+        this.store.dispatch(addMarriage({ Marriage: marriage }));
+      }
     }
   }
 

@@ -84,7 +84,6 @@ namespace CasamentoProject.WebAPI.Controllers
         {
             try
             {
-
                 var isAuthenticatedAfterSignIn = User.Identity!.IsAuthenticated;
 
                 ApplicationUser? currentUser = new ApplicationUser();

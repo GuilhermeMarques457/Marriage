@@ -18,7 +18,8 @@ export class Marriage {
     street: string,
     neighborhood: string,
     numberAddress: number,
-    id?: string
+    id?: string,
+    marriagePhotoName?: string
   ) {
     this.id = id || null; // Set a default value if id is not provided
     this.date = date;
@@ -27,7 +28,6 @@ export class Marriage {
     this.numberAddress = numberAddress;
     this.moneyExpected = moneyExpected;
     this.photoOfCouplePath = photoOfCouplePath;
-
     this.fiances = [];
     this.gifts = [];
     this.guestsPlusFamily = [];
