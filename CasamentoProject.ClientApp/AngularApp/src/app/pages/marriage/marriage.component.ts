@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AlertComponent } from '../../shared/components/alert/alert.component';
+import { AlertErrorComponent } from '../../shared/components/alerts/alert-error/alert-error.component';
 import { AppState } from '../../store/app.reducer';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
@@ -42,7 +42,7 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AlertComponent,
+    AlertErrorComponent,
     MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
@@ -98,7 +98,7 @@ export class MarriageComponent {
             marriageState.error &&
             marriageState.error.error.Details !== 'Casamento não encontrado'
           ) {
-            this.dialog.open(AlertComponent, {
+            this.dialog.open(AlertErrorComponent, {
               data: new ErrorResponse(
                 marriageState.error.error.Message,
                 marriageState.error.error.Details,
@@ -147,7 +147,7 @@ export class MarriageComponent {
     );
 
     if (!this.file && this.currentMarriage.photoOfCouplePath == null) {
-      this.dialog.open(AlertComponent, {
+      this.dialog.open(AlertErrorComponent, {
         data: new ErrorResponse(
           'Foto Casal é necessaria',
           'Para realizar o cadastro do casamento é necessario a foto do casal para envio dos convites',

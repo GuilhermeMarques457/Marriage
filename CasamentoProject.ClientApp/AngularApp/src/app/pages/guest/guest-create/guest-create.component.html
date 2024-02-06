@@ -13,12 +13,13 @@
         <div class="flex gap-md mg-bt-md">
           <div class="w-100">
             <app-input-field
-              [label]="'Nome do Convidado que irá revceber o acesso e convite'"
+              [label]="'Nome do Convidado que irá receber o acesso e convite'"
               [form]="guestForm"
               [inputErrors]="nameErrors"
               [formControlName]="'name'"
               [placeholder]="'Insira o nome do convidado'"
               [icon]="'person'"
+              [isDisabledInput]="false"
             ></app-input-field>
           </div>
 
@@ -27,7 +28,7 @@
             type="button"
             color="accent"
             mat-fab
-            matTooltip="'Adionar um membro da familia'"
+            matTooltip="Adicionar um membro da familia"
             [matTooltipPosition]="'right'"
           >
             <mat-icon>add</mat-icon>

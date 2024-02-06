@@ -9,17 +9,17 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ErrorResponse } from '../../models/error-response.model';
-import { AppState } from '../../../store/app.reducer';
+import { ErrorResponse } from '../../../models/error-response.model';
+import { AppState } from '../../../../store/app.reducer';
 import { Store } from '@ngrx/store';
-import { clearMarriageError } from '../../../pages/marriage/store/marriage.actions';
-import { clearAuthError } from '../../../pages/auth/store/auth.actions';
+import { clearMarriageError } from '../../../../pages/marriage/store/marriage.actions';
+import { clearAuthError } from '../../../../pages/auth/store/auth.actions';
 
 @Component({
   standalone: true,
   selector: 'app-alert',
-  templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss'],
+  templateUrl: './alert-error.component.html',
+  styleUrls: ['./alert-error.component.scss'],
   imports: [
     MatDialogTitle,
     MatDialogContent,
@@ -29,11 +29,11 @@ import { clearAuthError } from '../../../pages/auth/store/auth.actions';
     MatButtonModule,
   ],
 })
-export class AlertComponent {
+export class AlertErrorComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ErrorResponse,
     private store: Store<AppState>,
-    private matDialogRef: MatDialogRef<AlertComponent>
+    private matDialogRef: MatDialogRef<AlertErrorComponent>
   ) {}
 
   onCloseDialog() {

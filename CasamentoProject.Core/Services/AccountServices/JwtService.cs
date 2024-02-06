@@ -64,7 +64,7 @@ namespace CasamentoProject.Core.Services.AccountServices
                 PersonName = user.PersonName,
                 Expiration = expiration,
                 RefreshToken = GenerateRefreshToken(),
-                RefreshTokenExpirationDateTime = DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["RefreshToken:EXPIRATION_MINUTES"]))
+                RefreshTokenExpirationDateTime = DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["Jwt:EXPIRATION_MINUTES"]))
             };
         }
 

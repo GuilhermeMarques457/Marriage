@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
-import { AlertComponent } from '../../../shared/components/alert/alert.component';
 import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +20,9 @@ import { InputFieldComponent } from '../../../shared/components/input-field/inpu
 import { GuestErrors } from '../../../shared/components/input-field/input-validations/guest-validation';
 import { MatTooltipModule, TooltipComponent } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
+import { DisableControlDirective } from '../../../shared/directives/disable-control.directive';
+import { setInputIsDisable } from '../../../shared/store/usefull.actions';
+import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
 
 @Component({
   selector: 'app-guest-create',
@@ -29,7 +31,7 @@ import { CommonModule } from '@angular/common';
     RouterModule,
     GuestCreateComponent,
     ReactiveFormsModule,
-    AlertComponent,
+    AlertYesNoComponent,
     MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
@@ -56,6 +58,8 @@ export class GuestCreateComponent {
     this.guestForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
     });
+
+    this.store.dispatch(setInputIsDisable({ isDisabled: false }));
   }
 
   onSubmit() {

@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AlertComponent } from '../../shared/components/alert/alert.component';
+import { AlertErrorComponent } from '../../shared/components/alerts/alert-error/alert-error.component';
 import { ErrorResponse } from '../../shared/models/error-response.model';
 
 @Component({
@@ -30,7 +30,7 @@ import { ErrorResponse } from '../../shared/models/error-response.model';
     HttpClientModule,
     RouterModule,
     SignUpComponent,
-    AlertComponent,
+    AlertErrorComponent,
     LoginComponent,
     CommonModule,
     RouterOutlet,
@@ -73,7 +73,7 @@ export class AuthComponent implements OnInit {
         this.state = authState.formActive;
 
         if (authState.authError) {
-          this.dialog.open(AlertComponent, {
+          this.dialog.open(AlertErrorComponent, {
             data: new ErrorResponse(
               authState.authError.error.Message,
               authState.authError.error.Details,

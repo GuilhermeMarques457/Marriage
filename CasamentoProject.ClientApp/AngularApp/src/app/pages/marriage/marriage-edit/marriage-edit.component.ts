@@ -85,7 +85,6 @@ export class MarriageEditComponent {
     );
 
     this.store.select(selectMarriageState).subscribe((state) => {
-      console.log(state.marriagePhoto);
       this.photoCoupleSrc = state.marriagePhoto;
     });
   }

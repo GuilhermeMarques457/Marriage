@@ -11,10 +11,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AlertComponent } from '../../shared/components/alert/alert.component';
 import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 import { Subscription, filter, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertYesNoComponent } from '../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
+import { DialogData } from '../../shared/models/dialog-data.model';
 
 @Component({
   selector: 'app-guest',
@@ -24,7 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
     RouterModule,
     GuestCreateComponent,
     ReactiveFormsModule,
-    AlertComponent,
+    AlertYesNoComponent,
     MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
@@ -59,8 +60,11 @@ export class GuestComponent {
   }
 
   onCloseAdding() {
-    this.dialog.open(AlertComponent, {
-      data: 'Voce tem certeza que você quer cancelar? Após aceitar sera impossível reverter',
+    this.dialog.open(AlertYesNoComponent, {
+      data: new DialogData(
+        'Você realmente quer sair?',
+        'Ao sair dessa pagina todos os convidados não salvos serão perdidos '
+      ),
       exitAnimationDuration: '300ms',
       enterAnimationDuration: '300ms',
     });
