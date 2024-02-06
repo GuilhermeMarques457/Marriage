@@ -3,6 +3,8 @@
   <mat-dialog-content> {{ data.Message }}</mat-dialog-content>
   <mat-dialog-actions class="dialog-buttons-box">
     <button mat-button mat-dialog-close>Ficar</button>
-    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="onClose()">
+      Ok
+    </button>
   </mat-dialog-actions>
 </div>

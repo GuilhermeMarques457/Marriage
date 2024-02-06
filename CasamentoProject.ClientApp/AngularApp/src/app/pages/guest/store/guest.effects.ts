@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as GuestActions from './guest.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Guest } from '../guest.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -82,11 +82,11 @@ export class GuestEffects {
     this.actions$.pipe(
       ofType(GuestActions.addGuest),
       switchMap((action) => {
+        console.log(action.Guest);
         return this.http
           .post<Guest>(`${this.API_URL_BASE}/post-guest`, action.Guest)
           .pipe(
             map((Guest: Guest) => {
-              console.log(Guest);
               return setGuest({ Guest: Guest });
             }),
             catchError((err) => handleError(err))

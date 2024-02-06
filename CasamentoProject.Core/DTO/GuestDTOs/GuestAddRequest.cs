@@ -10,6 +10,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
 {
     public class GuestAddRequest : GuestAbstraction
     {
-
+        public List<string>? FamilyMembers { get; set; }
     }
 }

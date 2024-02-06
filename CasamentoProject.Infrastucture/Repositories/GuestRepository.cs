@@ -50,6 +50,7 @@ namespace CasamentoProject.Infrastucture.Repositories
         {
             return await _context.Guests
                 .Include(temp => temp.Marriage)
+                .Include(temp => temp.FamilyMembers)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(temp => temp.Id == GuestID);
         }

@@ -1,4 +1,5 @@
 ﻿using CasamentoProject.Core.Domain.Entities;
+using CasamentoProject.Core.DTO.FamilyMemberDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
     public class GuestResponse : GuestAbstraction
     {
         public Guid Id { get; set; }
+        public List<FamilyMemberResponse>? FamilyMembers { get; set; }
 
         public override Guest ToGuest()
         {
@@ -20,7 +22,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 Name = Name,
                 Confirmed = Confirmed,
                 GiftGiven = GiftGiven,
-                FamilyMembers = FamilyMembers,
                 GiftMoney = GiftMoney,
                 Gift = Gift,
                 Marriage = Marriage,
@@ -36,7 +37,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 Name = Name,
                 Confirmed = Confirmed,
                 GiftGiven = GiftGiven,
-                FamilyMembers = FamilyMembers,
                 GiftMoney = GiftMoney,
                 Gift = Gift,
                 Marriage = Marriage,
@@ -56,8 +56,8 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 Name = Guest.Name,
                 Confirmed = Guest.Confirmed,
                 GiftGiven = Guest.GiftGiven,
-                FamilyMembers = Guest.FamilyMembers,
                 GiftMoney = Guest.GiftMoney,
+                FamilyMembers = Guest.FamilyMembers != null ? Guest.FamilyMembers.Select(x => x.ToFamilyMemberResponse()).ToList() : null,
                 Gift = Guest.Gift,
                 Marriage = Guest.Marriage,
                 MarriageId = Guest.MarriageId

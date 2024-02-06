@@ -39,7 +39,7 @@
             [label]="'Nome do membro da familia'"
             [form]="guestForm"
             [inputErrors]="nameErrors"
-            [formControlName]="'name'"
+            [formControlName]="'guest-' + (member + 1)"
             [placeholder]="'Insira o nome do convidado'"
             [icon]="'person'"
           ></app-input-field>

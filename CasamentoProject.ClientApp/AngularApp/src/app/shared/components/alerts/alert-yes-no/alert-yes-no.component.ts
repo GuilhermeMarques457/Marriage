@@ -9,6 +9,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { DialogData } from '../../../models/dialog-data.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-alert-yes-no',
@@ -26,6 +27,12 @@ import { DialogData } from '../../../models/dialog-data.model';
 export class AlertYesNoComponent {
   constructor(
     public dialogRef: MatDialogRef<AlertYesNoComponent>,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
+
+  onClose() {
+    if (this.router.url == '/convidados/adicionar')
+      this.router.navigateByUrl('/convidados');
+  }
 }

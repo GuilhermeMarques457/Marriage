@@ -1,5 +1,8 @@
 ﻿
+using CasamentoProject.Core.Domain.Entities;
+using CasamentoProject.Core.DTO.FamilyMemberDTOs;
 using CasamentoProject.Core.DTO.GuestDTOs;
+using CasamentoProject.Core.ServiceContracts.FamilyMemberContracts;
 using CasamentoProject.Core.ServiceContracts.GuestContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,7 @@ namespace CasamentoProject.WebAPI.Controllers
     public class GuestController : BaseAPIController
     {
         private IGuestAdderService _GuestAdderService;
+        private IFamilyMemberAdderService _FamilyAdderService;
         private IGuestDeleterService _GuestDeleterService;
         private IGuestUpdaterService _GuestUpdaterService;
         private IGuestGetterService _GuestGetterService;
@@ -17,13 +21,14 @@ namespace CasamentoProject.WebAPI.Controllers
             IGuestAdderService GuestAdderService,
             IGuestDeleterService GuestDeleterService,
             IGuestUpdaterService GuestUpdaterService,
-            IGuestGetterService GuestGetterService
-        )
+            IGuestGetterService GuestGetterService,
+            IFamilyMemberAdderService familyAdderService)
         {
             _GuestAdderService = GuestAdderService;
             _GuestDeleterService = GuestDeleterService;
             _GuestUpdaterService = GuestUpdaterService;
             _GuestGetterService = GuestGetterService;
+            _FamilyAdderService = familyAdderService;
         }
 
         [HttpGet("get-guests")]
@@ -63,7 +68,24 @@ namespace CasamentoProject.WebAPI.Controllers
             {
                 var addedGuest = await _GuestAdderService.AddGuest(Guest);
 
-                return Ok(addedGuest);
+                if(Guest.FamilyMembers != null)
+                {
+                    foreach(var member in Guest.FamilyMembers)
+                    {
+                        var familyMember = new FamilyMemberAddRequest()
+                        {
+                            GuestId = addedGuest!.Id,
+                            Name = member
+                        };
+
+                        await _FamilyAdderService.AddFamilyMember(familyMember);
+                    }
+                   
+                }
+
+                var foundMarriage = await _GuestGetterService.GetGuestById(addedGuest!.Id);
+               
+                return Ok(foundMarriage);
             }
             catch
             {

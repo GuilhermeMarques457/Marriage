@@ -15,6 +15,8 @@ import {
   provideAnimations,
 } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
+import { UsefullEffects } from './shared/store/usefull.effects';
+import { GuestEffects } from './pages/guest/store/guest.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,7 +34,12 @@ export const appConfig: ApplicationConfig = {
     },
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
     provideStore(fromAppState.appReducer),
-    provideEffects([AuthEffects, MarriageEffects]),
+    provideEffects([
+      AuthEffects,
+      MarriageEffects,
+      UsefullEffects,
+      GuestEffects,
+    ]),
     provideAnimations(),
   ],
 };

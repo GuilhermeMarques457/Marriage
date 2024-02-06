@@ -14,7 +14,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
         public string Name { get; set; } = null!;
         public bool Confirmed { get; set; }
         public bool GiftGiven { get; set; } = false;
-        public ICollection<FamilyMember>? FamilyMembers { get; set; }
         public Guid MarriageId { get; set; }
         public Marriage? Marriage { get; set; }
         public Gift? Gift { get; set; }
@@ -27,7 +26,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 Name = Name, 
                 Confirmed = Confirmed,
                 GiftGiven = GiftGiven,
-                FamilyMembers = FamilyMembers,
                 GiftMoney = GiftMoney,
                 Gift = Gift,Marriage = Marriage,
                 MarriageId = MarriageId

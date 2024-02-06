@@ -19,7 +19,6 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 Name = Name,
                 Confirmed = Confirmed,
                 GiftGiven = GiftGiven,
-                FamilyMembers = FamilyMembers,
                 GiftMoney = GiftMoney,
                 Gift = Gift,
                 Marriage = Marriage,

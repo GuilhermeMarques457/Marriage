@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {
+  FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -23,6 +25,8 @@ import { CommonModule } from '@angular/common';
 import { DisableControlDirective } from '../../../shared/directives/disable-control.directive';
 import { setInputIsDisable } from '../../../shared/store/usefull.actions';
 import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
+import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-guest-create',
@@ -65,17 +69,37 @@ export class GuestCreateComponent {
   onSubmit() {
     if (!this.guestForm.valid) return;
 
-    const Guest: Guest = {
-      name: this.guestForm.value.name,
-      confirmed: false,
-      giftGiven: false,
-    };
+    let guests: string[] = [];
+    // This is to add the name of the family members
+    this.numberFamilyMembers.forEach((x) => {
+      const guest = this.guestForm.value['guest-' + (x + 1)];
+      guests.push(guest);
+    });
 
-    this.store.dispatch(addGuest({ Guest: Guest }));
+    this.store
+      .select(selectCurrentMarriageState)
+      .pipe(take(1))
+      .subscribe({
+        next: (marriage) => {
+          const Guest: Guest = {
+            name: this.guestForm.value.name,
+            familyMembers: guests,
+            marriageId: marriage.id,
+            confirmed: false,
+            giftGiven: false,
+          };
+
+          this.store.dispatch(addGuest({ Guest: Guest }));
+        },
+      });
   }
 
   onAddFamilyMember() {
     this.numberFamilyMembers.push(this.numberFamilyMembers.length);
-    console.log(this.numberFamilyMembers);
+
+    this.guestForm.addControl(
+      `guest-${this.numberFamilyMembers.length}`,
+      new FormControl('', Validators.required)
+    );
   }
 }

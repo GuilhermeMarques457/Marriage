@@ -64,10 +64,11 @@ export const guestReducer = createReducer(
   }),
 
   on(addGuest, (state, action) => {
+    console.log(action);
     return {
       ...state,
       loading: true,
-      Guests: [...state.guests],
+      Guests: [...state.guests, action.Guest],
     };
   }),
 

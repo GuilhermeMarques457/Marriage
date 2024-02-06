@@ -29,6 +29,7 @@ namespace CasamentoProject.Core.ServiceContracts.GuestServices
 
             await _repository.AddGuest(Guest);
 
+
             return Guest.ToGuestResponse();
 
         }

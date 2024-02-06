@@ -3,8 +3,8 @@ export interface Guest {
   name: string;
   confirmed: boolean;
   giftGiven: boolean;
-  // familyMembers: FamilyMember[] | null;
-  // marriageId: string;
+  familyMembers: string[] | null;
+  marriageId: string;
   // marriage: Marriage | null;
   // gift: Gift | null;
   // giftMoney: GiftMoney | null;

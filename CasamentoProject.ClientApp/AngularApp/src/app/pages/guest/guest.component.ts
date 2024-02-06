@@ -44,6 +44,7 @@ export class GuestComponent {
   ) {}
 
   ngOnInit(): void {
+    // This is to change the icon in the page
     this.isAdding =
       this.route.firstChild?.snapshot.routeConfig?.path == 'adicionar';
     this.routeSubs$ = this.router.events
@@ -54,8 +55,6 @@ export class GuestComponent {
       .subscribe(() => {
         this.isAdding =
           this.route.firstChild?.snapshot.routeConfig?.path == 'adicionar';
-
-        console.log(this.isAdding);
       });
   }
 
@@ -63,7 +62,7 @@ export class GuestComponent {
     this.dialog.open(AlertYesNoComponent, {
       data: new DialogData(
         'Você realmente quer sair?',
-        'Ao sair dessa pagina todos os convidados não salvos serão perdidos '
+        'Ao sair dessa pagina todos os convidados não salvos serão perdidos'
       ),
       exitAnimationDuration: '300ms',
       enterAnimationDuration: '300ms',

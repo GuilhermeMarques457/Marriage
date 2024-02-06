@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 namespace CasamentoProject.WebAPI.StartupExtensions
 {
@@ -39,6 +40,9 @@ namespace CasamentoProject.WebAPI.StartupExtensions
                 //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 //options.Filters.Add(new AuthorizeFilter(policy));
 
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
 
             services.AddScoped<IMarriageAdderService, MarriageAdderService>();
@@ -103,8 +107,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                //string connectionString = configuration.GetConnectionString("AzureDefault")!;
-                string connectionString = configuration.GetConnectionString("Default")!;
+                string connectionString = configuration.GetConnectionString("AzureDefault")!;
+                //string connectionString = configuration.GetConnectionString("Default")!;
                 options
                     .UseSqlServer(connectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
