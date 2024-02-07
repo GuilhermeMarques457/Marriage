@@ -60,6 +60,25 @@ export class GuestEffects {
     )
   );
 
+  getGuestsByMarriageId = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GuestActions.getGuestsByMarriageId),
+      switchMap((action) =>
+        this.http
+          .get<Guest[]>(
+            // `${this.API_URL_BASE}/get-guests-by-marriage-id/${action.id}`
+            `${this.API_URL_BASE}/get-guests-by-marriage-id/1ba31b50-1dfa-4da3-8a76-9e439bffc64e`
+          )
+          .pipe(
+            map((Guests: Guest[]) => {
+              return setGuests({ Guests: Guests });
+            }),
+            catchError((err) => handleError(err))
+          )
+      )
+    )
+  );
+
   getGuestByUserId = createEffect(() =>
     this.actions$.pipe(
       ofType(GuestActions.getGuestByUserId),

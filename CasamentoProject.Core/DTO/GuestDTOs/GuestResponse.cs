@@ -13,6 +13,7 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
     {
         public Guid Id { get; set; }
         public List<FamilyMemberResponse>? FamilyMembers { get; set; }
+        public int NumberOfFamilyMembers { get; set; }
 
         public override Guest ToGuest()
         {
@@ -58,6 +59,7 @@ namespace CasamentoProject.Core.DTO.GuestDTOs
                 GiftGiven = Guest.GiftGiven,
                 GiftMoney = Guest.GiftMoney,
                 FamilyMembers = Guest.FamilyMembers != null ? Guest.FamilyMembers.Select(x => x.ToFamilyMemberResponse()).ToList() : null,
+                NumberOfFamilyMembers = Guest.FamilyMembers != null ? Guest.FamilyMembers.Count() : 0,
                 Gift = Guest.Gift,
                 Marriage = Guest.Marriage,
                 MarriageId = Guest.MarriageId

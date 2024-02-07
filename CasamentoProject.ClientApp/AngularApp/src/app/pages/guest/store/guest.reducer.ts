@@ -10,6 +10,7 @@ import {
   getGuest,
   getGuestByUserId,
   getGuests,
+  getGuestsByMarriageId,
   setGuest,
   setGuests,
   updateGuest,
@@ -33,9 +34,10 @@ export const guestReducer = createReducer(
   initalState,
 
   on(setGuests, (state, action) => {
+    console.log(action.Guests);
     return action.Guests != null
-      ? { ...state, Guests: [...action.Guests], loading: false }
-      : { ...state, Guests: [], loading: false };
+      ? { ...state, guests: action.Guests, loading: false }
+      : { ...state, guests: [], loading: false };
   }),
 
   on(setGuest, (state, action) => {
@@ -43,6 +45,14 @@ export const guestReducer = createReducer(
   }),
 
   on(getGuests, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+
+  on(getGuestsByMarriageId, (state, action) => {
+    console.log();
     return {
       ...state,
       loading: true,

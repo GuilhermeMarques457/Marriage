@@ -61,6 +61,21 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
+        [HttpGet("get-guests-by-marriage-id/{id:guid}")]
+        public async Task<ActionResult<List<GuestResponse>>> GetGuestsByMarriageId([FromRoute] Guid id)
+        {
+            try
+            {
+                var foundGuests = await _GuestGetterService.GetGuestsByMarriageId(id);
+
+                return Ok(foundGuests);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         [HttpPost("post-guest")]
         public async Task<ActionResult<GuestResponse>> PostGuest([FromBody] GuestAddRequest Guest)
         {
@@ -83,9 +98,9 @@ namespace CasamentoProject.WebAPI.Controllers
                    
                 }
 
-                var foundMarriage = await _GuestGetterService.GetGuestById(addedGuest!.Id);
+                var foundGuest = await _GuestGetterService.GetGuestById(addedGuest!.Id);
                
-                return Ok(foundMarriage);
+                return Ok(foundGuest);
             }
             catch
             {

@@ -72,6 +72,13 @@ namespace CasamentoProject.Infrastucture.DbContext
                 .HasForeignKey<GiftMoney>(money => money.GuestId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Guest>().Ignore(guest => guest.Marriage);
+
+            #endregion
+
+            #region Family Relations
+
+            builder.Entity<FamilyMember>().Ignore(member => member.Guest);
             #endregion
 
         }

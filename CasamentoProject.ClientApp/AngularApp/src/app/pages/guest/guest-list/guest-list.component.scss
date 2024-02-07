@@ -1,0 +1,23 @@
+@import "../../../../scss/variables";
+
+table {
+  padding: 1rem 4rem !important;
+}
+
+::ng-deep.mat-mdc-paginator-container {
+  padding: 5rem !important;
+  font-size: 1.5rem;
+}
+
+tr {
+  transition: all 0.4s;
+}
+
+tr:hover {
+  background-color: $primary-color !important;
+}
+
+::ng-deep.cdk-overlay-pane {
+  background-color: $white-color !important;
+  font-size: 1.3rem;
+}

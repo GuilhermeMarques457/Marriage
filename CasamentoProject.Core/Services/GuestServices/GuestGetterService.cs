@@ -24,6 +24,15 @@ namespace CasamentoProject.Core.ServiceContracts.GuestServices
         {
             List<Guest> Guest = await _repository.GetAllGuests();
            
+            return Guest.Select(temp => temp.ToGuestResponse()).ToList();
+        }
+
+        public async Task<List<GuestResponse>?> GetGuestsByMarriageId(Guid? MarriageID)
+        {
+            if (MarriageID == null)
+                throw new ArgumentNullException(nameof(MarriageID), "Casamento não informado");
+
+            List<Guest> Guest = await _repository.GetGuestsByMarriageId(MarriageID);
 
             return Guest.Select(temp => temp.ToGuestResponse()).ToList();
         }

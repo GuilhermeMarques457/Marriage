@@ -3,6 +3,7 @@ export interface Guest {
   name: string;
   confirmed: boolean;
   giftGiven: boolean;
+  numberOfFamilyMembers: number;
   familyMembers: string[] | null;
   marriageId: string;
   // marriage: Marriage | null;

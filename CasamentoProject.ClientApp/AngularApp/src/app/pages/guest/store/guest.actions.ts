@@ -14,6 +14,11 @@ export const setGuest = createAction(
 
 export const getGuests = createAction('[Guest] Fetch Guests');
 
+export const getGuestsByMarriageId = createAction(
+  '[Guest] Get Guests By Marriage Id',
+  props<{ id: string }>()
+);
+
 export const getGuest = createAction(
   '[Guest] Get Guest',
   props<{ id: string }>()

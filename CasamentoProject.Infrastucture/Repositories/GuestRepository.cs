@@ -49,10 +49,18 @@ namespace CasamentoProject.Infrastucture.Repositories
         public async Task<Guest?> GetGuestById(Guid? GuestID)
         {
             return await _context.Guests
-                .Include(temp => temp.Marriage)
                 .Include(temp => temp.FamilyMembers)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(temp => temp.Id == GuestID);
+        }
+
+        public async Task<List<Guest>> GetGuestsByMarriageId(Guid? MarriageID)
+        {
+            return await _context.Guests
+                .AsNoTracking()
+                .Include(temp => temp.FamilyMembers)
+                .Where(temp => temp.MarriageId == MarriageID)
+                .ToListAsync();
         }
 
         public async Task<Guest?> UpdateGuest(Guest Guest)

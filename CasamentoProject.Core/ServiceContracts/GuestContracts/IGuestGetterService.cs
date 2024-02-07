@@ -1,4 +1,5 @@
-﻿using CasamentoProject.Core.DTO.GuestDTOs;
+﻿using CasamentoProject.Core.Domain.Entities;
+using CasamentoProject.Core.DTO.GuestDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace CasamentoProject.Core.ServiceContracts.GuestContracts
     {
         Task<GuestResponse?> GetGuestById(Guid? GuestId);
         Task<List<GuestResponse>?> GetAllGuests();
+        Task<List<GuestResponse>> GetGuestsByMarriageId(Guid? MarriageID);
     }
 }

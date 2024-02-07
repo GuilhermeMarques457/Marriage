@@ -87,6 +87,7 @@ export class GuestCreateComponent {
             marriageId: marriage.id,
             confirmed: false,
             giftGiven: false,
+            numberOfFamilyMembers: 0,
           };
 
           this.store.dispatch(addGuest({ Guest: Guest }));

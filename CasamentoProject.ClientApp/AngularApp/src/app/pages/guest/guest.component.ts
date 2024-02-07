@@ -16,6 +16,7 @@ import { Subscription, filter, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertYesNoComponent } from '../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
 import { DialogData } from '../../shared/models/dialog-data.model';
+import { GuestListComponent } from './guest-list/guest-list.component';
 
 @Component({
   selector: 'app-guest',
@@ -29,6 +30,7 @@ import { DialogData } from '../../shared/models/dialog-data.model';
     MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
+    GuestListComponent,
     BtnCrazyGradientComponent,
   ],
   templateUrl: './guest.component.html',
