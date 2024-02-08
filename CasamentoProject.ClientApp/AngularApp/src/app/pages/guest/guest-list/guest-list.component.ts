@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {
   MatPaginator,
@@ -13,11 +13,12 @@ import { getGuests, getGuestsByMarriageId } from '../store/guest.actions';
 import { selectAllGuestsState } from '../store/guest.selectors';
 import { take } from 'rxjs';
 import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-guest-list',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [MatTableModule, MatPaginatorModule, RouterModule, CommonModule],
   templateUrl: './guest-list.component.html',
   styleUrl: './guest-list.component.scss',
 })
@@ -27,6 +28,7 @@ export class GuestListComponent {
     'giftGiven',
     'confirmed',
     'numberOfFamilyMembers',
+    'membersFamily',
   ];
   guests: Guest[] = [];
   dataSource = new MatTableDataSource<Guest>([]);

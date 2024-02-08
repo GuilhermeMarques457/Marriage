@@ -5,3 +5,6 @@ export const selectGuestState = (state: AppState) => state.guest;
 export const selectAllGuestsState = (state: AppState) => state.guest.guests;
 export const selectCurrentGuestState = (state: AppState) =>
   state.guest.currentGuest;
+
+export const selectCurrentFamilyState = (state: AppState) =>
+  state.guest.currentFamilyMembers;

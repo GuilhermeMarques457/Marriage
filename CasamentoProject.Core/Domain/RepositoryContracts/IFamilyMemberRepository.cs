@@ -13,6 +13,7 @@ namespace CasamentoProject.Core.Domain.RepositoryContracts
         Task<FamilyMember?> UpdateFamilyMember(FamilyMember FamilyMember);
         Task<bool> DeleteFamilyMember(Guid? FamilyMemberID);
         Task<FamilyMember?> GetFamilyMemberById(Guid? FamilyMemberID);
+        Task<List<FamilyMember>> GetFamilyMembersGusetById(Guid? GuestID);
         Task<List<FamilyMember>> GetAllFamilyMembers();
     }
 }

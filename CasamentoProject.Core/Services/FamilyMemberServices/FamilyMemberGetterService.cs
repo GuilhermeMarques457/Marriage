@@ -40,5 +40,18 @@ namespace CasamentoProject.Core.ServiceContracts.FamilyMemberServices
 
             return existingFamilyMember.ToFamilyMemberResponse();
         }
+
+        public async Task<List<FamilyMemberResponse>?> GetFamilyMembersByGuestId(Guid? GuestId)
+        {
+            if (GuestId == null)
+                throw new ArgumentNullException(nameof(GuestId), "Convidado não informado");
+
+            List<FamilyMember> FamilyMembers = await _repository.GetFamilyMembersGusetById(GuestId);
+
+            if(FamilyMembers.Count() == 0)
+                return null;
+
+            return FamilyMembers.Select(temp => temp.ToFamilyMemberResponse()).ToList();
+        }
     }
 }

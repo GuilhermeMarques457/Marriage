@@ -7,24 +7,29 @@ import {
   clearGuestError,
   deleteGuest,
   errorHandlerGuest,
+  getFamilyMembersByGuestId,
   getGuest,
   getGuestByUserId,
   getGuests,
   getGuestsByMarriageId,
+  setFamilyMembers,
   setGuest,
   setGuests,
   updateGuest,
 } from './guest.actions';
+import { FamilyMember } from '../family.model';
 
 export interface State {
   guests: Guest[];
   currentGuest: Guest | null;
+  currentFamilyMembers: FamilyMember[];
   error: ErrorResponse;
   loading: boolean;
 }
 
 const initalState: State = {
   guests: [],
+  currentFamilyMembers: [],
   currentGuest: null,
   error: null,
   loading: false,
@@ -34,10 +39,15 @@ export const guestReducer = createReducer(
   initalState,
 
   on(setGuests, (state, action) => {
-    console.log(action.Guests);
     return action.Guests != null
       ? { ...state, guests: action.Guests, loading: false }
       : { ...state, guests: [], loading: false };
+  }),
+
+  on(setFamilyMembers, (state, action) => {
+    return action.Family != null
+      ? { ...state, currentFamilyMembers: action.Family, loading: false }
+      : { ...state, currentFamilyMembers: [], loading: false };
   }),
 
   on(setGuest, (state, action) => {
@@ -52,7 +62,13 @@ export const guestReducer = createReducer(
   }),
 
   on(getGuestsByMarriageId, (state, action) => {
-    console.log();
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+
+  on(getFamilyMembersByGuestId, (state, action) => {
     return {
       ...state,
       loading: true,

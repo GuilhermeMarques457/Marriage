@@ -53,6 +53,13 @@ namespace CasamentoProject.Infrastucture.Repositories
                 .FirstOrDefaultAsync(temp => temp.Id == FamilyMemberID);
         }
 
+        public async Task<List<FamilyMember>> GetFamilyMembersGusetById(Guid? GuestID)
+        {
+            return await _context.FamilyMembers
+                .AsNoTracking()
+                .Where(temp => temp.GuestId == GuestID).ToListAsync();
+        }
+
         public async Task<FamilyMember?> UpdateFamilyMember(FamilyMember FamilyMember)
         {
             FamilyMember? matchingFamilyMember = await GetFamilyMemberById(FamilyMember.Id);

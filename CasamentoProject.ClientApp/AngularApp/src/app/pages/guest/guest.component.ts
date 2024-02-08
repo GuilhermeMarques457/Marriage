@@ -38,6 +38,7 @@ import { GuestListComponent } from './guest-list/guest-list.component';
 })
 export class GuestComponent {
   isAdding: boolean = false;
+  isNotEditing: boolean = false;
   routeSubs$: Subscription;
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +57,8 @@ export class GuestComponent {
       )
       .subscribe(() => {
         this.isAdding =
-          this.route.firstChild?.snapshot.routeConfig?.path == 'adicionar';
+          this.route.firstChild?.snapshot.routeConfig?.path == 'adicionar' ||
+          this.route.firstChild?.snapshot.routeConfig?.path.includes('editar');
       });
   }
 

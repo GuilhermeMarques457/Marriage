@@ -11,5 +11,6 @@ namespace CasamentoProject.Core.ServiceContracts.FamilyMemberContracts
     {
         Task<FamilyMemberResponse?> GetFamilyMemberById(Guid? FamilyMemberId);
         Task<List<FamilyMemberResponse>?> GetAllFamilyMembers();
+        Task<List<FamilyMemberResponse>?> GetFamilyMembersByGuestId(Guid? GuestId);
     }
 }

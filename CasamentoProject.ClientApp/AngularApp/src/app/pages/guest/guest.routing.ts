@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { GuestComponent } from './guest.component';
 import { GuestCreateComponent } from './guest-create/guest-create.component';
+import { GuestEditComponent } from './guest-edit/guest-edit.component';
 
 export const GuestRouting: Route[] = [
   {
@@ -12,7 +13,10 @@ export const GuestRouting: Route[] = [
       {
         path: 'adicionar',
         component: GuestCreateComponent,
-        canActivate: [AuthGuard],
+      },
+      {
+        path: 'editar/:id',
+        component: GuestEditComponent,
       },
     ],
   },

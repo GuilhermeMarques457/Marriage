@@ -1,10 +1,16 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { Guest } from '../guest.model';
+import { FamilyMember } from '../family.model';
 
 export const setGuests = createAction(
   '[Guest] Set Guests',
   props<{ Guests: Guest[] | null }>()
+);
+
+export const setFamilyMembers = createAction(
+  '[Guest] Set Family Members',
+  props<{ Family: FamilyMember[] | null }>()
 );
 
 export const setGuest = createAction(
@@ -27,6 +33,11 @@ export const getGuest = createAction(
 export const getGuestByUserId = createAction(
   '[Guest] Get Guest By User Id',
   props<{ userId: string }>()
+);
+
+export const getFamilyMembersByGuestId = createAction(
+  '[Guest] Get Family Members By Guest Id',
+  props<{ guestId: string }>()
 );
 
 export const addGuest = createAction(

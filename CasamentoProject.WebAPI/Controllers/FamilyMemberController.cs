@@ -41,6 +41,21 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
+        [HttpGet("get-family-members-by-guest-id/{id:guid}")]
+        public async Task<ActionResult<FamilyMemberResponse>> GetFamilyMembersById([FromRoute] Guid id)
+        {
+            try
+            {
+                var familyMembers = await _FamilyMemberGetterService.GetFamilyMembersByGuestId(id);
+
+                return Ok(familyMembers);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         [HttpGet("get-family-members/{id:guid}")]
         public async Task<ActionResult<FamilyMemberResponse>> GetFamilyMember([FromRoute] Guid id)
         {

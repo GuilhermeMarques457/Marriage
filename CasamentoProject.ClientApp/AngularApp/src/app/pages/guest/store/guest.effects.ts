@@ -7,7 +7,8 @@ import { Injectable } from '@angular/core';
 
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { environment } from '../../../../environments/environment';
-import { setGuest, setGuests } from './guest.actions';
+import { setFamilyMembers, setGuest, setGuests } from './guest.actions';
+import { FamilyMember } from '../family.model';
 
 const handleError = (response: ErrorResponse) => {
   let error = new ErrorResponse(
@@ -29,6 +30,7 @@ export class GuestEffects {
   constructor(private actions$: Actions, private http: HttpClient) {}
 
   private API_URL_BASE = `${environment.API_URL}/Guest`;
+  private API_URL_BASE_FAMILY = `${environment.API_URL}/FamilyMember`;
 
   getGuests = createEffect(() =>
     this.actions$.pipe(
@@ -72,6 +74,24 @@ export class GuestEffects {
           .pipe(
             map((Guests: Guest[]) => {
               return setGuests({ Guests: Guests });
+            }),
+            catchError((err) => handleError(err))
+          )
+      )
+    )
+  );
+
+  getFamilyMembersByGuestId = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GuestActions.getFamilyMembersByGuestId),
+      switchMap((action) =>
+        this.http
+          .get<FamilyMember[]>(
+            `${this.API_URL_BASE_FAMILY}/get-family-members-by-guest-id/${action.guestId}`
+          )
+          .pipe(
+            map((Family: FamilyMember[]) => {
+              return setFamilyMembers({ Family: Family });
             }),
             catchError((err) => handleError(err))
           )

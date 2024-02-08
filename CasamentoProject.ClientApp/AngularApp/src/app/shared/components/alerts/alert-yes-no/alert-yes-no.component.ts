@@ -32,7 +32,10 @@ export class AlertYesNoComponent {
   ) {}
 
   onClose() {
-    if (this.router.url == '/convidados/adicionar')
+    if (
+      this.router.url == '/convidados/adicionar' ||
+      this.router.url.includes('/convidados/editar')
+    )
       this.router.navigateByUrl('/convidados');
   }
 }

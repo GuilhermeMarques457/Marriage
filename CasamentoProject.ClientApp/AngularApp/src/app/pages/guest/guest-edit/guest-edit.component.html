@@ -1,0 +1,70 @@
+<form
+  [formGroup]="guestForm"
+  class="form-box-container"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+>
+  <div
+    class="grid grid--2--cols gap-bg flex-align-start"
+    [formGroup]="guestForm"
+  >
+    <div class="h-100">
+      <div class="flex flex-column gap-sm">
+        <div class="flex gap-md mg-bt-md">
+          <div class="w-100">
+            <app-input-field
+              [label]="'Nome do Convidado que irá receber o acesso e convite'"
+              [form]="guestForm"
+              [inputErrors]="nameErrors"
+              [formControlName]="'name'"
+              [placeholder]="'Insira o nome do convidado'"
+              [icon]="'person'"
+              [isDisabledInput]="false"
+            ></app-input-field>
+          </div>
+
+          <button
+            *ngIf="isEditing"
+            (click)="onAddFamilyMember()"
+            type="button"
+            color="accent"
+            mat-fab
+            matTooltip="Adicionar um membro da familia"
+            [matTooltipPosition]="'right'"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+
+          <button
+            mat-raised-button
+            color="accent"
+            class="edit-button"
+            (click)="onStartEditing()"
+          >
+            Editar
+          </button>
+        </div>
+        <div
+          class="input-box-guest"
+          *ngFor="let member of familyMembers; let i = index"
+        >
+          <app-input-field
+            [label]="'Nome do membro da familia'"
+            [form]="guestForm"
+            [ngModel]="member.name"
+            [inputErrors]="nameErrors"
+            [formControlName]="'guest-' + (i + 1)"
+            [placeholder]="'Insira o nome do convidado'"
+            [icon]="'person'"
+          ></app-input-field>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-end">
+      <app-btn-crazy-gradient
+        [buttonText]="'Salvar'"
+        [form]="guestForm"
+      ></app-btn-crazy-gradient>
+    </div>
+  </div>
+</form>
