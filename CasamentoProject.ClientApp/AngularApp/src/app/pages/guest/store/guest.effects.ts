@@ -1,14 +1,14 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as GuestActions from './guest.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { Guest } from '../guest.model';
+import { Guest } from '../models/guest.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { environment } from '../../../../environments/environment';
 import { setFamilyMembers, setGuest, setGuests } from './guest.actions';
-import { FamilyMember } from '../family.model';
+import { FamilyMember } from '../models/family.model';
 
 const handleError = (response: ErrorResponse) => {
   let error = new ErrorResponse(

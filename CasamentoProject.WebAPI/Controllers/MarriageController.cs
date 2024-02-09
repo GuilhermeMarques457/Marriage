@@ -161,29 +161,29 @@ namespace CasamentoProject.WebAPI.Controllers
   
         }
 
-        [HttpGet("get-marriage-image/{fileName}")]
-        public IActionResult GetMarriageImage(string fileName)
-        {
-            try
-            {
-                string webRootPath = _webHostEnvironment.WebRootPath;
+        //[HttpGet("get-marriage-image/{fileName}")]
+        //public IActionResult GetMarriageImage(string fileName)
+        //{
+        //    try
+        //    {
+        //        string webRootPath = _webHostEnvironment.WebRootPath;
 
-                var imagePath = Path.Combine(webRootPath, "images/couple", fileName).Replace("\\", "/");
+        //        var imagePath = Path.Combine(webRootPath, "images/couple", fileName).Replace("\\", "/");
 
-                if (System.IO.File.Exists(imagePath))
-                {
-                    var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-                    return File(imageBytes, "image/png");
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-        }
+        //        if (System.IO.File.Exists(imagePath))
+        //        {
+        //            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+        //            return File(imageBytes, "image/png");
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.ToString());
+        //    }
+        //}
     }
 }

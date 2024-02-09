@@ -56,7 +56,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
             return new MarriageResponse
             {
                 Id = Marriage.Id,
-                PhotoOfCouplePath = Marriage.PhotoOfCouplePath,
+                PhotoOfCouplePath = "images/couple/" + Marriage.PhotoOfCouplePath,
                 Date = Marriage.Date,
                 MoneyRaised = Marriage.MoneyRaised,
                 MoneyExpected = Marriage.MoneyExpected,

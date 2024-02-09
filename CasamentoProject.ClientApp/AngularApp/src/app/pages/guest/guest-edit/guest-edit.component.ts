@@ -9,13 +9,13 @@ import { setInputIsDisable } from '../../../shared/store/usefull.actions';
 import { AppState } from '../../../store/app.reducer';
 import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
 import { addGuest, getFamilyMembersByGuestId } from '../store/guest.actions';
-import { Guest } from '../guest.model';
+import { Guest } from '../models/guest.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { GuestCreateComponent } from '../guest-create/guest-create.component';
 import { selectCurrentFamilyState } from '../store/guest.selectors';
-import { FamilyMember } from '../family.model';
+import { FamilyMember } from '../models/family.model';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { SharedFormsModule } from '../../../shared/modules/forms.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
@@ -88,11 +88,11 @@ export class GuestEditComponent {
   onSubmit() {
     if (!this.guestForm.valid) return;
 
-    let guests: string[] = [];
+    let familyMembers: FamilyMember[] = [];
     // This is to add the name of the family members
     this.familyMembers.forEach((x, index) => {
-      const guest = this.guestForm.value['guest-' + (index + 1)];
-      guests.push(guest);
+      const familyMember = this.guestForm.value['guest-' + (index + 1)];
+      familyMembers.push({ name: familyMember });
     });
 
     this.store
@@ -102,7 +102,7 @@ export class GuestEditComponent {
         next: (marriage) => {
           const guest: Guest = {
             name: this.guestForm.value.name,
-            familyMembers: guests,
+            familyMembers: familyMembers,
             marriageId: marriage.id,
             confirmed: false,
             giftGiven: false,

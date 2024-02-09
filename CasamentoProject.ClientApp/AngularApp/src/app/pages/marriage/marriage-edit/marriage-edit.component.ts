@@ -19,6 +19,7 @@ import {
 import { selectMarriageState } from '../store/marriage.selectors';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-marriage-edit',
@@ -79,14 +80,10 @@ export class MarriageEditComponent {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(
-      getPhotoMarriage({
-        Photo: this.currentMarriage.photoOfCouplePath,
-      })
-    );
-
     this.store.select(selectMarriageState).subscribe((state) => {
-      this.photoCoupleSrc = state.marriagePhoto;
+      this.photoCoupleSrc = (
+        environment.API_URL + state.currentMarriage.photoOfCouplePath
+      ).replace('api', '');
     });
   }
 

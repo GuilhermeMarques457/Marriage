@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
-import { Guest } from '../guest.model';
-import { FamilyMember } from '../family.model';
+import { Guest } from '../models/guest.model';
+import { FamilyMember } from '../models/family.model';
 
 export const setGuests = createAction(
   '[Guest] Set Guests',

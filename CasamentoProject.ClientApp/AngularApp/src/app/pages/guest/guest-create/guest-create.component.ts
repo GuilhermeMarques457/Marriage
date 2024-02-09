@@ -16,7 +16,7 @@ import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
-import { Guest } from '../guest.model';
+import { Guest } from '../models/guest.model';
 import { addGuest, updateGuest } from '../store/guest.actions';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { GuestErrors } from '../../../shared/components/input-field/input-validations/guest-validation';
@@ -30,6 +30,7 @@ import { take } from 'rxjs';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedFormsModule } from '../../../shared/modules/forms.module';
 import { SharedModule } from '../../../shared/modules/shared.module';
+import { FamilyMember } from '../models/family.model';
 
 @Component({
   selector: 'app-guest-create',
@@ -68,11 +69,11 @@ export class GuestCreateComponent {
   onSubmit() {
     if (!this.guestForm.valid) return;
 
-    let guests: string[] = [];
+    let familyMembers: FamilyMember[] = [];
     // This is to add the name of the family members
     this.numberFamilyMembers.forEach((x) => {
-      const guest = this.guestForm.value['guest-' + (x + 1)];
-      guests.push(guest);
+      const familyMember = this.guestForm.value['guest-' + (x + 1)];
+      familyMembers.push({ name: familyMember });
     });
 
     this.store
@@ -82,7 +83,7 @@ export class GuestCreateComponent {
         next: (marriage) => {
           const Guest: Guest = {
             name: this.guestForm.value.name,
-            familyMembers: guests,
+            familyMembers: familyMembers,
             marriageId: marriage.id,
             confirmed: false,
             giftGiven: false,

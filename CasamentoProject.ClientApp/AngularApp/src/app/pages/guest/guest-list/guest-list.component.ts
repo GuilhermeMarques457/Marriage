@@ -5,7 +5,7 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Guest } from '../guest.model';
+import { Guest } from '../models/guest.model';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { getGuestsByMarriageId } from '../store/guest.actions';

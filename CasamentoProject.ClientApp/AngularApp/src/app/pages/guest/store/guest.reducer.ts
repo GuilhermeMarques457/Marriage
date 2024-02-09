@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { Guest } from '../guest.model';
+import { Guest } from '../models/guest.model';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import {
   addGuest,
@@ -17,7 +17,7 @@ import {
   setGuests,
   updateGuest,
 } from './guest.actions';
-import { FamilyMember } from '../family.model';
+import { FamilyMember } from '../models/family.model';
 
 export interface State {
   guests: Guest[];
