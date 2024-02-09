@@ -1,33 +1,27 @@
 import { ChangeDetectorRef, Component, Input, forwardRef } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
-import { CommonModule } from '@angular/common';
 import {
   FormGroup,
-  ReactiveFormsModule,
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { InputError } from '../../models/input-error.model';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { DisableControlDirective } from '../../directives/disable-control.directive';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { selectUsefullState } from '../../store/usefull.selectors';
+import { SharedFormsModule } from '../../modules/forms.module';
+import { SharedModule } from '../../modules/shared.module';
+import { MaterialModule } from '../../modules/material.module';
 
 @Component({
   selector: 'app-input-field',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
+    SharedFormsModule,
+    SharedModule,
+    MaterialModule,
     ValidationErrorComponent,
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
     DisableControlDirective,
   ],
   providers: [

@@ -27,22 +27,21 @@ import { setInputIsDisable } from '../../../shared/store/usefull.actions';
 import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
 import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
 import { take } from 'rxjs';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { SharedFormsModule } from '../../../shared/modules/forms.module';
+import { SharedModule } from '../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-guest-create',
   standalone: true,
   imports: [
+    SharedModule,
+    SharedFormsModule,
+    MaterialModule,
     RouterModule,
     GuestCreateComponent,
-    ReactiveFormsModule,
     AlertYesNoComponent,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatButtonModule,
-    BtnCrazyGradientComponent,
     InputFieldComponent,
-    MatTooltipModule,
-    CommonModule,
   ],
   templateUrl: './guest-create.component.html',
   styleUrl: './guest-create.component.scss',

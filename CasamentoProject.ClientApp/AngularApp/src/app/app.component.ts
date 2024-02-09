@@ -29,25 +29,21 @@ import { selectAuthState } from './pages/auth/store/auth.selector';
 import { Subscription, filter, map } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 import { setInputIsDisable } from './shared/store/usefull.actions';
+import { SharedModule } from './shared/modules/shared.module';
+import { MaterialModule } from './shared/modules/material.module';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
-    HttpClientModule,
+    SharedModule,
+    MaterialModule,
     RouterModule,
     SignUpComponent,
     LoginComponent,
-    CommonModule,
-    RouterOutlet,
-    RouterModule,
     MatListModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
     MatSlideToggleModule,
     MatMenuModule,
   ],

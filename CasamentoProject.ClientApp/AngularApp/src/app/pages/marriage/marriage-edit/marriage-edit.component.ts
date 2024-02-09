@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DatePickerComponent } from '../../../shared/components/date-picker/date-picker.component';
@@ -17,19 +17,20 @@ import {
   getPhotoMarriage,
 } from '../store/marriage.actions';
 import { selectMarriageState } from '../store/marriage.selectors';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { MaterialModule } from '../../../shared/modules/material.module';
 
 @Component({
   selector: 'app-marriage-edit',
   standalone: true,
   imports: [
-    CommonModule,
-    MatInputModule,
+    FormsModule,
+    SharedModule,
+    MaterialModule,
     InputFieldComponent,
-    MatFormFieldModule,
-    ReactiveFormsModule,
     DatePickerComponent,
-    MatIconModule,
-    MatButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './marriage-edit.component.html',
   styleUrl: './marriage-edit.component.scss',

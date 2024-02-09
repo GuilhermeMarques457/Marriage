@@ -1,28 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectAuthState } from '../store/auth.selector';
 import { UserLogin } from '../models/user.login.model';
 import { login, setSignUpActive } from '../store/auth.actions';
 import { AppState } from '../../../store/app.reducer';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
-import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { SharedFormsModule } from '../../../shared/modules/forms.module';
 
 @Component({
   standalone: true,
@@ -30,16 +20,10 @@ import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
+    SharedModule,
+    SharedFormsModule,
+    MaterialModule,
     InputFieldComponent,
-    BtnCrazyGradientComponent,
   ],
   providers: [
     {

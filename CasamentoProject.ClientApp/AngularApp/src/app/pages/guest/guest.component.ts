@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   ActivatedRoute,
@@ -7,31 +6,26 @@ import {
   RouterModule,
 } from '@angular/router';
 import { GuestCreateComponent } from './guest-create/guest-create.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BtnCrazyGradientComponent } from '../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 import { Subscription, filter, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertYesNoComponent } from '../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
 import { DialogData } from '../../shared/models/dialog-data.model';
 import { GuestListComponent } from './guest-list/guest-list.component';
+import { SharedModule } from '../../shared/modules/shared.module';
+import { SharedFormsModule } from '../../shared/modules/forms.module';
+import { MaterialModule } from '../../shared/modules/material.module';
 
 @Component({
   selector: 'app-guest',
   standalone: true,
   imports: [
-    CommonModule,
+    SharedModule,
+    SharedFormsModule,
+    MaterialModule,
     RouterModule,
     GuestCreateComponent,
-    ReactiveFormsModule,
     AlertYesNoComponent,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatButtonModule,
     GuestListComponent,
-    BtnCrazyGradientComponent,
   ],
   templateUrl: './guest.component.html',
   styleUrl: './guest.component.scss',

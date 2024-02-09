@@ -1,33 +1,20 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserSignUp } from '../models/user.signUp.model';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectAuthState } from '../store/auth.selector';
 import { setLoginActive, signUp } from '../store/auth.actions';
-import { RouterModule } from '@angular/router';
 import { AppState } from '../../../store/app.reducer';
 import { PasswordValidator } from '../../../shared/validators/password-validator';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-  MatFormFieldModule,
-} from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { PhoneValidator } from '../../../shared/validators/phone-validator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { AuthErrors } from '../../../shared/components/input-field/input-validations/auth-validation';
-import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { SharedFormsModule } from '../../../shared/modules/forms.module';
 
 @Component({
   standalone: true,
@@ -35,17 +22,10 @@ import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
+    SharedModule,
+    SharedFormsModule,
+    MaterialModule,
     InputFieldComponent,
-    BtnCrazyGradientComponent,
   ],
   providers: [
     {

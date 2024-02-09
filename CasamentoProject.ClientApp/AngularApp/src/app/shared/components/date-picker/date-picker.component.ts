@@ -2,37 +2,31 @@ import { Platform } from '@angular/cdk/platform';
 import { ChangeDetectorRef, Component, Input, forwardRef } from '@angular/core';
 import moment from 'moment';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import {
   ControlValueAccessor,
   FormGroup,
-  FormsModule,
   NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DisableControlDirective } from '../../directives/disable-control.directive';
 import { selectUsefullState } from '../../store/usefull.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
+import { SharedModule } from '../../modules/shared.module';
+import { MaterialModule } from '../../modules/material.module';
+import { SharedFormsModule } from '../../modules/forms.module';
 
 @Component({
   selector: 'app-date-picker',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
+    SharedModule,
+    MaterialModule,
+    SharedFormsModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
     DisableControlDirective,
-    FormsModule,
   ],
   providers: [
     {

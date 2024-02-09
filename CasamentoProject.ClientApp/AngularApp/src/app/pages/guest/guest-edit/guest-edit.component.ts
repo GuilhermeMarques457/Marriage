@@ -1,10 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -15,34 +10,27 @@ import { AppState } from '../../../store/app.reducer';
 import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
 import { addGuest, getFamilyMembersByGuestId } from '../store/guest.actions';
 import { Guest } from '../guest.model';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
-import { BtnCrazyGradientComponent } from '../../../shared/components/btn-crazy-gradient/btn-crazy-gradient.component';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { GuestCreateComponent } from '../guest-create/guest-create.component';
 import { selectCurrentFamilyState } from '../store/guest.selectors';
 import { FamilyMember } from '../family.model';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { SharedFormsModule } from '../../../shared/modules/forms.module';
+import { MaterialModule } from '../../../shared/modules/material.module';
 
 @Component({
   selector: 'app-guest-edit',
   standalone: true,
   imports: [
+    SharedModule,
+    SharedFormsModule,
+    MaterialModule,
     RouterModule,
     GuestCreateComponent,
-    ReactiveFormsModule,
     AlertYesNoComponent,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatButtonModule,
-    BtnCrazyGradientComponent,
     InputFieldComponent,
-    MatTooltipModule,
-    CommonModule,
   ],
   templateUrl: './guest-edit.component.html',
   styleUrl: './guest-edit.component.scss',

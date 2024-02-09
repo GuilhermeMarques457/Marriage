@@ -1,5 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorIntl,
@@ -9,16 +8,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Guest } from '../guest.model';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
-import { getGuests, getGuestsByMarriageId } from '../store/guest.actions';
+import { getGuestsByMarriageId } from '../store/guest.actions';
 import { selectAllGuestsState } from '../store/guest.selectors';
-import { take } from 'rxjs';
-import { selectCurrentMarriageState } from '../../marriage/store/marriage.selectors';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-guest-list',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, RouterModule, CommonModule],
+  imports: [MatTableModule, MatPaginatorModule, RouterModule, SharedModule],
   templateUrl: './guest-list.component.html',
   styleUrl: './guest-list.component.scss',
 })
