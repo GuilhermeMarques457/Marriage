@@ -4,7 +4,10 @@ import { environment } from '../../../../environments/environment';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
 import { Marriage } from '../marriage.model';
-import { selectMarriageState } from '../store/marriage.selectors';
+import {
+  selectCurrentMarriageState,
+  selectMarriageState,
+} from '../store/marriage.selectors';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerComponent } from '../../../shared/components/date-picker/date-picker.component';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
@@ -29,7 +32,6 @@ import { changePhotoMarriage } from '../store/marriage.actions';
   styleUrl: './marriage-upsert.component.scss',
 })
 export class MarriageUpsertComponent {
-  //#region Errors To user
   file?: File;
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
@@ -37,11 +39,6 @@ export class MarriageUpsertComponent {
   neighborhoodErrors = MarriageErrors.neighborhoodErrors;
   numberAddressErrors = MarriageErrors.numberAddresssErrors;
   //#endregion
-  isInputDisabled = true;
-
-  @Input() marriageForm;
-  @Input() currentMarriage?: Marriage;
-  @Output() photoEvent = new EventEmitter<File>();
 
   //#region Errors To user
 
@@ -53,42 +50,8 @@ export class MarriageUpsertComponent {
         this.photoCoupleSrc = e.target.result as string;
       };
       reader.readAsDataURL(this.file);
-
-      this.store.select(selectMarriageState).subscribe((state) => {
-        if (state.currentMarriage) {
-          this.store.dispatch(
-            changePhotoMarriage({
-              Photo: this.file,
-              id: this.currentMarriage.id,
-            })
-          );
-        }
-      });
-
-      this.photoEvent.emit(this.file);
     }
   }
 
   constructor(private store: Store<AppState>) {}
-
-  onDisableInput() {
-    this.isInputDisabled = !this.isInputDisabled;
-    this.store.dispatch(
-      setInputIsDisable({ isDisabled: this.isInputDisabled })
-    );
-  }
-
-  ngOnInit(): void {
-    this.store.select(selectMarriageState).subscribe((state) => {
-      if (state.currentMarriage) {
-        this.photoCoupleSrc = (
-          environment.API_URL + state.currentMarriage.photoOfCouplePath
-        ).replace('api', '');
-      }
-    });
-  }
-
-  openInputFile(formInput: HTMLInputElement) {
-    formInput.click();
-  }
 }

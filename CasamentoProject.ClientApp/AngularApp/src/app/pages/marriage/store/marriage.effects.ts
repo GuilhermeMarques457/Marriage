@@ -145,28 +145,4 @@ export class MarriageEffects {
       ),
     { dispatch: false }
   );
-
-  getPhotoMarriage = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MarriageActions.getPhotoMarriage),
-      switchMap((action) =>
-        this.http
-          .get<Blob>(
-            `${this.API_URL_BASE}/get-marriage-image/${action.Photo}`,
-            { observe: 'response', responseType: 'blob' as 'json' }
-          )
-          .pipe(
-            map((response) => {
-              // Aqui você pode acessar a resposta como um Blob
-              const blob = response.body;
-
-              // Se precisar exibir a imagem, você pode criar uma URL do blob
-              const imageUrl = URL.createObjectURL(blob);
-
-              return setPhotoMarriage({ PhotoUrl: imageUrl });
-            })
-          )
-      )
-    )
-  );
 }

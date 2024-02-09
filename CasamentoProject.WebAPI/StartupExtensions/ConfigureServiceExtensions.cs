@@ -107,8 +107,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                string connectionString = configuration.GetConnectionString("AzureDefault")!;
-                //string connectionString = configuration.GetConnectionString("Default")!;
+                //string connectionString = configuration.GetConnectionString("AzureDefault")!;
+                string connectionString = configuration.GetConnectionString("Default")!;
                 options
                     .UseSqlServer(connectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
