@@ -1,0 +1,109 @@
+@import "../../../../scss/_variables";
+
+.form-input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.input-file-box,
+.input-info-box {
+  border: 1px solid $primary-color;
+  border-radius: 15px;
+}
+
+.input-file-box {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+
+  input {
+    width: 100%;
+    display: block;
+    position: absolute;
+    opacity: 0;
+    height: 100%;
+    z-index: 999;
+  }
+
+  .input-file-actions {
+    padding: 0 2.8rem;
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1.4rem;
+
+    mat-icon {
+      color: $primary-color;
+      opacity: 1;
+      font-size: 8rem;
+      width: 8rem;
+      height: 8rem;
+    }
+
+    .input-label {
+      font-size: 1.5rem;
+    }
+
+    .send-button {
+      z-index: 999999;
+      font-size: 1.4rem;
+      width: 10rem;
+    }
+
+    .input-instructions {
+      font-size: 1.2rem;
+      color: $gray;
+    }
+  }
+
+  .input-file-image {
+    border-left: 1px solid $primary-color;
+    grid-column: 2/3;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+
+    img {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+    }
+  }
+}
+
+.input-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
+  padding: 4rem 5rem;
+
+  .btn-edit {
+    padding: 2.4rem 2rem;
+    font-size: 1.6rem;
+
+    &-icon {
+      width: 2rem;
+      height: 2rem;
+      font-size: 2rem;
+    }
+  }
+  .form-heading-info {
+    color: $primary-color;
+    font-size: 2.6rem;
+  }
+}
+
+::ng-deep.cdk-overlay-pane.mat-datepicker-popup {
+  background-color: $white-color;
+}
+
+mat-form-field {
+  width: 100%;
+  font-size: 1.6rem;
+}

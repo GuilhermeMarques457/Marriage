@@ -1,0 +1,92 @@
+<div
+  class="form-inputs-box grid grid--2--cols gap-bg"
+  [formGroup]="marriageForm"
+>
+  <div class="input-file-box h-100 grid grid--2--cols">
+    <input
+      type="file"
+      formControlName="photo"
+      (change)="onFileChange($event)"
+      #formInput
+    />
+    <div class="input-file-actions">
+      <mat-icon>upload</mat-icon>
+      <span class="input-label"
+        >Clique aqui ou arreste para enviar a foto dos noivos</span
+      >
+      <button
+        mat-raised-button
+        class="send-button"
+        color="accent"
+        type="button"
+        (click)="openInputFile(formInput)"
+      >
+        Enviar
+      </button>
+      <span class="input-instructions">Permitido apenas JPG e PNG</span>
+    </div>
+    <div class="input-file-image">
+      <img
+        *ngIf="photoCoupleSrc"
+        [src]="photoCoupleSrc"
+        alt="Imagem Selecionada"
+      />
+    </div>
+  </div>
+  <div class="input-info-box h-100 gap-md">
+    <div class="flex flex-align-center flex-spaced">
+      <h2 class="form-heading-info">Informações para os convidados</h2>
+      <button
+        mat-raised-button
+        color="accent"
+        class="btn-edit"
+        (click)="onDisableInput()"
+        type="button"
+      >
+        Editar <mat-icon class="btn-edit-icon">settings</mat-icon>
+      </button>
+    </div>
+
+    <div class="form-input-box">
+      <div class="grid grid--2--cols gap-md">
+        <app-date-picker
+          [ngModel]="currentMarriage?.date"
+          [formControlName]="'date'"
+          [form]="marriageForm"
+        ></app-date-picker>
+
+        <app-input-field
+          [ngModel]="currentMarriage?.street"
+          [label]="'Rua'"
+          [form]="marriageForm"
+          [inputErrors]="streetErrors"
+          [formControlName]="'street'"
+          [placeholder]="'Antonio Buzzeto'"
+          [icon]="'church'"
+        ></app-input-field>
+      </div>
+      <div class="grid grid--2--cols gap-md">
+        <app-input-field
+          [label]="'Bairro'"
+          [disabled]="true"
+          [ngModel]="currentMarriage?.neighborhood"
+          [form]="marriageForm"
+          [inputErrors]="neighborhoodErrors"
+          [formControlName]="'neighborhood'"
+          [placeholder]="'Vila Cicma'"
+          [icon]="'pin_drop'"
+        ></app-input-field>
+
+        <app-input-field
+          [ngModel]="currentMarriage?.numberAddress"
+          [label]="'Numero do Endereço'"
+          [form]="marriageForm"
+          [inputErrors]="numberAddressErrors"
+          [formControlName]="'numberAddress'"
+          [placeholder]="'457'"
+          [icon]="'home'"
+        ></app-input-field>
+      </div>
+    </div>
+  </div>
+</div>

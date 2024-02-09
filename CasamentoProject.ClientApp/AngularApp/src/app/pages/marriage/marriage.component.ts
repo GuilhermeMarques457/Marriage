@@ -33,6 +33,7 @@ import { MarriageCreateComponent } from './marriage-create/marriage-create.compo
 import { ErrorResponse } from '../../shared/models/error-response.model';
 import { setInputIsDisable } from '../../shared/store/usefull.actions';
 import { Router } from '@angular/router';
+import { MarriageUpsertComponent } from './marriage-upsert/marriage-upsert.component';
 
 @Component({
   standalone: true,
@@ -49,6 +50,7 @@ import { Router } from '@angular/router';
     BtnCrazyGradientComponent,
     MarriageEditComponent,
     MarriageCreateComponent,
+    MarriageUpsertComponent,
   ],
 })
 export class MarriageComponent {
@@ -137,7 +139,7 @@ export class MarriageComponent {
     if (!this.marriageForm.valid) return;
 
     const marriage = new Marriage(
-      this.marriageForm.value.photo,
+      '',
       this.marriageForm.value.date,
       this.marriageForm.value.moneyExpected,
       this.marriageForm.value.street,
@@ -146,7 +148,7 @@ export class MarriageComponent {
       currentMarriageId
     );
 
-    if (!this.file && this.currentMarriage.photoOfCouplePath == null) {
+    if (!this.file) {
       this.dialog.open(AlertErrorComponent, {
         data: new ErrorResponse(
           'Foto Casal é necessaria',
@@ -162,6 +164,12 @@ export class MarriageComponent {
       } else {
         this.store.dispatch(addMarriage({ Marriage: marriage }));
       }
+
+      this.store.select(selectCurrentMarriageState).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+      });
     }
   }
 

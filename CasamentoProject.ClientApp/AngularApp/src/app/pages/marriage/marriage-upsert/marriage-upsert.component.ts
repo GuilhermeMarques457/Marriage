@@ -1,29 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Store } from '@ngrx/store';
+import { environment } from '../../../../environments/environment';
+import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
+import { AppState } from '../../../store/app.reducer';
+import { Marriage } from '../marriage.model';
+import { selectMarriageState } from '../store/marriage.selectors';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerComponent } from '../../../shared/components/date-picker/date-picker.component';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
-import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { Marriage } from '../marriage.model';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.reducer';
-import { setInputIsDisable } from '../../../shared/store/usefull.actions';
-import {
-  changePhotoMarriage,
-  getPhotoMarriage,
-} from '../store/marriage.actions';
-import { selectMarriageState } from '../store/marriage.selectors';
-import { SharedModule } from '../../../shared/modules/shared.module';
-import { MaterialModule } from '../../../shared/modules/material.module';
-import { environment } from '../../../../environments/environment';
 import { SharedFormsModule } from '../../../shared/modules/forms.module';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { setInputIsDisable } from '../../../shared/store/usefull.actions';
+import { changePhotoMarriage } from '../store/marriage.actions';
 
 @Component({
-  selector: 'app-marriage-edit',
+  selector: 'app-marriage-upsert',
   standalone: true,
   imports: [
     SharedFormsModule,
@@ -33,10 +25,10 @@ import { SharedFormsModule } from '../../../shared/modules/forms.module';
     DatePickerComponent,
     ReactiveFormsModule,
   ],
-  templateUrl: './marriage-edit.component.html',
-  styleUrl: './marriage-edit.component.scss',
+  templateUrl: './marriage-upsert.component.html',
+  styleUrl: './marriage-upsert.component.scss',
 })
-export class MarriageEditComponent {
+export class MarriageUpsertComponent {
   //#region Errors To user
   file?: File;
   photoCoupleSrc: string | ArrayBuffer | null;
@@ -48,7 +40,7 @@ export class MarriageEditComponent {
   isInputDisabled = true;
 
   @Input() marriageForm;
-  @Input() currentMarriage: Marriage;
+  @Input() currentMarriage?: Marriage;
   @Output() photoEvent = new EventEmitter<File>();
 
   //#region Errors To user
@@ -62,9 +54,16 @@ export class MarriageEditComponent {
       };
       reader.readAsDataURL(this.file);
 
-      this.store.dispatch(
-        changePhotoMarriage({ Photo: this.file, id: this.currentMarriage.id })
-      );
+      this.store.select(selectMarriageState).subscribe((state) => {
+        if (state.currentMarriage) {
+          this.store.dispatch(
+            changePhotoMarriage({
+              Photo: this.file,
+              id: this.currentMarriage.id,
+            })
+          );
+        }
+      });
 
       this.photoEvent.emit(this.file);
     }
@@ -81,9 +80,11 @@ export class MarriageEditComponent {
 
   ngOnInit(): void {
     this.store.select(selectMarriageState).subscribe((state) => {
-      this.photoCoupleSrc = (
-        environment.API_URL + state.currentMarriage.photoOfCouplePath
-      ).replace('api', '');
+      if (state.currentMarriage) {
+        this.photoCoupleSrc = (
+          environment.API_URL + state.currentMarriage.photoOfCouplePath
+        ).replace('api', '');
+      }
     });
   }
 

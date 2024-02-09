@@ -29,16 +29,10 @@
         ></app-btn-crazy-gradient>
       </div>
     </div>
-    <app-marriage-create
-      *ngIf="!currentMarriage"
+    <app-marriage-upsert
       [marriageForm]="marriageForm"
-      (photoEvent)="onAddFileToForm($event)"
-    ></app-marriage-create>
-    <app-marriage-edit
-      *ngIf="currentMarriage"
-      [marriageForm]="marriageForm"
-      (photoEvent)="onAddFileToForm($event)"
       [currentMarriage]="currentMarriage"
-    ></app-marriage-edit>
+      (photoEvent)="onAddFileToForm($event)"
+    ></app-marriage-upsert>
   </form>
 </div>
