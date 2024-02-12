@@ -1,13 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { environment } from '../../../../environments/environment';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
-import { Marriage } from '../marriage.model';
-import {
-  selectCurrentMarriageState,
-  selectMarriageState,
-} from '../store/marriage.selectors';
 import {
   FormControl,
   FormGroup,
@@ -19,13 +13,12 @@ import { InputFieldComponent } from '../../../shared/components/input-field/inpu
 import { SharedFormsModule } from '../../../shared/modules/forms.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/modules/shared.module';
-import { setInputIsDisable } from '../../../shared/store/usefull.actions';
-import { changePhotoMarriage } from '../store/marriage.actions';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertYesNoComponent } from '../../../shared/components/alerts/alert-yes-no/alert-yes-no.component';
-import { DialogData } from '../../../shared/models/dialog-data.model';
 import { AlertErrorComponent } from '../../../shared/components/alerts/alert-error/alert-error.component';
 import { HourValidator } from '../../../shared/validators/hour-validator';
+import { Marriage } from '../marriage.model';
+import { addMarriage } from '../store/marriage.actions';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -35,8 +28,8 @@ import { HourValidator } from '../../../shared/validators/hour-validator';
     SharedModule,
     MaterialModule,
     InputFieldComponent,
-    DatePickerComponent,
     ReactiveFormsModule,
+    DatePickerComponent,
   ],
   templateUrl: './marriage-upsert.component.html',
   styleUrl: './marriage-upsert.component.scss',
@@ -44,8 +37,6 @@ import { HourValidator } from '../../../shared/validators/hour-validator';
 export class MarriageUpsertComponent {
   constructor(private store: Store<AppState>, private dialog: MatDialog) {}
 
-  isLoading = false;
-  file?: File;
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
@@ -55,6 +46,9 @@ export class MarriageUpsertComponent {
   brideErrors = MarriageErrors.brideErrors;
 
   marriageForm: FormGroup;
+  marriage: Marriage;
+  isLoading = false;
+  file?: File;
 
   ngOnInit() {
     this.marriageForm = new FormGroup({
@@ -74,10 +68,28 @@ export class MarriageUpsertComponent {
     this.isLoading = true;
     if (!this.file)
       this.dialog.open(AlertErrorComponent, {
-        data: 'Foto do casal é necessario para cadastro',
+        data: new ErrorResponse(
+          'ads',
+          'asd',
+          'authState.authError.error.StatusCode'
+        ),
         exitAnimationDuration: '300ms',
         enterAnimationDuration: '300ms',
       });
+
+    this.marriage = new Marriage(
+      '',
+      this.marriageForm.value.date,
+      0,
+      this.marriageForm.value.street,
+      this.marriageForm.value.neighborhood,
+      this.marriageForm.value.numberAddress
+    );
+
+    console;
+    this.store.dispatch(
+      addMarriage({ Marriage: this.marriage, PhotoOfCouple: this.file })
+    );
   }
 
   onFileChange(event: any) {

@@ -1,21 +1,47 @@
 <form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
   <h2 class="form-heading">Entrar</h2>
   <div class="form-inputs-box">
+    <div class="d-flex mt-3">
+      <app-input-field
+        [label]="'Noivo'"
+        [form]="marriageForm"
+        [inputErrors]="groomErrors"
+        [formControlName]="'groom'"
+        [icon]="'male'"
+      ></app-input-field>
+      <app-input-field
+        [label]="'Noivo'"
+        [form]="marriageForm"
+        [inputErrors]="groomErrors"
+        [formControlName]="'groom'"
+        [icon]="'female'"
+      ></app-input-field>
+    </div>
+
     <app-date-picker [form]="marriageForm"></app-date-picker>
     <app-input-field
-      [label]="'Noivo'"
+      [label]="'Bairro'"
       [form]="marriageForm"
-      [inputErrors]="groomErrors"
-      [formControlName]="'groom'"
+      [inputErrors]="neighborhoodErrors"
+      [formControlName]="'neighborhood'"
       [icon]="'male'"
     ></app-input-field>
     <app-input-field
-      [label]="'Noivo'"
+      [label]="'Rua'"
       [form]="marriageForm"
-      [inputErrors]="groomErrors"
-      [formControlName]="'groom'"
+      [inputErrors]="streetErrors"
+      [formControlName]="'street'"
       [icon]="'male'"
     ></app-input-field>
+    <app-input-field
+      [label]="'Numero de endereço'"
+      [form]="marriageForm"
+      [inputErrors]="numberAddressErrors"
+      [formControlName]="'numberAddress'"
+      [icon]="'male'"
+    ></app-input-field>
+
+    <input type="file" (change)="onFileChange($event)" />
 
     <div class="btn-form-box">
       <app-btn-crazy-gradient

@@ -69,7 +69,6 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      Marriages: [...state.Marriages],
     };
   }),
 
@@ -77,7 +76,6 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      currentMarriage: action.Marriage,
     };
   }),
 
@@ -90,7 +88,6 @@ export const marriageReducer = createReducer(
   }),
 
   on(changePhotoMarriage, (state, action) => {
-    console.log('entrou reducer');
     return {
       ...state,
       loading: true,
