@@ -16,7 +16,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
-import { selectAuthState } from './pages/auth/store/auth.selector';
+import {
+  selectAuthState,
+  selectAuthUserAuthenticated,
+} from './pages/auth/store/auth.selector';
 import { Subscription, filter, map } from 'rxjs';
 import { UserAuthenticated } from './pages/auth/models/user.authenticated.model';
 import { setInputIsDisable } from './shared/store/usefull.actions';
@@ -80,6 +83,12 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.store.dispatch(autoLogin());
+
+    this.store.select(selectAuthUserAuthenticated).subscribe({
+      next: (user) => {
+        this.userAuthenticated = user;
+      },
+    });
 
     // Take Page title
     this.router.events

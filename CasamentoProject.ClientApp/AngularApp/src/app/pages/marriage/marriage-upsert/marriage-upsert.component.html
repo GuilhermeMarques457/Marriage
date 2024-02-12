@@ -1,0 +1,27 @@
+<form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+  <h2 class="form-heading">Entrar</h2>
+  <div class="form-inputs-box">
+    <app-date-picker [form]="marriageForm"></app-date-picker>
+    <app-input-field
+      [label]="'Noivo'"
+      [form]="marriageForm"
+      [inputErrors]="groomErrors"
+      [formControlName]="'groom'"
+      [icon]="'male'"
+    ></app-input-field>
+    <app-input-field
+      [label]="'Noivo'"
+      [form]="marriageForm"
+      [inputErrors]="groomErrors"
+      [formControlName]="'groom'"
+      [icon]="'male'"
+    ></app-input-field>
+
+    <div class="btn-form-box">
+      <app-btn-crazy-gradient
+        [buttonText]="'Cadastrar'"
+        [form]="marriageForm"
+      ></app-btn-crazy-gradient>
+    </div>
+  </div>
+</form>
