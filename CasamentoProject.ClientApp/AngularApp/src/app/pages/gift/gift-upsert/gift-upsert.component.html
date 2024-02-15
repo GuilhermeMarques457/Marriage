@@ -1,0 +1,60 @@
+<form
+  [formGroup]="giftForm"
+  class="form-box-container"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+          <app-input-field
+            [label]="'Presente'"
+            [form]="giftForm"
+            [inputErrors]="nameErrors"
+            [formControlName]="'name'"
+            [placeholder]="'Insira o nome presente'"
+            [icon]="'redeem'"
+          ></app-input-field>
+        </div>
+        <div class="col-md-6">
+          <app-input-field
+            [label]="'Descrição'"
+            [form]="giftForm"
+            [inputErrors]="descriptionErrors"
+            [formControlName]="'description'"
+            [placeholder]="'Insira a descrição presente'"
+            [icon]="'description'"
+          ></app-input-field>
+        </div>
+        <div class="col-md-6">
+          <app-input-field
+            [label]="'Preço estimado'"
+            [form]="giftForm"
+            [inputErrors]="priceErrors"
+            [formControlName]="'price'"
+            [placeholder]="'Insira o preço estimado do presente'"
+            [icon]="'attach_money'"
+          ></app-input-field>
+        </div>
+        <div class="col-md-6">
+          <app-input-field
+            [label]="'Link do presente'"
+            [form]="giftForm"
+            [inputErrors]="giftUrlErrors"
+            [formControlName]="'giftUrl'"
+            [placeholder]="'Insira o link para o site do presente'"
+            [icon]="'link'"
+          ></app-input-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-end">
+    <app-btn-crazy-gradient
+      [buttonText]="'Salvar'"
+      [form]="giftForm"
+    ></app-btn-crazy-gradient>
+  </div>
+</form>

@@ -17,6 +17,7 @@ import {
 import { provideStore } from '@ngrx/store';
 import { UsefullEffects } from './shared/store/usefull.effects';
 import { GuestEffects } from './pages/guest/store/guest.effects';
+import { GiftEffects } from './pages/gift/store/gift.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
       MarriageEffects,
       UsefullEffects,
       GuestEffects,
+      GiftEffects,
     ]),
     provideAnimations(),
   ],

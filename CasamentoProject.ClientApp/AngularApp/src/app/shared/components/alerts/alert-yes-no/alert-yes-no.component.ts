@@ -37,5 +37,8 @@ export class AlertYesNoComponent {
       this.router.url.includes('/convidados/editar')
     )
       this.router.navigateByUrl('/convidados');
+
+    if (this.router.url == '/presentes/editar')
+      this.router.navigateByUrl('/presentes');
   }
 }

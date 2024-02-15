@@ -2,8 +2,14 @@
   <h2 mat-dialog-title>{{ data.Title }}</h2>
   <mat-dialog-content> {{ data.Message }}</mat-dialog-content>
   <mat-dialog-actions class="dialog-buttons-box">
-    <button mat-button mat-dialog-close>Ficar</button>
-    <button mat-button mat-dialog-close cdkFocusInitial (click)="onClose()">
+    <button class="btn-stay" mat-button mat-dialog-close>Ficar</button>
+    <button
+      class="btn-close"
+      mat-button
+      mat-dialog-close
+      cdkFocusInitial
+      (click)="onClose()"
+    >
       Ok
     </button>
   </mat-dialog-actions>

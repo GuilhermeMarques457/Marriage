@@ -22,6 +22,11 @@ export const routes: Routes = [
       import('./pages/guest/guest.routing').then((g) => g.GuestRouting),
   },
   {
+    path: 'presentes',
+    loadChildren: () =>
+      import('./pages/gift/gift.routing').then((g) => g.GiftRouting),
+  },
+  {
     path: 'index',
     component: HomeComponent,
     canActivate: [AuthGuard],

@@ -1,0 +1,26 @@
+<div class="flex flex-spaced">
+  <h1 class="page-title">Gerencie seus presentes</h1>
+
+  <a
+    routerLink="editar"
+    mat-fab
+    class="new-button"
+    color="accent"
+    type="button"
+    *ngIf="!isEditing"
+    ><mat-icon>add</mat-icon></a
+  >
+  <a
+    *ngIf="isEditing"
+    mat-fab
+    class="new-button"
+    color="warn"
+    type="button"
+    (click)="onCloseEditing()"
+    ><mat-icon>close</mat-icon></a
+  >
+</div>
+
+<router-outlet></router-outlet>
+
+<app-gift-list></app-gift-list>

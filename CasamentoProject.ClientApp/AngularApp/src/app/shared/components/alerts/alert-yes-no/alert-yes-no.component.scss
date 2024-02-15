@@ -21,5 +21,18 @@ mat-dialog-content {
 
 button[mat-button] {
   font-size: 1.6rem;
+  transition: 0.3s all;
+}
+
+.btn-close {
   background-color: $secondary-color;
+}
+
+.btn-close:hover {
+  background-color: $secondary-color-darker;
+  color: $white-color;
+}
+
+.btn-stay:hover {
+  background-color: $white-color-darker;
 }
