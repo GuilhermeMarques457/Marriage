@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
@@ -44,11 +44,16 @@ export class MarriageUpsertComponent {
   numberAddressErrors = MarriageErrors.numberAddresssErrors;
   groomErrors = MarriageErrors.groomErrors;
   brideErrors = MarriageErrors.brideErrors;
+  brideAgeErrors = MarriageErrors.brideAgeErrors;
+  groomAgeErrors = MarriageErrors.groomAgeErrors;
 
   marriageForm: FormGroup;
   marriage: Marriage;
   isLoading = false;
   file?: File;
+
+  @ViewChild('groomImage') groomImageInput: ElementRef;
+  @ViewChild('brideImage') brideImageInput: ElementRef;
 
   ngOnInit() {
     this.marriageForm = new FormGroup({
@@ -60,18 +65,19 @@ export class MarriageUpsertComponent {
       street: new FormControl(null, [Validators.required]),
       numberAddress: new FormControl(null, [Validators.required]),
       groom: new FormControl(null, [Validators.required]),
+      groomAge: new FormControl(null, [Validators.required]),
       bride: new FormControl(null, [Validators.required]),
+      brideAge: new FormControl(null, [Validators.required]),
     });
   }
 
   onSubmit() {
-    this.isLoading = true;
     if (!this.file)
       this.dialog.open(AlertErrorComponent, {
         data: new ErrorResponse(
-          'ads',
-          'asd',
-          'authState.authError.error.StatusCode'
+          'Foto Requirida',
+          'Foto do casal é necessária para o envio do formulário',
+          '400'
         ),
         exitAnimationDuration: '300ms',
         enterAnimationDuration: '300ms',
@@ -86,7 +92,6 @@ export class MarriageUpsertComponent {
       this.marriageForm.value.numberAddress
     );
 
-    console;
     this.store.dispatch(
       addMarriage({ Marriage: this.marriage, PhotoOfCouple: this.file })
     );
@@ -101,5 +106,13 @@ export class MarriageUpsertComponent {
       };
       reader.readAsDataURL(this.file);
     }
+  }
+
+  onOpenGroomImage() {
+    this.groomImageInput.nativeElement.click();
+  }
+
+  onOpenBrideImage() {
+    this.brideImageInput.nativeElement.click();
   }
 }

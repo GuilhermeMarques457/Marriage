@@ -1,0 +1,52 @@
+@import "../../../../scss/variables";
+
+.form-heading {
+  font-size: 3.2rem;
+  letter-spacing: 1px;
+  color: $primary-color;
+}
+
+.fiances-container {
+  .fiance-row {
+    gap: 3.8rem;
+
+    .fiance-box {
+      border-radius: 10px;
+      padding: 3rem 5rem;
+      border: 1px solid $primary-color;
+
+      .fiance-title {
+        font-size: 3rem;
+      }
+
+      .fiance-img-box {
+        height: 20rem;
+
+        .fiance-img {
+          width: 15rem;
+          height: 15rem;
+          background-color: $primary-color;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+          }
+        }
+
+        .send-button-icon {
+          top: 50%;
+          transform: translate(-50%, -80%);
+          left: 50%;
+
+          mat-icon {
+            opacity: 80%;
+            font-size: 5rem;
+            height: 5rem;
+            width: 5rem;
+          }
+        }
+      }
+    }
+  }
+}
