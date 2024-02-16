@@ -2,15 +2,14 @@
 
 .form-heading {
   font-size: 3.2rem;
-  letter-spacing: 1px;
   color: $primary-color;
 }
 
-.fiances-container {
-  .fiance-row {
+.marriage-container {
+  .marriage-row {
     gap: 3.8rem;
 
-    .fiance-box {
+    .box {
       border-radius: 10px;
       padding: 3rem 5rem;
       border: 1px solid $primary-color;
@@ -20,14 +19,14 @@
       }
 
       .fiance-img-box {
-        height: 20rem;
-
         .fiance-img {
           width: 15rem;
           height: 15rem;
           background-color: $primary-color;
           border-radius: 50%;
           overflow: hidden;
+          display: flex;
+          align-items: center;
 
           img {
             width: 100%;

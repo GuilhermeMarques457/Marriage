@@ -2,7 +2,7 @@
   <mat-sidenav class="sidenav mat-elevation-z4" #sidenav mode="push">
     <mat-toolbar> Casamento Logo</mat-toolbar>
     <mat-divider></mat-divider>
-    <div class="info-box">
+    <div class="info-box" *ngIf="userAuthenticated">
       <a routerLink="/users" class="name">
         {{ userAuthenticated.personName }}
       </a>
@@ -31,7 +31,7 @@
 
     <div class="logout-box">
       <mat-divider></mat-divider>
-      <div class="button-logout-box">
+      <div class="button-logout-box" *ngIf="userAuthenticated">
         <button
           mat-button
           color="warn"
@@ -41,12 +41,17 @@
           <mat-icon>logout</mat-icon>Sair
         </button>
       </div>
+      <div class="button-logout-box" *ngIf="!userAuthenticated">
+        <a mat-button color="warn" class="button-logout" routerLink="/Auth">
+          <mat-icon>login</mat-icon>Entrar
+        </a>
+      </div>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar class="toolbar-submenu" color="primary">
-      <mat-toolbar-row class="">
+      <mat-toolbar-row>
         <button
           matTooltip="{{ sidenav.opened ? 'Fechar Menu' : 'Abrir Menu' }}"
           [matTooltipPosition]="'right'"

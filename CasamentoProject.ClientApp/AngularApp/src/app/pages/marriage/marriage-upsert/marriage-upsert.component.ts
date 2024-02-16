@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
+import { Store } from '@ngrx/store';
 import {
   FormControl,
   FormGroup,
@@ -54,6 +54,7 @@ export class MarriageUpsertComponent {
 
   @ViewChild('groomImage') groomImageInput: ElementRef;
   @ViewChild('brideImage') brideImageInput: ElementRef;
+  @ViewChild('coupleImage') coupleImageInput: ElementRef;
 
   ngOnInit() {
     this.marriageForm = new FormGroup({
