@@ -19,6 +19,7 @@ import { HourValidator } from '../../../shared/validators/hour-validator';
 import { Marriage } from '../marriage.model';
 import { addMarriage } from '../store/marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -30,6 +31,7 @@ import { ErrorResponse } from '../../../shared/models/error-response.model';
     InputFieldComponent,
     ReactiveFormsModule,
     DatePickerComponent,
+    MatTabsModule,
   ],
   templateUrl: './marriage-upsert.component.html',
   styleUrl: './marriage-upsert.component.scss',
@@ -111,6 +113,10 @@ export class MarriageUpsertComponent {
 
   onOpenGroomImage() {
     this.groomImageInput.nativeElement.click();
+  }
+
+  onOpenCoupleImage() {
+    this.coupleImageInput.nativeElement.click();
   }
 
   onOpenBrideImage() {

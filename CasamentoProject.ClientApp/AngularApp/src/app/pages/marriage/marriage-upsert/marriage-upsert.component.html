@@ -1,7 +1,5 @@
 <form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
-  <div class="d-flex justify-content-between mt-5">
-    <h1 class="form-heading fw-bold">Novo</h1>
-
+  <div class="d-flex justify-content-end mt-5">
     <app-btn-crazy-gradient
       [buttonText]="'Cadastrar'"
       [form]="marriageForm"
@@ -11,114 +9,130 @@
   <section class="marriage-container">
     <div class="marriage-row row mt-1">
       <section class="fiance-box box col-xl mat-elevation-z9">
-        <div class="row">
-          <div class="col-md-6">
-            <h2 class="fiance-title text-center mb-5">Noivo</h2>
-            <div
-              class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
-              (click)="onOpenGroomImage()"
-            >
-              <div class="fiance-img">
-                <img
-                  src="../../../../assets/images/man-example.png"
-                  alt="Foto de exemplo de um homem"
-                />
-              </div>
-              <button
-                mat-raised-button
-                color="accent"
-                class="fs-5 mt-4 w-25"
-                type="button"
-              >
-                Enviar
-              </button>
-              <input
-                type="file"
-                class="opacity-0"
-                name="groom-img"
-                id=""
-                #groomImage
-              />
-              <span class="send-button-icon position-absolute"
-                ><mat-icon>upload</mat-icon></span
-              >
-            </div>
+        <mat-tab-group>
+          <mat-tab label="Fotos dos noivos">
             <div class="row mt-5">
-              <div class="mb-4">
-                <app-input-field
-                  [label]="'Nome'"
-                  [form]="marriageForm"
-                  [inputErrors]="groomErrors"
-                  [formControlName]="'groom'"
-                  [icon]="'person'"
-                ></app-input-field>
-              </div>
+              <div class="col-md-6">
+                <h2 class="fiance-title text-center mb-5">Noivo</h2>
+                <div
+                  class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
+                  (click)="onOpenGroomImage()"
+                >
+                  <div class="fiance-img">
+                    <img
+                      src="../../../../assets/images/man-example.png"
+                      alt="Foto de exemplo de um homem"
+                    />
+                  </div>
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="fs-5 mt-4 w-25"
+                    type="button"
+                  >
+                    Enviar
+                  </button>
+                  <input
+                    type="file"
+                    class="opacity-0"
+                    name="groom-img"
+                    id=""
+                    #groomImage
+                  />
+                  <span class="send-button-icon position-absolute"
+                    ><mat-icon>upload</mat-icon></span
+                  >
+                </div>
+                <div class="row mt-5">
+                  <div class="mb-4">
+                    <app-input-field
+                      [label]="'Nome'"
+                      [form]="marriageForm"
+                      [inputErrors]="groomErrors"
+                      [formControlName]="'groom'"
+                      [icon]="'person'"
+                    ></app-input-field>
+                  </div>
 
-              <div class="mb-4">
-                <app-input-field
-                  [label]="'Idade'"
-                  [form]="marriageForm"
-                  [inputErrors]="groomAgeErrors"
-                  [formControlName]="'groomAge'"
-                  [icon]="'celebration'"
-                ></app-input-field>
+                  <div class="mb-4">
+                    <app-input-field
+                      [label]="'Idade'"
+                      [form]="marriageForm"
+                      [inputErrors]="groomAgeErrors"
+                      [formControlName]="'groomAge'"
+                      [icon]="'celebration'"
+                    ></app-input-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h2 class="fiance-title text-center mb-5">Noiva</h2>
+                <div
+                  class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
+                  (click)="onOpenBrideImage()"
+                >
+                  <div class="fiance-img">
+                    <img
+                      src="../../../../assets/images/woman-example.png"
+                      alt="Foto de exemplo de uma mulher"
+                    />
+                  </div>
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="fs-5 mt-4 w-25"
+                    type="button"
+                  >
+                    Enviar
+                  </button>
+                  <input
+                    type="file"
+                    class="opacity-0"
+                    name="groom-img"
+                    id=""
+                    #brideImage
+                  />
+                  <span class="send-button-icon position-absolute"
+                    ><mat-icon>upload</mat-icon></span
+                  >
+                </div>
+                <div class="row mt-5">
+                  <div class="mb-4">
+                    <app-input-field
+                      [label]="'Nome'"
+                      [form]="marriageForm"
+                      [inputErrors]="brideErrors"
+                      [formControlName]="'bride'"
+                      [icon]="'person'"
+                    ></app-input-field>
+                  </div>
+
+                  <div class="mb-4">
+                    <app-input-field
+                      [label]="'Idade'"
+                      [form]="marriageForm"
+                      [inputErrors]="brideAgeErrors"
+                      [formControlName]="'brideAge'"
+                      [icon]="'celebration'"
+                    ></app-input-field>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <h2 class="fiance-title text-center mb-5">Noiva</h2>
-            <div
-              class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
-              (click)="onOpenBrideImage()"
-            >
-              <div class="fiance-img">
-                <img
-                  src="../../../../assets/images/woman-example.png"
-                  alt="Foto de exemplo de uma mulher"
-                />
-              </div>
-              <button
-                mat-raised-button
-                color="accent"
-                class="fs-5 mt-4 w-25"
-                type="button"
-              >
-                Enviar
-              </button>
-              <input
-                type="file"
-                class="opacity-0"
-                name="groom-img"
-                id=""
-                #brideImage
+          </mat-tab>
+          <mat-tab label="Foto do casal">
+            <div class="couple-img-box mt-5" (click)="onOpenCoupleImage()">
+              <img
+                src="../../../../assets/images/man-example.png"
+                alt="Foto de exemplo de um casal"
               />
-              <span class="send-button-icon position-absolute"
-                ><mat-icon>upload</mat-icon></span
-              >
-            </div>
-            <div class="row mt-5">
-              <div class="mb-4">
-                <app-input-field
-                  [label]="'Nome'"
-                  [form]="marriageForm"
-                  [inputErrors]="brideErrors"
-                  [formControlName]="'bride'"
-                  [icon]="'person'"
-                ></app-input-field>
-              </div>
 
-              <div class="mb-4">
-                <app-input-field
-                  [label]="'Idade'"
-                  [form]="marriageForm"
-                  [inputErrors]="brideAgeErrors"
-                  [formControlName]="'brideAge'"
-                  [icon]="'celebration'"
-                ></app-input-field>
-              </div>
+              <mat-icon>upload</mat-icon>
+
+              <input type="file" name="couple-img-input" id="" #coupleImage />
             </div>
-          </div>
-        </div>
+          </mat-tab>
+        </mat-tab-group>
       </section>
       <div class="info-box box col-xl mat-elevation-z9">
         <section class="marriage-container mt-5">

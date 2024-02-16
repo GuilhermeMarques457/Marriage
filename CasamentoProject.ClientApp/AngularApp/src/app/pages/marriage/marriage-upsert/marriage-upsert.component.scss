@@ -6,13 +6,24 @@
 }
 
 .marriage-container {
+  min-height: 550px;
   .marriage-row {
-    gap: 3.8rem;
+    gap: 4.6rem;
 
     .box {
       border-radius: 10px;
       padding: 3rem 5rem;
       border: 1px solid $primary-color;
+    }
+
+    .fiance-box {
+      ::ng-deep.mat-mdc-tab.mdc-tab .mdc-tab__text-label {
+        font-size: 1.6rem;
+      }
+
+      ::ng-deep.mat-mdc-tab-body-content {
+        overflow: hidden;
+      }
 
       .fiance-title {
         font-size: 3rem;
@@ -44,6 +55,39 @@
             height: 5rem;
             width: 5rem;
           }
+        }
+      }
+
+      ::ng-deep.mat-mdc-tab-body {
+        overflow: hidden;
+      }
+      .couple-img-box {
+        position: relative;
+        min-height: 550px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        mat-icon {
+          position: absolute;
+          opacity: 75%;
+          font-size: 8.4rem;
+          width: 8.4rem;
+          height: 8.4rem;
+          transform: translate(-50%, -50%);
+          top: 50%;
+          left: 50%;
+        }
+
+        input {
+          position: absolute;
+          opacity: 0;
+        }
+
+        img {
+          position: absolute;
+          width: 100%;
         }
       }
     }
