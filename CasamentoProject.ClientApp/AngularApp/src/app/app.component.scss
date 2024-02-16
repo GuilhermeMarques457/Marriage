@@ -1,89 +1,96 @@
 @import "../scss/variables";
 
-mat-sidenav {
-  min-width: 30rem;
+mat-sidenav-container {
+  min-height: 100vh;
 
-  mat-drawer-inner-container {
-    position: relative;
+  mat-sidenav-content {
+    height: 100vh;
   }
 
-  .nav-link-item-box {
-    font-size: 1.8rem;
-    display: flex;
-    gap: 1.2rem;
-    align-items: center;
+  mat-sidenav {
+    min-width: 30rem;
+
+    mat-drawer-inner-container {
+      position: relative;
+    }
+
+    .nav-link-item-box {
+      font-size: 1.8rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .info-box {
+      padding: 2.8rem 0;
+    }
+
+    .name {
+      display: block;
+      font-size: 1.8rem;
+      color: $dark-color;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .email {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: $secondary-color-darker;
+      text-align: center;
+    }
+
+    .logout-box {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+
+      .button-logout-box {
+        padding: 2.8rem 1.2rem;
+
+        mat-icon {
+          width: 2rem;
+          height: 2rem;
+          font-size: 1.8rem;
+        }
+
+        .button-logout {
+          font-size: 1.8rem;
+        }
+      }
+
+      .time-left {
+        padding: 0 1.2rem;
+        font-size: 1.1rem;
+      }
+    }
   }
 
-  .info-box {
-    padding: 2.8rem 0;
+  .content-route {
+    padding: 1.2rem 5rem 5rem 5rem;
   }
 
-  .name {
-    display: block;
-    font-size: 1.8rem;
-    color: $dark-color;
-    text-align: center;
-    text-decoration: none;
+  .toggle-theme-button {
+    margin: 0 0 0 auto;
   }
 
-  .email {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    color: $secondary-color-darker;
-    text-align: center;
-  }
+  .toolbar-submenu-top {
+    height: 10rem;
+    padding: 3.2rem 5rem;
 
-  .logout-box {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-
-    .button-logout-box {
-      padding: 2.8rem 1.2rem;
+    .page-title {
+      display: flex;
+      align-items: center;
+      font-size: 3.8rem;
+      font-weight: 700;
+      gap: 1.2rem;
 
       mat-icon {
-        width: 2rem;
-        height: 2rem;
-        font-size: 1.8rem;
+        font-size: 3.8rem;
+        width: 4rem;
+        height: 4rem;
       }
-
-      .button-logout {
-        font-size: 1.8rem;
-      }
-    }
-
-    .time-left {
-      padding: 0 1.2rem;
-      font-size: 1.1rem;
-    }
-  }
-}
-
-.content-route {
-  padding: 3.8rem 5rem;
-  height: calc(100vh - 164px);
-}
-
-.toggle-theme-button {
-  margin: 0 0 0 auto;
-}
-
-.toolbar-submenu-top {
-  height: 10rem;
-  padding: 3.2rem 3.2rem;
-
-  .page-title {
-    display: flex;
-    align-items: center;
-    font-size: 3.8rem;
-    font-weight: 700;
-    gap: 1.2rem;
-
-    mat-icon {
-      font-size: 3.8rem;
-      width: 4rem;
-      height: 4rem;
     }
   }
 }
