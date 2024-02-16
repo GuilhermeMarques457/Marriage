@@ -36,30 +36,9 @@ export const logout = createAction('[Auth] Logout');
 
 //#endregion
 
-//#region Jwt token Actions
-export const refreshJWTToken = createAction(
-  '[Auth] RefreshJWTToken',
-  props<{ token: string; refreshToken: string }>()
-);
-//#endregion
-
 //#region Form Efect
 
 export const setLoginActive = createAction('[Auth] Set Login To Active');
 
 export const setSignUpActive = createAction('[Auth] Set SignUp To Active');
-//#endregion
-
-//#region AutoLogout Actions
-
-export const setTimoutToLogout = createAction(
-  '[Auth] Set Timout To Logout',
-  props<{ dateToLogout: Date; timerIsActive: boolean }>()
-);
-
-export const setNewTimeToLogout = createAction(
-  '[Auth] Set Date Formatted To Logout',
-  props<{ dateFormatted: string }>()
-);
-
 //#endregion

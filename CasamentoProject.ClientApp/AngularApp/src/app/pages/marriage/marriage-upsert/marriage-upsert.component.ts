@@ -1,18 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { environment } from '../../../../environments/environment';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
-import { Marriage } from '../marriage.model';
-import { selectMarriageState } from '../store/marriage.selectors';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DatePickerComponent } from '../../../shared/components/date-picker/date-picker.component';
 import { InputFieldComponent } from '../../../shared/components/input-field/input-field.component';
 import { SharedFormsModule } from '../../../shared/modules/forms.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/modules/shared.module';
-import { setInputIsDisable } from '../../../shared/store/usefull.actions';
-import { changePhotoMarriage } from '../store/marriage.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertErrorComponent } from '../../../shared/components/alerts/alert-error/alert-error.component';
+import { HourValidator } from '../../../shared/validators/hour-validator';
+import { Marriage } from '../marriage.model';
+import { addMarriage } from '../store/marriage.actions';
+import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -22,28 +28,74 @@ import { changePhotoMarriage } from '../store/marriage.actions';
     SharedModule,
     MaterialModule,
     InputFieldComponent,
-    DatePickerComponent,
     ReactiveFormsModule,
+    DatePickerComponent,
   ],
   templateUrl: './marriage-upsert.component.html',
   styleUrl: './marriage-upsert.component.scss',
 })
 export class MarriageUpsertComponent {
-  //#region Errors To user
-  file?: File;
+  constructor(private store: Store<AppState>, private dialog: MatDialog) {}
+
   photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
   neighborhoodErrors = MarriageErrors.neighborhoodErrors;
   numberAddressErrors = MarriageErrors.numberAddresssErrors;
-  //#endregion
-  isInputDisabled = true;
+  groomErrors = MarriageErrors.groomErrors;
+  brideErrors = MarriageErrors.brideErrors;
+  brideAgeErrors = MarriageErrors.brideAgeErrors;
+  groomAgeErrors = MarriageErrors.groomAgeErrors;
 
-  @Input() marriageForm;
-  @Input() currentMarriage?: Marriage;
-  @Output() photoEvent = new EventEmitter<File>();
+  marriageForm: FormGroup;
+  marriage: Marriage;
+  isLoading = false;
+  file?: File;
 
-  //#region Errors To user
+  @ViewChild('groomImage') groomImageInput: ElementRef;
+  @ViewChild('brideImage') brideImageInput: ElementRef;
+
+  ngOnInit() {
+    this.marriageForm = new FormGroup({
+      date: new FormControl(null, [
+        Validators.required,
+        HourValidator.validate,
+      ]),
+      neighborhood: new FormControl(null, [Validators.required]),
+      street: new FormControl(null, [Validators.required]),
+      numberAddress: new FormControl(null, [Validators.required]),
+      groom: new FormControl(null, [Validators.required]),
+      groomAge: new FormControl(null, [Validators.required]),
+      bride: new FormControl(null, [Validators.required]),
+      brideAge: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  onSubmit() {
+    if (!this.file)
+      this.dialog.open(AlertErrorComponent, {
+        data: new ErrorResponse(
+          'Foto Requirida',
+          'Foto do casal é necessária para o envio do formulário',
+          '400'
+        ),
+        exitAnimationDuration: '300ms',
+        enterAnimationDuration: '300ms',
+      });
+
+    this.marriage = new Marriage(
+      '',
+      this.marriageForm.value.date,
+      0,
+      this.marriageForm.value.street,
+      this.marriageForm.value.neighborhood,
+      this.marriageForm.value.numberAddress
+    );
+
+    this.store.dispatch(
+      addMarriage({ Marriage: this.marriage, PhotoOfCouple: this.file })
+    );
+  }
 
   onFileChange(event: any) {
     this.file = <File>event.target.files[0];
@@ -53,42 +105,14 @@ export class MarriageUpsertComponent {
         this.photoCoupleSrc = e.target.result as string;
       };
       reader.readAsDataURL(this.file);
-
-      this.store.select(selectMarriageState).subscribe((state) => {
-        if (state.currentMarriage) {
-          this.store.dispatch(
-            changePhotoMarriage({
-              Photo: this.file,
-              id: this.currentMarriage.id,
-            })
-          );
-        }
-      });
-
-      this.photoEvent.emit(this.file);
     }
   }
 
-  constructor(private store: Store<AppState>) {}
-
-  onDisableInput() {
-    this.isInputDisabled = !this.isInputDisabled;
-    this.store.dispatch(
-      setInputIsDisable({ isDisabled: this.isInputDisabled })
-    );
+  onOpenGroomImage() {
+    this.groomImageInput.nativeElement.click();
   }
 
-  ngOnInit(): void {
-    this.store.select(selectMarriageState).subscribe((state) => {
-      if (state.currentMarriage) {
-        this.photoCoupleSrc = (
-          environment.API_URL + state.currentMarriage.photoOfCouplePath
-        ).replace('api', '');
-      }
-    });
-  }
-
-  openInputFile(formInput: HTMLInputElement) {
-    formInput.click();
+  onOpenBrideImage() {
+    this.brideImageInput.nativeElement.click();
   }
 }

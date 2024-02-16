@@ -1,92 +1,146 @@
-<div
-  class="form-inputs-box grid grid--2--cols gap-bg"
-  [formGroup]="marriageForm"
->
-  <div class="input-file-box h-100 grid grid--2--cols">
-    <input
-      type="file"
-      formControlName="photo"
-      (change)="onFileChange($event)"
-      #formInput
-    />
-    <div class="input-file-actions">
-      <mat-icon>upload</mat-icon>
-      <span class="input-label"
-        >Clique aqui ou arreste para enviar a foto dos noivos</span
-      >
-      <button
-        mat-raised-button
-        class="send-button"
-        color="accent"
-        type="button"
-        (click)="openInputFile(formInput)"
-      >
-        Enviar
-      </button>
-      <span class="input-instructions">Permitido apenas JPG e PNG</span>
-    </div>
-    <div class="input-file-image">
-      <img
-        *ngIf="photoCoupleSrc"
-        [src]="photoCoupleSrc"
-        alt="Imagem Selecionada"
-      />
+<form [formGroup]="marriageForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="form-heading fw-bold text-uppercase">Cadastrar Casamento</h1>
+    <div class="btn-form-box">
+      <app-btn-crazy-gradient
+        [buttonText]="'Cadastrar'"
+        [form]="marriageForm"
+      ></app-btn-crazy-gradient>
     </div>
   </div>
-  <div class="input-info-box h-100 gap-md">
-    <div class="flex flex-align-center flex-spaced">
-      <h2 class="form-heading-info">Informações para os convidados</h2>
-      <button
-        mat-raised-button
-        color="accent"
-        class="btn-edit"
-        (click)="onDisableInput()"
-        type="button"
-      >
-        Editar <mat-icon class="btn-edit-icon">settings</mat-icon>
-      </button>
-    </div>
 
-    <div class="form-input-box">
-      <div class="grid grid--2--cols gap-md">
-        <app-date-picker
-          [ngModel]="currentMarriage?.date"
-          [formControlName]="'date'"
-          [form]="marriageForm"
-        ></app-date-picker>
-
-        <app-input-field
-          [ngModel]="currentMarriage?.street"
-          [label]="'Rua'"
-          [form]="marriageForm"
-          [inputErrors]="streetErrors"
-          [formControlName]="'street'"
-          [placeholder]="'Antonio Buzzeto'"
-          [icon]="'church'"
-        ></app-input-field>
+  <div class="fiances-container">
+    <div class="fiance-row row mt-3">
+      <div class="fiance-box col">
+        <h2 class="fiance-title text-center mb-5">Noivo</h2>
+        <div
+          class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
+          (click)="onOpenGroomImage()"
+        >
+          <div class="fiance-img">
+            <img
+              src="../../../../assets/images/man-example.png"
+              alt="Foto de exemplo de um homem"
+            />
+          </div>
+          <button
+            mat-raised-button
+            color="accent"
+            class="fs-5 mt-4"
+            type="button"
+          >
+            Enviar
+          </button>
+          <input
+            type="file"
+            class="opacity-0"
+            name="groom-img"
+            id=""
+            #groomImage
+          />
+          <span class="send-button-icon position-absolute"
+            ><mat-icon>upload</mat-icon></span
+          >
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <app-input-field
+              [label]="'Nome'"
+              [form]="marriageForm"
+              [inputErrors]="groomErrors"
+              [formControlName]="'groom'"
+              [icon]="'person'"
+            ></app-input-field>
+          </div>
+          <div class="col-6">
+            <app-input-field
+              [label]="'Idade'"
+              [form]="marriageForm"
+              [inputErrors]="groomAgeErrors"
+              [formControlName]="'groomAge'"
+              [icon]="'celebration'"
+            ></app-input-field>
+          </div>
+        </div>
       </div>
-      <div class="grid grid--2--cols gap-md">
-        <app-input-field
-          [label]="'Bairro'"
-          [disabled]="true"
-          [ngModel]="currentMarriage?.neighborhood"
-          [form]="marriageForm"
-          [inputErrors]="neighborhoodErrors"
-          [formControlName]="'neighborhood'"
-          [placeholder]="'Vila Cicma'"
-          [icon]="'pin_drop'"
-        ></app-input-field>
-
-        <app-input-field
-          [ngModel]="currentMarriage?.numberAddress"
-          [label]="'Numero do Endereço'"
-          [form]="marriageForm"
-          [inputErrors]="numberAddressErrors"
-          [formControlName]="'numberAddress'"
-          [placeholder]="'457'"
-          [icon]="'home'"
-        ></app-input-field>
+      <div class="fiance-box col">
+        <h2 class="fiance-title text-center mb-5">Noiva</h2>
+        <div
+          class="fiance-img-box d-flex align-items-center flex-column justify-content-center position-relative"
+          (click)="onOpenBrideImage()"
+        >
+          <div class="fiance-img">
+            <img
+              src="../../../../assets/images/woman-example.png"
+              alt="Foto de exemplo de uma mulher"
+            />
+          </div>
+          <button
+            mat-raised-button
+            color="accent"
+            class="fs-5 mt-4"
+            type="button"
+          >
+            Enviar
+          </button>
+          <input
+            type="file"
+            class="opacity-0"
+            name="groom-img"
+            id=""
+            #brideImage
+          />
+          <span class="send-button-icon position-absolute"
+            ><mat-icon>upload</mat-icon></span
+          >
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <app-input-field
+              [label]="'Nome'"
+              [form]="marriageForm"
+              [inputErrors]="brideErrors"
+              [formControlName]="'bride'"
+              [icon]="'person'"
+            ></app-input-field>
+          </div>
+          <div class="col-6">
+            <app-input-field
+              [label]="'Idade'"
+              [form]="marriageForm"
+              [inputErrors]="brideAgeErrors"
+              [formControlName]="'brideAge'"
+              [icon]="'celebration'"
+            ></app-input-field>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- <app-date-picker [form]="marriageForm"></app-date-picker>
+  <app-input-field
+    [label]="'Bairro'"
+    [form]="marriageForm"
+    [inputErrors]="neighborhoodErrors"
+    [formControlName]="'neighborhood'"
+    [icon]="'male'"
+  ></app-input-field>
+  <app-input-field
+    [label]="'Rua'"
+    [form]="marriageForm"
+    [inputErrors]="streetErrors"
+    [formControlName]="'street'"
+    [icon]="'male'"
+  ></app-input-field>
+  <app-input-field
+    [label]="'Numero de endereço'"
+    [form]="marriageForm"
+    [inputErrors]="numberAddressErrors"
+    [formControlName]="'numberAddress'"
+    [icon]="'male'"
+  ></app-input-field>
+
+  <input type="file" (change)="onFileChange($event)" />
+   -->
+</form>

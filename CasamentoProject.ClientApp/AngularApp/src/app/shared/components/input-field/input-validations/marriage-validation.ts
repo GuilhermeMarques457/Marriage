@@ -20,4 +20,20 @@ export class MarriageErrors {
   static numberAddresssErrors = [
     new InputError('Numero de endereço do casamento é obrigatório', 'required'),
   ];
+
+  static groomErrors = [
+    new InputError('O nome do noivo é obrigatório', 'required'),
+  ];
+
+  static groomAgeErrors = [
+    new InputError('Idade do noivo é obrigatório', 'required'),
+  ];
+
+  static brideErrors = [
+    new InputError('O nome da noiva é obrigatório', 'required'),
+  ];
+
+  static brideAgeErrors = [
+    new InputError('Idade da noiva é obrigatório', 'required'),
+  ];
 }

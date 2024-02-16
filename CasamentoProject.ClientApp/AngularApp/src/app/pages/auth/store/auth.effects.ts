@@ -9,12 +9,10 @@ import { UserLogin } from '../models/user.login.model';
 import { Router } from '@angular/router';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { environment } from '../../../../environments/environment';
-import { AppState } from '../../../store/app.reducer';
-import { Store } from '@ngrx/store';
 
 const handleAuthentication = (resData: UserAuthenticated) => {
   localStorage.setItem('userData', JSON.stringify(resData));
-
+  localStorage.setItem('token', resData.token);
   return AuthActions.authenticateSucess({ user: resData, redirect: true });
 };
 
@@ -40,59 +38,15 @@ const handleError = (err: ErrorResponse, signUpError = false) => {
   return of(AuthActions.authenticateFail({ error: error }));
 };
 
-const timeOutToLogout = (userExpirationDateTime) => {
-  const expirationTimestamp: number = new Date(
-    userExpirationDateTime
-  ).getTime();
-
-  const currentTime: number = new Date().getTime();
-
-  const secondsLogout = Math.floor((expirationTimestamp - currentTime) / 1000);
-
-  return secondsLogout;
-};
-
 @Injectable()
 export class AuthEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router, // private authTimeoutService: AuthTimeoutService
-    private store: Store<AppState>
+    private router: Router // private authTimeoutService: AuthTimeoutService
   ) {}
 
   private API_URL_BASE = `${environment.API_URL}/Account`;
-  private logoutTimer;
-
-  authSetTimeToLogout = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.setTimoutToLogout),
-        tap((dateState) => {
-          let fullSeconds = timeOutToLogout(dateState.dateToLogout);
-          if (fullSeconds > 0 && !this.logoutTimer) {
-            this.logoutTimer = setInterval(() => {
-              fullSeconds--;
-              const minutes = Math.floor(fullSeconds / 60);
-              const seconds = fullSeconds % 60;
-
-              const formattedTimeToLogout = `${minutes}min ${seconds}s`;
-              if (fullSeconds > 0)
-                this.store.dispatch(
-                  AuthActions.setNewTimeToLogout({
-                    dateFormatted: formattedTimeToLogout,
-                  })
-                );
-              else {
-                this.store.dispatch(AuthActions.logout());
-                clearInterval(this.logoutTimer);
-              }
-            }, 1000);
-          }
-        })
-      ),
-    { dispatch: false }
-  );
 
   authSignUp = createEffect(() =>
     this.actions$.pipe(
@@ -117,15 +71,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap((authData: { user: UserLogin }) => {
         return this.http
-          .post<UserAuthenticated>(
-            `${this.API_URL_BASE}/Login`,
-            authData.user,
-            {
-              headers: new HttpHeaders({
-                'X-Skip-Interceptor': 'true',
-              }),
-            }
-          )
+          .post<UserAuthenticated>(`${this.API_URL_BASE}/Login`, authData.user)
           .pipe(
             map((resData) => handleAuthentication(resData)),
             catchError((err) => handleError(err))
@@ -139,10 +85,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          console.log('entrou logout');
-
-          this.logoutTimer = null;
-
           localStorage.clear();
         })
       ),
@@ -168,25 +110,12 @@ export class AuthEffects {
           refreshTokenExpirationDateTime: Date;
         } = JSON.parse(userDataFromLocalStorage);
 
-        if (
-          new Date(userData.refreshTokenExpirationDateTime).getTime() <
-          new Date().getTime()
-        ) {
-          localStorage.removeItem('userData');
-          return AuthActions.logout();
-        }
-
         const loadedUser = new UserAuthenticated(
           userData.id,
           userData.email,
           userData.personName,
-          userData.token,
-          new Date(userData.expiration),
-          userData.refreshToken,
-          new Date(userData.refreshTokenExpirationDateTime)
+          userData.token
         );
-
-        if (!loadedUser.refreshToken) return AuthActions.logout();
 
         return AuthActions.authenticateSucess({
           user: loadedUser,
@@ -202,41 +131,10 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticateSucess),
         tap((authSuccessAction) => {
-          localStorage['token'] = authSuccessAction.user.token;
-          localStorage['refreshToken'] = authSuccessAction.user.refreshToken;
           if (authSuccessAction.redirect) this.router.navigate(['/casamento']);
         })
       ),
     { dispatch: false }
-  );
-
-  refreshJWTToken = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.refreshJWTToken),
-      switchMap((tokenData: { token: string; refreshToken: string }) => {
-        return this.http
-          .post<UserAuthenticated>(
-            `${this.API_URL_BASE}/generate-new-jwt-token`,
-            {
-              token: tokenData.token,
-              refreshToken: tokenData.refreshToken,
-            },
-            {
-              headers: new HttpHeaders({
-                'X-Skip-Interceptor': 'true',
-              }),
-            }
-          )
-          .pipe(
-            tap((authSuccessAction: UserAuthenticated) => {
-              localStorage['token'] = authSuccessAction.token;
-              localStorage['refreshToken'] = authSuccessAction.refreshToken;
-            }),
-            map((resData: UserAuthenticated) => handleAuthentication(resData)),
-            catchError((err: ErrorResponse) => handleError(err))
-          );
-      })
-    )
   );
 
   authRedirectLogout = createEffect(

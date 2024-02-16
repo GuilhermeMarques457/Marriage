@@ -67,19 +67,11 @@ export class DatePickerComponent implements ControlValueAccessor {
     });
   }
 
-  constructor(
-    private store: Store<AppState>,
-    private cdr: ChangeDetectorRef,
-    private platform: Platform
-  ) {}
+  constructor(private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
 
   public minDate = moment([
     this.today.getFullYear(),
     this.today.getMonth(),
     this.today.getDay(),
   ]);
-
-  get isTouchDevice() {
-    return this.platform.ANDROID || this.platform.IOS;
-  }
 }

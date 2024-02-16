@@ -6,11 +6,8 @@ import {
   clearAuthError,
   login,
   logout,
-  refreshJWTToken,
   setLoginActive,
-  setNewTimeToLogout,
   setSignUpActive,
-  setTimoutToLogout,
   signUp,
 } from './auth.actions';
 import { UserAuthenticated } from '../models/user.authenticated.model';
@@ -61,24 +58,6 @@ export const authReducer = createReducer(
       userAuthenticated: null,
       authError: action.error,
       loading: false,
-    };
-  }),
-  on(setTimoutToLogout, (state, action) => {
-    return {
-      ...state,
-      timeOutIsActive: action.timerIsActive,
-    };
-  }),
-  on(setNewTimeToLogout, (state, action) => {
-    return {
-      ...state,
-      timeToLogoutFormatted: action.dateFormatted,
-    };
-  }),
-  on(refreshJWTToken, (state, action) => {
-    return {
-      ...state,
-      loading: true,
     };
   }),
   on(setSignUpActive, (state, action) => {

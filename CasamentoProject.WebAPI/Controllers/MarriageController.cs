@@ -80,7 +80,8 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPost("post-marriage")]
-        public async Task<ActionResult<MarriageResponse>> PostMarriage([FromBody] MarriageAddRequest marriage)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<MarriageResponse>> PostMarriage([FromForm] MarriageAddRequest marriage)
         {
             try
             {

@@ -4,8 +4,13 @@ import * as fromAppState from './store/app.reducer';
 
 import { routes } from './app.routes';
 // import { AuthTimeoutService } from './pages/auth/auth-timeout.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptorService } from './pages/auth/auth-interceptor.service';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { jwtInterceptor } from './pages/auth/auth-interceptor.service';
 import { AuthEffects } from './pages/auth/store/auth.effects';
 import { MarriageEffects } from './pages/marriage/store/marriage.effects';
 import { provideEffects } from '@ngrx/effects';
@@ -23,11 +28,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     // AuthTimeoutService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
-    },
+    provideHttpClient(
+      withInterceptors([jwtInterceptor]),
+      withInterceptorsFromDi()
+    ),
 
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

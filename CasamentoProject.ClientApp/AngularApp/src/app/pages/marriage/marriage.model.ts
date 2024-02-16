@@ -18,8 +18,7 @@ export class Marriage {
     street: string,
     neighborhood: string,
     numberAddress: number,
-    id?: string,
-    marriagePhotoName?: string
+    id?: string
   ) {
     this.id = id || null; // Set a default value if id is not provided
     this.date = date;

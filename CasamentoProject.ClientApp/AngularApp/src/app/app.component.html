@@ -4,12 +4,10 @@
     <mat-divider></mat-divider>
     <div class="info-box">
       <a routerLink="/users" class="name">
-        Guilherme Marques
-        <!-- {{ userAuthenticated.personName }} -->
+        {{ userAuthenticated.personName }}
       </a>
       <p class="email">
-        guimarkes457.gmail.com
-        <!-- {{ userAuthenticated.email }} -->
+        {{ userAuthenticated.email }}
       </p>
     </div>
 
@@ -31,14 +29,15 @@
       </a>
     </mat-nav-list>
 
-    <div class="logout-box" *ngIf="formattedTimeToLogout">
-      <p class="mg-bt-sm time-left">
-        Tempo antes de logout automatico: {{ formattedTimeToLogout }}
-      </p>
-
+    <div class="logout-box">
       <mat-divider></mat-divider>
       <div class="button-logout-box">
-        <button mat-button class="button-logout" (click)="onLogout()">
+        <button
+          mat-button
+          color="warn"
+          class="button-logout"
+          (click)="onLogout()"
+        >
           <mat-icon>logout</mat-icon>Sair
         </button>
       </div>

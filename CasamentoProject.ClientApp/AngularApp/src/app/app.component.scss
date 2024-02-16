@@ -62,7 +62,7 @@ mat-sidenav {
 
 .content-route {
   padding: 3.8rem 5rem;
-  height: 100rem;
+  height: calc(100vh - 164px);
 }
 
 .toggle-theme-button {

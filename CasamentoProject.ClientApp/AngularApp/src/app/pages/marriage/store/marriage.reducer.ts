@@ -22,7 +22,6 @@ export interface State {
   currentMarriage: Marriage | null;
   error: ErrorResponse;
   loading: boolean;
-  marriagePhoto: string;
 }
 
 const initalState: State = {
@@ -30,7 +29,6 @@ const initalState: State = {
   currentMarriage: null,
   error: null,
   loading: false,
-  marriagePhoto: null,
 };
 
 export const marriageReducer = createReducer(
@@ -71,7 +69,6 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      Marriages: [...state.Marriages],
     };
   }),
 
@@ -79,7 +76,6 @@ export const marriageReducer = createReducer(
     return {
       ...state,
       loading: true,
-      currentMarriage: action.Marriage,
     };
   }),
 

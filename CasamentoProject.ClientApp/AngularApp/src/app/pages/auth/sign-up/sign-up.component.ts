@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserSignUp } from '../models/user.signUp.model';
 import { Store } from '@ngrx/store';
@@ -35,7 +35,10 @@ import { SharedFormsModule } from '../../../shared/modules/forms.module';
   ],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   private storeSubs$: Subscription;
 
@@ -48,6 +51,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   emailErrors = AuthErrors.emailErrors;
   phoneErrors = AuthErrors.phoneErrors;
   confirmErrors = AuthErrors.confirmErrors;
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup(

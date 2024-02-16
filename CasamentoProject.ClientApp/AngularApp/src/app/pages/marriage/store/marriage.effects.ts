@@ -8,6 +8,7 @@ import { setMarriages, setPhotoMarriage } from './marriage.actions';
 import { setMarriage } from './marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { environment } from '../../../../environments/environment';
+import { formatarData } from '../../../shared/utils/transform-date';
 
 const handleError = (response: ErrorResponse) => {
   let error = new ErrorResponse(
@@ -82,8 +83,25 @@ export class MarriageEffects {
     this.actions$.pipe(
       ofType(MarriageActions.addMarriage),
       switchMap((action) => {
+        const formData = new FormData();
+
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'multipart/form-data');
+
+        formData.append('street', action.Marriage.street);
+        formData.append('date', formatarData(action.Marriage.date));
+        formData.append('neighborhood', action.Marriage.neighborhood);
+        formData.append('photoOfCouple', action.PhotoOfCouple);
+
+        formData.append(
+          'numberAddress',
+          action.Marriage.numberAddress.toString()
+        );
+
         return this.http
-          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, action.Marriage)
+          .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, formData, {
+            headers,
+          })
           .pipe(
             map((Marriage: Marriage) => {
               return setMarriage({ Marriage: Marriage });
@@ -144,29 +162,5 @@ export class MarriageEffects {
         })
       ),
     { dispatch: false }
-  );
-
-  getPhotoMarriage = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MarriageActions.getPhotoMarriage),
-      switchMap((action) =>
-        this.http
-          .get<Blob>(
-            `${this.API_URL_BASE}/get-marriage-image/${action.Photo}`,
-            { observe: 'response', responseType: 'blob' as 'json' }
-          )
-          .pipe(
-            map((response) => {
-              // Aqui você pode acessar a resposta como um Blob
-              const blob = response.body;
-
-              // Se precisar exibir a imagem, você pode criar uma URL do blob
-              const imageUrl = URL.createObjectURL(blob);
-
-              return setPhotoMarriage({ PhotoUrl: imageUrl });
-            })
-          )
-      )
-    )
   );
 }
