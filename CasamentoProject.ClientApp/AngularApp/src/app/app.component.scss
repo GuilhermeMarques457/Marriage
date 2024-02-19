@@ -8,10 +8,10 @@ mat-sidenav-container {
   }
 
   mat-sidenav {
-    min-width: 30rem;
+    min-width: 300px;
 
     mat-toolbar {
-      height: 12rem;
+      height: 120px;
       justify-content: center;
     }
 
@@ -20,27 +20,27 @@ mat-sidenav-container {
     }
 
     .nav-link-item-box {
-      font-size: 1.8rem;
+      font-size: 18px;
       display: flex;
-      gap: 1.2rem;
+      gap: 12px;
       align-items: center;
     }
 
     .info-box {
-      padding: 2.8rem 0;
+      padding: 28px 0;
     }
 
     .name {
       display: block;
-      font-size: 1.8rem;
+      font-size: 18px;
       color: $dark-color;
       text-align: center;
       text-decoration: none;
     }
 
     .email {
-      margin-top: 1rem;
-      font-size: 1.2rem;
+      margin-top: 1px;
+      font-size: 12px;
       color: $secondary-color-darker;
       text-align: center;
     }
@@ -52,28 +52,28 @@ mat-sidenav-container {
       width: 100%;
 
       .button-logout-box {
-        padding: 2.8rem 1.2rem;
+        padding: 28px 12px;
 
         mat-icon {
-          width: 2rem;
-          height: 2rem;
-          font-size: 1.8rem;
+          width: 2px;
+          height: 2px;
+          font-size: 18px;
         }
 
         .button-logout {
-          font-size: 1.8rem;
+          font-size: 18px;
         }
       }
 
       .time-left {
-        padding: 0 1.2rem;
-        font-size: 1.1rem;
+        padding: 0 12px;
+        font-size: 11px;
       }
     }
   }
 
   .content-route {
-    padding: 1.2rem 5rem 5rem 5rem;
+    padding: 12px 50px 50px 50px;
   }
 
   .toggle-theme-button {
@@ -81,20 +81,20 @@ mat-sidenav-container {
   }
 
   .toolbar-submenu-top {
-    height: 10rem;
-    padding: 3.2rem 5rem;
+    height: 10px;
+    padding: 32px 50px;
 
     .page-title {
       display: flex;
       align-items: center;
-      font-size: 3.8rem;
+      font-size: 38px;
       font-weight: 700;
-      gap: 1.2rem;
+      gap: 12px;
 
       mat-icon {
-        font-size: 3.8rem;
-        width: 4rem;
-        height: 4rem;
+        font-size: 38px;
+        width: 40px;
+        height: 40px;
       }
     }
   }

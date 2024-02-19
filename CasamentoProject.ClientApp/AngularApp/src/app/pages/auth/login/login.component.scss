@@ -2,7 +2,7 @@
 
 .change-form-link {
   color: $primary-color;
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -10,7 +10,7 @@
   height: 100%;
   width: 100%;
   position: relative;
-  padding: 7rem 6rem;
+  padding: 70px 60px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -24,9 +24,9 @@
 
 .form-heading {
   color: $primary-color;
-  font-size: 4rem;
+  font-size: 40px;
   letter-spacing: 3px;
-  margin-bottom: 3.8rem;
+  margin-bottom: 38px;
   font-weight: 800;
   text-transform: uppercase;
   position: relative;
@@ -36,86 +36,27 @@
 .form-inputs-box {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2px;
 }
 
 .form-action {
-  margin-top: 3.8rem;
+  margin-top: 38px;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 14px;
 }
 
 mat-form-field {
   width: 100%;
-  font-size: 1.6rem;
+  font-size: 16px;
 }
 
 mat-error {
-  font-size: 1.2rem;
-  margin: 0.2rem 0 0.4rem 0;
+  font-size: 12px;
+  margin: 2px 0 4px 0;
 }
-
-/* Form Button*/
 
 .btn-form-box {
-  margin-top: 2rem;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-}
-
-.btn-form {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: none;
-  border-radius: 340px;
-  padding: 1.8rem 4.8rem;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 600;
-}
-
-.btn-crazy-gradient {
-  position: relative;
-  background-color: transparent;
-  color: $white-color;
-  margin-bottom: 5rem;
-  overflow: hidden;
-}
-
-.btn-crazy-gradient::after {
-  position: absolute;
-  left: 0;
-  z-index: -1;
-  content: "";
-  width: 140%;
-  height: 120%;
-  background: $crazy-gradient;
-  transition: 0.8s all;
-}
-
-.btn-crazy-gradient:hover::after {
-  transform: translateX(-20%);
-}
-
-.btn-crazy-gradient:hover {
-  box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.03);
-  transform: translateY(-0.3rem);
-}
-
-.btn-crazy-gradient:disabled {
-  background: $primary-color !important;
-}
-
-.btn-crazy-gradient:disabled:hover {
-  background-color: $primary-color;
-  box-shadow: 0px 0px 0px rgb(0, 0, 0, 0.03);
-  transform: translateY(-0rem);
-}
-
-.btn-crazy-gradient:disabled:hover::after {
-  display: none;
 }

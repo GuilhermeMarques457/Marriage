@@ -1,21 +1,21 @@
 @import "./variables";
 
 .container {
-  max-width: 120rem;
-  padding: 0 3.2rem;
+  max-width: 1200px;
+  padding: 0 32px;
   margin: 0 auto;
 }
 
 .grid-layout {
   display: grid;
-  column-gap: 6.4rem;
-  row-gap: 7.2rem;
+  column-gap: 64px;
+  row-gap: 72px;
   align-items: center;
   justify-content: center;
 }
 
 .grid-layout:not(:last-child) {
-  margin-bottom: 9.6rem;
+  margin-bottom: 96px;
 }
 
 .grid {
@@ -142,13 +142,13 @@
 }
 
 .validate-message {
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #f03e3e;
 }
 
 .commom-text {
-  margin-bottom: 1rem;
-  font-size: 1.6rem;
+  margin-bottom: 1px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -175,7 +175,7 @@
 
 .item-with-icon {
   display: flex;
-  gap: 1rem;
+  gap: 1px;
   align-items: center;
 }
 
@@ -260,61 +260,61 @@
 }
 
 .gap-sm {
-  gap: 1.2rem;
+  gap: 1.2px;
 }
 
 .gap-md {
-  gap: 2.4rem;
+  gap: 2.4px;
 }
 
 .gap-bg {
-  gap: 4.8rem;
+  gap: 4.8px;
 }
 
 .mg-lf-sm {
-  margin-left: 1.2rem;
+  margin-left: 12px;
 }
 
 .mg-lf-md {
-  margin-left: 2rem;
+  margin-left: 2px;
 }
 
 .mg-lf-bg {
-  margin-left: 3.2rem;
+  margin-left: 32px;
 }
 
 .mg-rg-sm {
-  margin-right: 1.2rem;
+  margin-right: 12px;
 }
 
 .mg-rg-md {
-  margin-right: 2rem;
+  margin-right: 2px;
 }
 
 .mg-rg-bg {
-  margin-right: 3.2rem;
+  margin-right: 32px;
 }
 
 .mg-tp-sm {
-  margin-top: 1.2rem;
+  margin-top: 12px;
 }
 
 .mg-tp-md {
-  margin-top: 2rem;
+  margin-top: 2px;
 }
 
 .mg-tp-bg {
-  margin-top: 3.2rem;
+  margin-top: 32px;
 }
 
 .mg-bt-sm {
-  margin-bottom: 1.2rem;
+  margin-bottom: 12px;
 }
 
 .mg-bt-md {
-  margin-bottom: 2rem;
+  margin-bottom: 2px;
 }
 
 .mg-bt-bg {
-  margin-bottom: 3.2rem;
+  margin-bottom: 32px;
 }
