@@ -1,6 +1,12 @@
 <mat-sidenav-container [ngClass]="isDark ? 'theme-dark' : 'theme-light'">
   <mat-sidenav class="sidenav mat-elevation-z4" #sidenav mode="push">
-    <mat-toolbar> Casamento Logo</mat-toolbar>
+    <mat-toolbar>
+      <img
+        src="../assets/images/Logo.png"
+        alt="Logo do Sistema"
+        width="150"
+        class="text-center"
+    /></mat-toolbar>
     <mat-divider></mat-divider>
     <div class="info-box" *ngIf="userAuthenticated">
       <a routerLink="/users" class="name">
@@ -42,7 +48,7 @@
         </button>
       </div>
       <div class="button-logout-box" *ngIf="!userAuthenticated">
-        <a mat-button color="warn" class="button-logout" routerLink="/Auth">
+        <a mat-button color="primary" class="button-logout" routerLink="/Auth">
           <mat-icon>login</mat-icon>Entrar
         </a>
       </div>

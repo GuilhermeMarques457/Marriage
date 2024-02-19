@@ -11,6 +11,6 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageContracts
     public interface IMarriageUpdaterService
     {
         Task<MarriageResponse?> UpdateMarriage(MarriageUpdateRequest Marriage);
-        Task<MarriageResponse> AddImageMarriage(Guid? marriageID, IFormFile? formFile, string? imagePathFolder);
+        Task<MarriageResponse> AddMarriageImages(MarriageFilesRequest marriageFilesRequest, string? imagePathFolder);
     }
 }

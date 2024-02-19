@@ -26,7 +26,12 @@ export const getMarriageByUserId = createAction(
 
 export const addMarriage = createAction(
   '[Marriage] Add Marriage',
-  props<{ Marriage: Marriage; PhotoOfCouple: File }>()
+  props<{
+    Marriage: Marriage;
+    PhotoOfCouple: File;
+    PhotoOfGroom: File;
+    PhotoOfBride: File;
+  }>()
 );
 
 export const updateMarriage = createAction(

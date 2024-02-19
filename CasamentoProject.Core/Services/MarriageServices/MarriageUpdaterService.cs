@@ -44,26 +44,35 @@ namespace CasamentoProject.Core.ServiceContracts.MarriageServices
             return updatedMarriage.ToMarriageResponse();
         }
 
-        public async Task<MarriageResponse> AddImageMarriage(Guid? MarriageID, IFormFile? filePath, string? imagePathFolder)
+        public async Task<MarriageResponse> AddMarriageImages(MarriageFilesRequest marriageFilesRequest, string? imagePathFolder)
         {
-            Marriage? Marriage = await _repository.GetMarriageById(MarriageID);
+            var marriageId = marriageFilesRequest.Id;
+            Marriage? Marriage = await _repository.GetMarriageById(marriageId);
 
-            if (Marriage != null)
-            {
-                if (filePath != null && imagePathFolder != null)
-                    Marriage.PhotoOfCouplePath = await ImageHelper.AddImage(filePath, imagePathFolder, "images/couple", MarriageID);
-                else
-                    throw new ValidationException("Imagem não foi enviada corretamente");
+            if (Marriage == null) 
+                throw new NotFoundException(nameof(Marriage), "Casamento não encontrado");
 
-                Marriage? MarriageUpdated = await _repository.UpdateMarriage(Marriage);
+            if (imagePathFolder == null) 
+                throw new NotFoundException(nameof(imagePathFolder), "Pasta para armazenar imagem não encontrada");
 
-                if(MarriageUpdated == null)
-                    throw new NotFoundException(nameof(Marriage), "Casamento falhou ao ser atualizado");
+            if (marriageFilesRequest.PhotoOfCouple != null) 
+                Marriage.PhotoOfCouplePath = await ImageHelper.AddImage(marriageFilesRequest.PhotoOfCouple, imagePathFolder, "images/couples", marriageId);
 
-                return MarriageUpdated.ToMarriageResponse();
-            }
+            if (marriageFilesRequest.PhotoOfGroom != null)
+                Marriage.PhotoOfGroomPath = await ImageHelper.AddImage(marriageFilesRequest.PhotoOfGroom, imagePathFolder, "images/grooms", marriageId);
+
+            if (marriageFilesRequest.PhotoOfBride != null)
+                Marriage.PhotoOfBridePath = await ImageHelper.AddImage(marriageFilesRequest.PhotoOfBride, imagePathFolder, "images/brides", marriageId);
+
+            Marriage? MarriageUpdated = await _repository.UpdateMarriage(Marriage);
+
+            if (MarriageUpdated == null)
+                throw new NotFoundException(nameof(Marriage), "Casamento falhou ao ser atualizado");
+
+            return MarriageUpdated.ToMarriageResponse();
+            
            
-            throw new NotFoundException(nameof(Marriage), "Casamento não encontrado");
+
 
         }
     }

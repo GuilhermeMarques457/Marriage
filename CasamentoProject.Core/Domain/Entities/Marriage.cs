@@ -11,6 +11,8 @@ namespace CasamentoProject.Core.Domain.Entities
     {
         public Guid Id { get; set; }
         public string? PhotoOfCouplePath { get; set; }
+        public string? PhotoOfGroomPath { get; set; }
+        public string? PhotoOfBridePath { get; set; }
         public DateTime? Date { get; set; } = null!;
         public double? MoneyRaised { get; set; }
         public double? MoneyExpected { get; set; }

@@ -102,6 +102,16 @@ namespace CasamentoProject.WebAPI.Controllers
 
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
 
+                var marriageFilesRequest = new MarriageFilesRequest()
+                {
+                    PhotoOfBride = marriage.PhotoOfBride,
+                    PhotoOfCouple = marriage.PhotoOfCouple,
+                    PhotoOfGroom = marriage.PhotoOfGroom,
+                    Id = addedMarriage!.Id
+                };
+
+                await ChangeMarriagePhotos(marriageFilesRequest);
+
                 return Ok(addedMarriage);
             }
             catch
@@ -140,20 +150,17 @@ namespace CasamentoProject.WebAPI.Controllers
             }
         }
 
-        [HttpPut("change-marriage-photo/{id}")]
-        public async Task<ActionResult<string>> ChangeMarriagePhoto(IFormFile file, string id)
+        private async Task<MarriageResponse> ChangeMarriagePhotos(MarriageFilesRequest marriageFilesRequest)
         {
             try
             {
                 string webRootPath = _webHostEnvironment.WebRootPath;
 
-                var foundMarriage = await _marriageGetterService.GetMarriageById(Guid.Parse(id));
+                var foundMarriage = await _marriageGetterService.GetMarriageById(marriageFilesRequest.Id);
 
-                await _marriageUpdaterService.AddImageMarriage(foundMarriage.Id, file, webRootPath);
+                var updatedMarriage = await _marriageUpdaterService.AddMarriageImages(marriageFilesRequest, webRootPath);
 
-                var updatedMarriage = await _marriageGetterService.GetMarriageById(foundMarriage.Id);
-
-                return Ok(updatedMarriage.PhotoOfCouplePath);
+                return updatedMarriage;
             }
             catch
             {

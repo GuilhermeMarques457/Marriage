@@ -20,7 +20,11 @@
                 >
                   <div class="fiance-img">
                     <img
-                      src="../../../../assets/images/man-example.png"
+                      src="{{
+                        photoGroomSrc != null
+                          ? photoGroomSrc
+                          : '../../../../assets/images/man-example.png'
+                      }}"
                       alt="Foto de exemplo de um homem"
                     />
                   </div>
@@ -38,6 +42,7 @@
                     name="groom-img"
                     id=""
                     #groomImage
+                    (change)="onFileChange($event)"
                   />
                   <span class="send-button-icon position-absolute"
                     ><mat-icon>upload</mat-icon></span
@@ -73,7 +78,11 @@
                 >
                   <div class="fiance-img">
                     <img
-                      src="../../../../assets/images/woman-example.png"
+                      src="{{
+                        photoBrideSrc != null
+                          ? photoBrideSrc
+                          : '../../../../assets/images/woman-example.png'
+                      }}"
                       alt="Foto de exemplo de uma mulher"
                     />
                   </div>
@@ -88,9 +97,10 @@
                   <input
                     type="file"
                     class="opacity-0"
-                    name="groom-img"
+                    name="bride-img"
                     id=""
                     #brideImage
+                    (change)="onFileChange($event)"
                   />
                   <span class="send-button-icon position-absolute"
                     ><mat-icon>upload</mat-icon></span
@@ -123,13 +133,23 @@
           <mat-tab label="Foto do casal">
             <div class="couple-img-box mt-5" (click)="onOpenCoupleImage()">
               <img
-                src="../../../../assets/images/man-example.png"
+                src="{{
+                  photoCoupleSrc != null
+                    ? photoCoupleSrc
+                    : '../../../../assets/images/marriage-example.png'
+                }}"
                 alt="Foto de exemplo de um casal"
               />
 
               <mat-icon>upload</mat-icon>
 
-              <input type="file" name="couple-img-input" id="" #coupleImage />
+              <input
+                type="file"
+                name="couple-img"
+                id=""
+                #coupleImage
+                (change)="onFileChange($event)"
+              />
             </div>
           </mat-tab>
         </mat-tab-group>

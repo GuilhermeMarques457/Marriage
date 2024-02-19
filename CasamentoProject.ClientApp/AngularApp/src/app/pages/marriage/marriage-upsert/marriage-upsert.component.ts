@@ -39,7 +39,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class MarriageUpsertComponent {
   constructor(private store: Store<AppState>, private dialog: MatDialog) {}
 
-  photoCoupleSrc: string | ArrayBuffer | null;
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
   neighborhoodErrors = MarriageErrors.neighborhoodErrors;
@@ -52,7 +51,13 @@ export class MarriageUpsertComponent {
   marriageForm: FormGroup;
   marriage: Marriage;
   isLoading = false;
-  file?: File;
+  groomFile?: File;
+  brideFile?: File;
+  coupleFile?: File;
+
+  photoCoupleSrc: string | ArrayBuffer | null;
+  photoBrideSrc: string | ArrayBuffer | null;
+  photoGroomSrc: string | ArrayBuffer | null;
 
   @ViewChild('groomImage') groomImageInput: ElementRef;
   @ViewChild('brideImage') brideImageInput: ElementRef;
@@ -75,7 +80,7 @@ export class MarriageUpsertComponent {
   }
 
   onSubmit() {
-    if (!this.file)
+    if (!this.coupleFile)
       this.dialog.open(AlertErrorComponent, {
         data: new ErrorResponse(
           'Foto Requirida',
@@ -96,18 +101,42 @@ export class MarriageUpsertComponent {
     );
 
     this.store.dispatch(
-      addMarriage({ Marriage: this.marriage, PhotoOfCouple: this.file })
+      addMarriage({
+        Marriage: this.marriage,
+        PhotoOfCouple: this.coupleFile,
+        PhotoOfGroom: this.groomFile,
+        PhotoOfBride: this.brideFile,
+      })
     );
   }
 
   onFileChange(event: any) {
-    this.file = <File>event.target.files[0];
-    if (event.target.files && this.file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.photoCoupleSrc = e.target.result as string;
-      };
-      reader.readAsDataURL(this.file);
+    const inputName = event.srcElement.name;
+    const reader = new FileReader();
+
+    switch (inputName) {
+      case 'groom-img':
+        console.log('entrou groom');
+        this.groomFile = <File>event.target.files[0];
+        reader.onload = (e) => {
+          this.photoGroomSrc = e.target.result as string;
+        };
+        reader.readAsDataURL(this.groomFile);
+        break;
+      case 'bride-img':
+        this.brideFile = <File>event.target.files[0];
+        reader.onload = (e) => {
+          this.photoBrideSrc = e.target.result as string;
+        };
+        reader.readAsDataURL(this.brideFile);
+        break;
+      case 'couple-img':
+        this.coupleFile = <File>event.target.files[0];
+        reader.onload = (e) => {
+          this.photoCoupleSrc = e.target.result as string;
+        };
+        reader.readAsDataURL(this.coupleFile);
+        break;
     }
   }
 

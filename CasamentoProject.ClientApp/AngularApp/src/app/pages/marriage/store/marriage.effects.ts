@@ -91,7 +91,10 @@ export class MarriageEffects {
         formData.append('street', action.Marriage.street);
         formData.append('date', formatarData(action.Marriage.date));
         formData.append('neighborhood', action.Marriage.neighborhood);
+
         formData.append('photoOfCouple', action.PhotoOfCouple);
+        formData.append('photoOfGroom', action.PhotoOfGroom);
+        formData.append('photoOfBride', action.PhotoOfBride);
 
         formData.append(
           'numberAddress',
