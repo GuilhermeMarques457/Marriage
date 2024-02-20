@@ -36,23 +36,13 @@
 .form-inputs-box {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 20px;
 }
 
 .form-action {
   margin-top: 38px;
   text-align: center;
   font-size: 14px;
-}
-
-mat-form-field {
-  width: 100%;
-  font-size: 16px;
-}
-
-mat-error {
-  font-size: 12px;
-  margin: 2px 0 4px 0;
 }
 
 .btn-form-box {

@@ -1,25 +1,25 @@
 @import "../../../../scss/variables";
 
 .form-heading {
-  font-size: 3.2rem;
+  font-size: 32px;
   color: $primary-color;
 }
 
 .marriage-container {
-  padding-bottom: 2.8rem;
-  min-height: 600px;
+  padding-bottom: 2.8px;
+
   .marriage-row {
-    gap: 4.6rem;
+    gap: 46px;
 
     .box {
       border-radius: 10px;
-      padding: 3rem 5rem;
+      padding: 30px 50px;
       border: 1px solid $primary-color;
     }
 
     .fiance-box {
       ::ng-deep.mat-mdc-tab.mdc-tab .mdc-tab__text-label {
-        font-size: 1.6rem;
+        font-size: 16px;
       }
 
       ::ng-deep.mat-mdc-tab-body-content {
@@ -27,13 +27,13 @@
       }
 
       .fiance-title {
-        font-size: 3rem;
+        font-size: 30px;
       }
 
       .fiance-img-box {
         .fiance-img {
-          width: 15rem;
-          height: 15rem;
+          width: 150px;
+          height: 150px;
           background-color: $primary-color;
           border-radius: 50%;
           overflow: hidden;
@@ -52,9 +52,9 @@
 
           mat-icon {
             opacity: 80%;
-            font-size: 5rem;
-            height: 5rem;
-            width: 5rem;
+            font-size: 50px;
+            height: 50px;
+            width: 50px;
           }
         }
       }
@@ -62,9 +62,10 @@
       ::ng-deep.mat-mdc-tab-body {
         overflow: hidden;
       }
+
       .couple-img-box {
         position: relative;
-        min-height: 550px;
+        height: 562px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -73,9 +74,9 @@
         mat-icon {
           position: absolute;
           opacity: 75%;
-          font-size: 8.4rem;
-          width: 8.4rem;
-          height: 8.4rem;
+          font-size: 84px;
+          width: 84px;
+          height: 84px;
           transform: translate(-50%, -50%);
           top: 50%;
           left: 50%;

@@ -81,7 +81,7 @@ namespace CasamentoProject.WebAPI.Controllers
 
         [HttpPost("post-marriage")]
         [Consumes("multipart/form-data")]
-        public async Task<ActionResult<MarriageResponse>> PostMarriage([FromForm] MarriageAddRequest marriage)
+        public async Task<ActionResult<MarriageResponse>> PostMarriage([FromForm] MarriageAddRequest marriage, [FromForm] MarriageFilesRequest files )
         {
             try
             {
@@ -102,15 +102,9 @@ namespace CasamentoProject.WebAPI.Controllers
 
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
 
-                var marriageFilesRequest = new MarriageFilesRequest()
-                {
-                    PhotoOfBride = marriage.PhotoOfBride,
-                    PhotoOfCouple = marriage.PhotoOfCouple,
-                    PhotoOfGroom = marriage.PhotoOfGroom,
-                    Id = addedMarriage!.Id
-                };
+                files.Id = addedMarriage!.Id;
 
-                await ChangeMarriagePhotos(marriageFilesRequest);
+                await ChangeMarriagePhotos(files);
 
                 return Ok(addedMarriage);
             }

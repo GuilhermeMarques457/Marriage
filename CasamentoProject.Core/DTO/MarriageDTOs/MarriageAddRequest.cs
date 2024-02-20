@@ -11,8 +11,5 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
 {
     public class MarriageAddRequest : MarriageAbstraction
     {
-        public IFormFile? PhotoOfCouple { get; set; }
-        public IFormFile? PhotoOfGroom { get; set; }
-        public IFormFile? PhotoOfBride { get; set; }
     }
 }

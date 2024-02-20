@@ -1,5 +1,8 @@
-::ng-deep.cdk-overlay-pane {
+::ng-deep.cdk-overlay-pane.mat-datepicker-popup {
   background-color: #fff;
+  box-shadow: 0px 10px 20px #0000001a;
+  border-radius: 20px;
+  padding: 20px;
 }
 
 mat-form-field {
