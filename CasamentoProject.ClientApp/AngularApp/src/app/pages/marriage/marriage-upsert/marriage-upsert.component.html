@@ -163,12 +163,22 @@
           </div>
           <div class="mb-4">
             <app-input-field
+              [(ngModel)]="currentMarriage.neighborhood"
               [label]="'Bairro'"
               [form]="marriageForm"
               [inputErrors]="neighborhoodErrors"
               [formControlName]="'neighborhood'"
               [icon]="'location_city'"
             ></app-input-field>
+            <!-- <app-input-field
+              *ngIf="currentMarriage"
+              (ngModel)="(marriage?.neighborhood)"
+              [label]="'Bairro'"
+              [form]="marriageForm"
+              [inputErrors]="neighborhoodErrors"
+              [formControlName]="'neighborhood'"
+              [icon]="'location_city'"
+            ></app-input-field> -->
           </div>
 
           <div class="mb-4">

@@ -44,7 +44,7 @@ namespace CasamentoProject.Infrastucture.Repositories
 
         public async Task<List<Marriage>> GetAllMarriages()
         {
-            return await _context.Marriages.ToListAsync();
+            return await _context.Marriages.AsNoTracking().ToListAsync();
         }
 
         public async Task<Marriage?> GetMarriageById(Guid? MarriageID)
@@ -53,14 +53,12 @@ namespace CasamentoProject.Infrastucture.Repositories
                 //.Include(temp => temp.Gifts)
                 //.Include(temp => temp.Fiances)
                 //.Include(temp => temp.GuestsPlusFamily)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(temp => temp.Id == MarriageID);
         }
 
         public async Task<Marriage?> GetMarriageByUserId(Guid? UserID)
         {
             return await _context.Marriages
-               .AsNoTracking()
                .FirstOrDefaultAsync(temp => temp.CurrentUserId == UserID);
         }
 
@@ -71,15 +69,17 @@ namespace CasamentoProject.Infrastucture.Repositories
             if (matchingMarriage == null) return matchingMarriage;
 
             matchingMarriage.Date = Marriage.Date;
-            if(Marriage.PhotoOfCouplePath != null) 
+            if (Marriage.PhotoOfCouplePath != null) 
                 matchingMarriage.PhotoOfCouplePath = Marriage.PhotoOfCouplePath;
+            if (Marriage.PhotoOfBridePath != null)
+                matchingMarriage.PhotoOfBridePath = Marriage.PhotoOfBridePath;
+            if (Marriage.PhotoOfGroomPath != null)
+                matchingMarriage.PhotoOfGroomPath = Marriage.PhotoOfGroomPath;
             matchingMarriage.Neighborhood = Marriage.Neighborhood;
             matchingMarriage.Street = Marriage.Street;
             matchingMarriage.NumberAddress = Marriage.NumberAddress;
             matchingMarriage.MoneyExpected = Marriage.MoneyExpected;
             matchingMarriage.MoneyRaised = Marriage.MoneyRaised;
-
-            _context.Marriages.Update(matchingMarriage);
 
             await _context.SaveChangesAsync();
 

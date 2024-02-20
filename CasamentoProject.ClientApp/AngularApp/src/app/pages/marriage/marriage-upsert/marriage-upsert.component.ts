@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MarriageErrors } from '../../../shared/components/input-field/input-validations/marriage-validation';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
@@ -17,9 +17,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertErrorComponent } from '../../../shared/components/alerts/alert-error/alert-error.component';
 import { HourValidator } from '../../../shared/validators/hour-validator';
 import { Marriage } from '../marriage.model';
-import { addMarriage } from '../store/marriage.actions';
+import { addMarriage, getMarriageByUserId } from '../store/marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { MatTabsModule } from '@angular/material/tabs';
+import { filter, take } from 'rxjs';
+import { selectAuthUserAuthenticated } from '../../auth/store/auth.selector';
+import { selectCurrentMarriageState } from '../store/marriage.selectors';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -38,6 +41,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 })
 export class MarriageUpsertComponent {
   constructor(private store: Store<AppState>, private dialog: MatDialog) {}
+
+  currentMarriage: Marriage;
 
   photoErrors = MarriageErrors.photoErrors;
   streetErrors = MarriageErrors.streetErrors;
@@ -65,10 +70,7 @@ export class MarriageUpsertComponent {
 
   ngOnInit() {
     this.marriageForm = new FormGroup({
-      date: new FormControl(null, [
-        Validators.required,
-        HourValidator.validate,
-      ]),
+      date: new FormControl(null, [Validators.required]),
       neighborhood: new FormControl(null, [Validators.required]),
       street: new FormControl(null, [Validators.required]),
       numberAddress: new FormControl(null, [Validators.required]),
@@ -77,6 +79,27 @@ export class MarriageUpsertComponent {
       bride: new FormControl(null, [Validators.required]),
       brideAge: new FormControl(null, [Validators.required]),
     });
+
+    this.store
+      .select(selectAuthUserAuthenticated)
+      .pipe(
+        filter((user) => user != null),
+        take(1)
+      )
+      .subscribe((user) => {
+        this.store.dispatch(getMarriageByUserId({ userId: user.id }));
+      });
+
+    this.store
+      .select(selectCurrentMarriageState)
+      .pipe(
+        filter((marriage) => marriage != null),
+        take(1)
+      )
+      .subscribe((marriage) => {
+        this.currentMarriage = marriage;
+        console.log(this.currentMarriage);
+      });
   }
 
   onSubmit() {

@@ -50,7 +50,10 @@ namespace CasamentoProject.WebAPI.Controllers
 
                 user.RefreshTokenExpirationDateTime = authenticationResponse.RefreshTokenExpirationDateTime;
 
+
                 await _userManager.UpdateAsync(user);
+
+                authenticationResponse.Id = user.Id;
 
                 return Ok(authenticationResponse);
             }

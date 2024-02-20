@@ -13,6 +13,8 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
     public abstract class MarriageAbstraction
     {
         public string? PhotoOfCouplePath { get; set; }
+        public string? PhotoOfBridePath { get; set; }
+        public string? PhotoOfGroomPath { get; set; }
         public DateTime? Date { get; set; } = null!;
         public IFormFile? File { get; set; }
         public double? MoneyRaised { get; set; }

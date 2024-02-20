@@ -109,9 +109,8 @@ namespace CasamentoProject.WebAPI.StartupExtensions
             {
                 string connectionString = configuration.GetConnectionString("AzureDefault")!;
                 //string connectionString = configuration.GetConnectionString("Default")!;
-                options
-                    .UseSqlServer(connectionString)
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseSqlServer(connectionString);
+      
             });
 
             services.AddCors(options =>

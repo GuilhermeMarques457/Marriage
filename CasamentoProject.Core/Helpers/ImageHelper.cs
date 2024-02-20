@@ -20,7 +20,7 @@ namespace CasamentoProject.Core.Helpers
                 await filePath.CopyToAsync(stream);
             }
 
-            return fileName;
+            return Path.Combine(wwwrootFolder, fileName);
         }
 
         public static Task<bool> DeleteImage(string? filePath, string? projectFolder)
