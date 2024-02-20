@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { filter, take } from 'rxjs';
 import { selectAuthUserAuthenticated } from '../../auth/store/auth.selector';
 import { selectCurrentMarriageState } from '../store/marriage.selectors';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -69,17 +70,6 @@ export class MarriageUpsertComponent {
   @ViewChild('coupleImage') coupleImageInput: ElementRef;
 
   ngOnInit() {
-    this.marriageForm = new FormGroup({
-      date: new FormControl(null, [Validators.required]),
-      neighborhood: new FormControl(null, [Validators.required]),
-      street: new FormControl(null, [Validators.required]),
-      numberAddress: new FormControl(null, [Validators.required]),
-      groom: new FormControl(null, [Validators.required]),
-      groomAge: new FormControl(null, [Validators.required]),
-      bride: new FormControl(null, [Validators.required]),
-      brideAge: new FormControl(null, [Validators.required]),
-    });
-
     this.store
       .select(selectAuthUserAuthenticated)
       .pipe(
@@ -90,16 +80,34 @@ export class MarriageUpsertComponent {
         this.store.dispatch(getMarriageByUserId({ userId: user.id }));
       });
 
-    this.store
-      .select(selectCurrentMarriageState)
-      .pipe(
-        filter((marriage) => marriage != null),
-        take(1)
-      )
-      .subscribe((marriage) => {
-        this.currentMarriage = marriage;
-        console.log(this.currentMarriage);
+    this.store.select(selectCurrentMarriageState).subscribe((marriage) => {
+      this.currentMarriage = marriage;
+      this.photoCoupleSrc =
+        `${environment.API_URL}/${this.currentMarriage?.photoOfCouplePath}`.replace(
+          '/api',
+          ''
+        );
+      console.log(this.photoCoupleSrc);
+
+      this.marriageForm = new FormGroup({
+        date: new FormControl(this.currentMarriage?.date, [
+          Validators.required,
+        ]),
+        neighborhood: new FormControl(this.currentMarriage?.neighborhood, [
+          Validators.required,
+        ]),
+        street: new FormControl(this.currentMarriage?.street, [
+          Validators.required,
+        ]),
+        numberAddress: new FormControl(this.currentMarriage?.numberAddress, [
+          Validators.required,
+        ]),
+        groom: new FormControl(null, [Validators.required]),
+        groomAge: new FormControl(null, [Validators.required]),
+        bride: new FormControl(null, [Validators.required]),
+        brideAge: new FormControl(null, [Validators.required]),
       });
+    });
   }
 
   onSubmit() {
