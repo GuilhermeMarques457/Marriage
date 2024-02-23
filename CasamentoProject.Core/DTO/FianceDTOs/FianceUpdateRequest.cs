@@ -10,6 +10,9 @@ namespace CasamentoProject.Core.DTO.FianceDTOs
     public class FianceUpdateRequest : FianceAbstraction
     {
         public Guid Id { get; set; }
+        public string? PhotoPath { get; set; }
+        public Guid MarriageId { get; set; }
+        public Marriage? Marriage { get; set; }
 
         public override Fiance ToFiance()
         {

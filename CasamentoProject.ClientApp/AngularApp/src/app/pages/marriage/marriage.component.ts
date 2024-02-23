@@ -14,7 +14,7 @@ import { selectAuthUserAuthenticated } from '../auth/store/auth.selector';
 import { filter, pipe, take } from 'rxjs';
 import { getMarriageByUserId } from './store/marriage.actions';
 import { selectCurrentMarriageState } from './store/marriage.selectors';
-import { Marriage } from './marriage.model';
+import { Marriage } from './models/marriage.model';
 
 @Component({
   standalone: true,

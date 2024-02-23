@@ -53,6 +53,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
     {
         public static MarriageResponse ToMarriageResponse(this Marriage Marriage)
         {
+           
             return new MarriageResponse
             {
                 Id = Marriage.Id,

@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as MarriageActions from './marriage.actions';
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
-import { Marriage } from '../marriage.model';
+import { Marriage } from '../models/marriage.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { setMarriages, setPhotoMarriage } from './marriage.actions';
@@ -91,15 +91,19 @@ export class MarriageEffects {
         formData.append('street', action.Marriage.street);
         formData.append('date', formatarData(action.Marriage.date));
         formData.append('neighborhood', action.Marriage.neighborhood);
+        formData.append(
+          'numberAddress',
+          action.Marriage.numberAddress.toString()
+        );
 
         formData.append('photoOfCouple', action.PhotoOfCouple);
         formData.append('photoOfGroom', action.PhotoOfGroom);
         formData.append('photoOfBride', action.PhotoOfBride);
 
-        formData.append(
-          'numberAddress',
-          action.Marriage.numberAddress.toString()
-        );
+        formData.append('groomName', action.Fiances[0].name);
+        formData.append('groomAge', action.Fiances[0].age.toString());
+        formData.append('brideName', action.Fiances[1].name);
+        formData.append('brideAge', action.Fiances[1].age.toString());
 
         return this.http
           .post<Marriage>(`${this.API_URL_BASE}/post-marriage`, formData, {

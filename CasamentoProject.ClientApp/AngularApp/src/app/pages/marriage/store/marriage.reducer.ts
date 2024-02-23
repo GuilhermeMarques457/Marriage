@@ -14,7 +14,7 @@ import {
   setPhotoMarriage,
   updateMarriage,
 } from './marriage.actions';
-import { Marriage } from '../marriage.model';
+import { Marriage } from '../models/marriage.model';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 
 export interface State {

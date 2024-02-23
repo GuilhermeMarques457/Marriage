@@ -23,7 +23,7 @@ namespace CasamentoProject.Core.DTO.MarriageDTOs
         public string Neighborhood { get; set; } = null!;
         public string NumberAddress { get; set; } = null!;
         public Guid? CurrentUserId { get; set; }
-        public ICollection<Fiance>? Fiances { get; set; }
+
         public ICollection<Gift>? Gifts { get; set; }
         public ICollection<Guest>? GuestsPlusFamily { get; set; }
 

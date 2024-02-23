@@ -1,6 +1,8 @@
 export class Marriage {
   public id: string | null;
   public photoOfCouplePath: string;
+  public photoOfGroomPath: string;
+  public photoOfBridePath: string;
   public date: Date;
   public moneyRaised: number;
   public moneyExpected: number;

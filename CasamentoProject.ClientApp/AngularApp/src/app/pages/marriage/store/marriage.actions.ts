@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { Marriage } from '../marriage.model';
+import { Marriage } from '../models/marriage.model';
+
 import { ErrorResponse } from '../../../shared/models/error-response.model';
+import { Fiance } from '../models/Fiance.model';
 
 export const setMarriages = createAction(
   '[Marriage] Set Marriages',
@@ -28,6 +30,7 @@ export const addMarriage = createAction(
   '[Marriage] Add Marriage',
   props<{
     Marriage: Marriage;
+    Fiances: Fiance[];
     PhotoOfCouple: File;
     PhotoOfGroom: File;
     PhotoOfBride: File;

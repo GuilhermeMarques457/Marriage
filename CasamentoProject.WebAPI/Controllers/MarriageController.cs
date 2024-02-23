@@ -3,6 +3,7 @@ using CasamentoProject.Core.Domain.Entities;
 using CasamentoProject.Core.DTO.MarriageDTOs;
 using CasamentoProject.Core.Helpers;
 using CasamentoProject.Core.Identity;
+using CasamentoProject.Core.ServiceContracts.FianceContracts;
 using CasamentoProject.Core.ServiceContracts.MarriageContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -17,14 +18,15 @@ namespace CasamentoProject.WebAPI.Controllers
 {
     public class MarriageController : BaseAPIController
     {
-        private IMarriageAdderService _marriageAdderService;
-        private IMarriageDeleterService _marriageDeleterService;
-        private IMarriageUpdaterService _marriageUpdaterService;
-        private IMarriageGetterService _marriageGetterService;
+        private readonly IMarriageAdderService _marriageAdderService;
+        private readonly IFianceAdderService _fianceAdderService;
+        private readonly IMarriageDeleterService _marriageDeleterService;
+        private readonly IMarriageUpdaterService _marriageUpdaterService;
+        private readonly IMarriageGetterService _marriageGetterService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public MarriageController(IMarriageAdderService marriageAdderService, IMarriageDeleterService marriageDeleterService, IMarriageUpdaterService marriageUpdaterService, IMarriageGetterService marriageGetterService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public MarriageController(IMarriageAdderService marriageAdderService, IMarriageDeleterService marriageDeleterService, IMarriageUpdaterService marriageUpdaterService, IMarriageGetterService marriageGetterService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IFianceAdderService fianceAdderService)
         {
             _marriageAdderService = marriageAdderService;
             _marriageDeleterService = marriageDeleterService;
@@ -32,6 +34,7 @@ namespace CasamentoProject.WebAPI.Controllers
             _marriageGetterService = marriageGetterService;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
+            _fianceAdderService = fianceAdderService;
         }
 
         [HttpGet("get-marriages")]
@@ -85,6 +88,7 @@ namespace CasamentoProject.WebAPI.Controllers
         {
             try
             {
+
                 var isAuthenticatedAfterSignIn = User.Identity!.IsAuthenticated;
 
                 ApplicationUser? currentUser = new ApplicationUser();
@@ -102,9 +106,12 @@ namespace CasamentoProject.WebAPI.Controllers
 
                 var addedMarriage = await _marriageAdderService.AddMarriage(marriage);
 
+                // Updating marriage files
                 files.Id = addedMarriage!.Id;
-
                 await ChangeMarriagePhotos(files);
+
+                // Adding fiances entities
+                var addded
 
                 return Ok(addedMarriage);
             }

@@ -51,7 +51,7 @@ namespace CasamentoProject.Infrastucture.Repositories
         {
             return await _context.Marriages
                 //.Include(temp => temp.Gifts)
-                //.Include(temp => temp.Fiances)
+                .Include(temp => temp.Fiances)
                 //.Include(temp => temp.GuestsPlusFamily)
                 .FirstOrDefaultAsync(temp => temp.Id == MarriageID);
         }

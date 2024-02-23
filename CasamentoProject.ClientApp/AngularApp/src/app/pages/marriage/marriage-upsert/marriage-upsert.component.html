@@ -21,7 +21,7 @@
                   <div class="fiance-img">
                     <img
                       src="{{
-                        photoGroomSrc != null
+                        photoGroomSrc
                           ? photoGroomSrc
                           : '../../../../assets/images/man-example.png'
                       }}"
@@ -79,7 +79,7 @@
                   <div class="fiance-img">
                     <img
                       src="{{
-                        photoBrideSrc != null
+                        photoBrideSrc
                           ? photoBrideSrc
                           : '../../../../assets/images/woman-example.png'
                       }}"
@@ -134,8 +134,8 @@
             <div class="couple-img-box mt-5" (click)="onOpenCoupleImage()">
               <img
                 src="{{
-                  photoCoupleSrc != null
-                    ? 'asdasd'
+                  photoCoupleSrc
+                    ? photoCoupleSrc
                     : '../../../../assets/images/marriage-example.png'
                 }}"
                 alt="Foto de exemplo de um casal"

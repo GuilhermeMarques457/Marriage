@@ -13,9 +13,7 @@ namespace CasamentoProject.Core.DTO.FianceDTOs
     {
         public string Name { get; set; } = null!;
         public int? Age { get; set; } = null!;
-        public string? PhotoPath { get; set; }
-        public Guid MarriageId { get; set; }
-        public Marriage? Marriage { get; set; }
+
 
         public virtual Fiance ToFiance()
         {
@@ -23,9 +21,6 @@ namespace CasamentoProject.Core.DTO.FianceDTOs
             {
                 Name = Name, 
                 Age = Age,
-                PhotoPath = PhotoPath,
-                Marriage = Marriage,
-                MarriageId = MarriageId
             };
         }
     }

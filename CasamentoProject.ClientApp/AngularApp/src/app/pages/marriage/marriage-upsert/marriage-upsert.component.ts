@@ -16,7 +16,7 @@ import { SharedModule } from '../../../shared/modules/shared.module';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertErrorComponent } from '../../../shared/components/alerts/alert-error/alert-error.component';
 import { HourValidator } from '../../../shared/validators/hour-validator';
-import { Marriage } from '../marriage.model';
+import { Marriage } from '../models/marriage.model';
 import { addMarriage, getMarriageByUserId } from '../store/marriage.actions';
 import { ErrorResponse } from '../../../shared/models/error-response.model';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,6 +24,7 @@ import { filter, take } from 'rxjs';
 import { selectAuthUserAuthenticated } from '../../auth/store/auth.selector';
 import { selectCurrentMarriageState } from '../store/marriage.selectors';
 import { environment } from '../../../../environments/environment';
+import { Fiance } from '../models/Fiance.model';
 
 @Component({
   selector: 'app-marriage-upsert',
@@ -81,13 +82,13 @@ export class MarriageUpsertComponent {
       });
 
     this.store.select(selectCurrentMarriageState).subscribe((marriage) => {
+      console.log(marriage);
       this.currentMarriage = marriage;
-      this.photoCoupleSrc =
-        `${environment.API_URL}/${this.currentMarriage?.photoOfCouplePath}`.replace(
-          '/api',
-          ''
-        );
-      console.log(this.photoCoupleSrc);
+      if (this.currentMarriage) {
+        this.photoCoupleSrc = `${environment.API_BASE}/${this.currentMarriage?.photoOfCouplePath}`;
+        this.photoBrideSrc = `${environment.API_BASE}/${this.currentMarriage?.photoOfBridePath}`;
+        this.photoGroomSrc = `${environment.API_BASE}/${this.currentMarriage?.photoOfCouplePath}`;
+      }
 
       this.marriageForm = new FormGroup({
         date: new FormControl(this.currentMarriage?.date, [
@@ -131,9 +132,27 @@ export class MarriageUpsertComponent {
       this.marriageForm.value.numberAddress
     );
 
+    const fiances: Fiance[] = [
+      new Fiance(
+        this.marriageForm.value.groom,
+        this.marriageForm.value.groomAge,
+        '',
+        '',
+        ''
+      ),
+      new Fiance(
+        this.marriageForm.value.bride,
+        this.marriageForm.value.brideAge,
+        '',
+        '',
+        ''
+      ),
+    ];
+
     this.store.dispatch(
       addMarriage({
         Marriage: this.marriage,
+        Fiances: fiances,
         PhotoOfCouple: this.coupleFile,
         PhotoOfGroom: this.groomFile,
         PhotoOfBride: this.brideFile,
