@@ -30,7 +30,7 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<ResponseUser>> PostRegister([FromBody]RegisterDTO registerDTO)
+        public async Task<ActionResult<ResponseUser>> PostRegister(RegisterDTO registerDTO)
         {
             ApplicationUser? user = new ApplicationUser()
             {
@@ -64,7 +64,7 @@ namespace CasamentoProject.WebAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ResponseUser>> PostLogin([FromBody]LoginDTO login)
+        public async Task<ActionResult<ResponseUser>> PostLogin(LoginDTO login)
         {
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, isPersistent: false, lockoutOnFailure: false);
 
